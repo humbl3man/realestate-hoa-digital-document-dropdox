@@ -47,10 +47,15 @@ export function Sidebar() {
       </nav>
 
       <div className="p-4 border-t border-sidebar-border flex items-center justify-between">
-        <button className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-sidebar-accent hover:text-destructive text-muted-foreground transition-colors">
-          <LogOut size={18} />
-          Sign Out
-        </button>
+        <form action="/api/logout" method="POST">
+          <button 
+            type="submit"
+            className="flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-sidebar-accent hover:text-destructive text-muted-foreground transition-colors"
+          >
+            <LogOut size={18} />
+            Sign Out
+          </button>
+        </form>
         <ThemeToggle />
       </div>
     </aside>
