@@ -79,7 +79,7 @@ export function CreatePortalDialog() {
       <DialogTrigger
         render={
           <Button className="bg-slate-100 hover:bg-slate-200 text-slate-900 font-medium transition-colors shadow-sm">
-            <Plus className="mr-2 h-4 w-4" />
+            <Plus className="h-4 w-4" />
             Create Portal
           </Button>
         }

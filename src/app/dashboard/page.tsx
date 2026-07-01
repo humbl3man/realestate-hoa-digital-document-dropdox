@@ -75,7 +75,7 @@ export default async function DashboardPage() {
             </div>
             <CardTitle className="text-xl">No portals yet</CardTitle>
             <CardDescription className="max-w-sm mx-auto">
-              Get started by creating your first document portal. You'll be able to upload files and set a price.
+              Get started by creating your first document portal. You&apos;ll be able to upload files and set a price.
             </CardDescription>
           </CardHeader>
           <CardContent>

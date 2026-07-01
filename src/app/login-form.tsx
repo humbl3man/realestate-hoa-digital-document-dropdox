@@ -5,7 +5,7 @@ import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
-import { Loader2, Mail } from "lucide-react";
+import { Loader2, Mail, Sparkles } from "lucide-react";
 
 export function LoginForm() {
   const [email, setEmail] = useState("");
@@ -93,6 +93,7 @@ export function LoginForm() {
               className="w-full bg-white hover:bg-slate-200 text-slate-950 font-medium py-6 rounded-lg transition-all duration-200 shadow-lg shadow-white/5 active:scale-[0.98]"
               disabled={loading}
             >
+              <Sparkles className="w-4 h-4" />
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
