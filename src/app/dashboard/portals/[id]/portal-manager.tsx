@@ -6,7 +6,13 @@ import { deleteDocumentAction, updatePortal } from "../../actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -15,7 +21,15 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Loader2, Upload, FileText, Trash2, ArrowLeft, Save, Globe } from "lucide-react";
+import {
+  Loader2,
+  Upload,
+  FileText,
+  Trash2,
+  ArrowLeft,
+  Save,
+  Globe,
+} from "lucide-react";
 import Link from "next/link";
 import { FormError } from "@/components/ui/form-error";
 
@@ -46,18 +60,18 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   const [name, setName] = useState(portal.name);
   const [slug, setSlug] = useState(portal.slug);
   const [price, setPrice] = useState((portal.priceInCents / 100).toFixed(2));
-  
+
   const [savingSettings, setSavingSettings] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
-  
+
   const [settingsError, setSettingsError] = useState("");
   const [settingsSuccess, setSettingsSuccess] = useState(false);
   const [uploadError, setUploadError] = useState("");
-  
+
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
-  
+
   const router = useRouter();
 
   const handleSaveSettings = async (e: React.FormEvent) => {
@@ -124,7 +138,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     const file = e.target.files?.[0];
     if (file) {
       uploadFile(file);
-// Reset the input value so the same file can be selected again
+      // Reset the input value so the same file can be selected again
       e.target.value = "";
     }
   };
@@ -192,8 +206,12 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
       </div>
 
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight">{portal.name}</h1>
-        <p className="text-muted-foreground mt-1">Manage portal settings and upload documents.</p>
+        <h1 className="text-3xl font-extrabold tracking-tight">
+          {portal.name}
+        </h1>
+        <p className="text-muted-foreground mt-1">
+          Manage portal settings and upload documents.
+        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -202,9 +220,11 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
           {/* Uploader Card */}
           <Card className="bg-card border-border shadow-sm">
             <CardHeader>
-              <CardTitle className="text-card-foreground text-lg">Upload Disclosures</CardTitle>
+              <CardTitle className="text-card-foreground text-lg">
+                Upload PDF Files
+              </CardTitle>
               <CardDescription className="text-muted-foreground">
-                Drag and drop your PDF disclosures here, or click to browse.
+                Drag and drop your PDF files here, or click to browse.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -236,13 +256,18 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     )}
                   </div>
                   {uploading ? (
-                    <p className="text-sm font-medium text-foreground">Uploading PDF document...</p>
+                    <p className="text-sm font-medium text-foreground">
+                      Uploading PDF document...
+                    </p>
                   ) : (
                     <>
                       <p className="text-sm font-medium text-foreground">
-                        Drag & drop a file here, or <span className="text-primary underline">browse</span>
+                        Drag & drop a file here, or{" "}
+                        <span className="text-primary underline">browse</span>
                       </p>
-                      <p className="text-xs text-muted-foreground">Only PDF files are supported</p>
+                      <p className="text-xs text-muted-foreground">
+                        Only PDF files are supported
+                      </p>
                     </>
                   )}
                 </div>
@@ -256,9 +281,12 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
           {/* Documents Table */}
           <Card className="bg-card border-border shadow-sm">
             <CardHeader>
-              <CardTitle className="text-card-foreground text-lg">Documents in Bundle ({documents.length})</CardTitle>
+              <CardTitle className="text-card-foreground text-lg">
+                Documents in Bundle ({documents.length})
+              </CardTitle>
               <CardDescription className="text-muted-foreground">
-                These files will be zipped and emailed to buyers upon successful purchase.
+                These files will be zipped and emailed to buyers upon successful
+                purchase.
               </CardDescription>
             </CardHeader>
             <CardContent className="p-0 border-t border-border">
@@ -270,18 +298,32 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 <Table>
                   <TableHeader className="bg-muted/30">
                     <TableRow className="border-b border-border hover:bg-transparent">
-                      <TableHead className="text-muted-foreground font-medium py-3 pl-6">Filename</TableHead>
-                      <TableHead className="text-muted-foreground font-medium">Size</TableHead>
-                      <TableHead className="text-muted-foreground font-medium">Added</TableHead>
-                      <TableHead className="text-muted-foreground font-medium text-right pr-6">Action</TableHead>
+                      <TableHead className="text-muted-foreground font-medium py-3 pl-6">
+                        Filename
+                      </TableHead>
+                      <TableHead className="text-muted-foreground font-medium">
+                        Size
+                      </TableHead>
+                      <TableHead className="text-muted-foreground font-medium">
+                        Added
+                      </TableHead>
+                      <TableHead className="text-muted-foreground font-medium text-right pr-6">
+                        Action
+                      </TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {documents.map((doc) => (
-                      <TableRow key={doc.id} className="border-b border-border hover:bg-muted/30">
+                      <TableRow
+                        key={doc.id}
+                        className="border-b border-border hover:bg-muted/30"
+                      >
                         <TableCell className="font-medium text-foreground py-3 pl-6 flex items-center gap-2">
                           <FileText className="w-4 h-4 text-muted-foreground shrink-0" />
-                          <span className="truncate max-w-[240px] sm:max-w-xs" title={doc.fileName}>
+                          <span
+                            className="truncate max-w-[240px] sm:max-w-xs"
+                            title={doc.fileName}
+                          >
                             {doc.fileName}
                           </span>
                         </TableCell>
@@ -319,7 +361,9 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
         <div>
           <Card className="bg-card border-border shadow-sm sticky top-24">
             <CardHeader>
-              <CardTitle className="text-card-foreground text-lg">Portal Settings</CardTitle>
+              <CardTitle className="text-card-foreground text-lg">
+                Portal Settings
+              </CardTitle>
               <CardDescription className="text-muted-foreground">
                 Update storefront pricing and URL slug.
               </CardDescription>
@@ -327,7 +371,10 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
             <CardContent>
               <form onSubmit={handleSaveSettings} className="space-y-4">
                 <div className="space-y-1.5">
-                  <Label htmlFor="name" className="text-xs font-medium text-foreground">
+                  <Label
+                    htmlFor="name"
+                    className="text-xs font-medium text-foreground"
+                  >
                     Portal Name
                   </Label>
                   <Input
@@ -340,23 +387,43 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="slug" className="text-xs font-medium text-foreground">
+                  <Label
+                    htmlFor="slug"
+                    className="text-xs font-medium text-foreground"
+                  >
                     Public Slug
                   </Label>
-                  <Input
-                    id="slug"
-                    value={slug}
-                    onChange={(e) => setSlug(e.target.value)}
-                    className="bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
-                    required
-                    disabled={savingSettings}
-                  />
+                  <div className="flex rounded-md shadow-sm">
+                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
+                      /p/
+                    </span>
+                    <Input
+                      id="slug"
+                      value={slug}
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        setSlug(
+                          val
+                            .toLowerCase()
+                            .replace(/\s+/g, "-")
+                            .replace(/[^a-z0-9-_]/g, ""),
+                        );
+                      }}
+                      className="rounded-l-none bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+                      required
+                      disabled={savingSettings}
+                    />
+                  </div>
                   <p className="text-[10px] text-muted-foreground leading-normal">
-                    This determines the URL: <code className="text-foreground">{publicPortalUrl}</code>
+                    Portal URL preview:{" "}
+                    <code className="text-foreground">{`/p/${slug}`}</code>
                   </p>
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="price" className="text-xs font-medium text-foreground">
+                  <Label
+                    htmlFor="price"
+                    className="text-xs font-medium text-foreground"
+                  >
                     Price (USD)
                   </Label>
                   <div className="flex rounded-md shadow-sm">
@@ -377,9 +444,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   </div>
                 </div>
 
-                {settingsError && (
-                  <FormError>{settingsError}</FormError>
-                )}
+                {settingsError && <FormError>{settingsError}</FormError>}
 
                 {settingsSuccess && (
                   <p className="text-xs text-primary bg-primary/10 p-2 rounded border border-primary/20">
