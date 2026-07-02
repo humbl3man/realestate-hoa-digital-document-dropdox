@@ -6,32 +6,44 @@ import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
 import { Loader2, Mail, Sparkles } from "lucide-react";
 import { FormError } from "@/components/ui/form-error";
 
 export function LoginForm() {
   const searchParams = useSearchParams();
   const urlError = searchParams.get("error");
-  
+
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
   const [formError, setFormError] = useState("");
 
-  const error = formError || (
-    urlError === "INVALID_TOKEN" ? "Your magic link is invalid or has expired. Please request a new one." :
-    urlError === "magic_link_expired" ? "Your magic link has expired. Please request a new one." :
-    urlError === "magic_link_invalid" ? "Your magic link is invalid. Please request a new one." :
-    urlError ? "An error occurred during sign in. Please try again." : 
-    ""
-  );
+  const error =
+    formError ||
+    (urlError === "INVALID_TOKEN"
+      ? "Your magic link is invalid or has expired. Please request a new one."
+      : urlError === "magic_link_expired"
+        ? "Your magic link has expired. Please request a new one."
+        : urlError === "magic_link_invalid"
+          ? "Your magic link is invalid. Please request a new one."
+          : urlError
+            ? "An error occurred during sign in. Please try again."
+            : "");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
-    const emailResult = z.email("Please enter a valid email address.").safeParse(email);
+    const emailResult = z
+      .email("Please enter a valid email address.")
+      .safeParse(email);
     if (!emailResult.success) {
       setFormError(emailResult.error.issues[0].message);
       return;
@@ -48,7 +60,9 @@ export function LoginForm() {
       });
 
       if (authError) {
-        setFormError(authError.message || "Failed to send magic link. Please try again.");
+        setFormError(
+          authError.message || "Failed to send magic link. Please try again.",
+        );
       } else {
         setSent(true);
       }
@@ -87,12 +101,18 @@ export function LoginForm() {
                 stroke="currentColor"
                 strokeWidth="2"
               >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M5 13l4 4L19 7"
+                />
               </svg>
             </div>
             <h3 className="text-lg font-medium text-white">Check your email</h3>
             <p className="text-sm text-slate-400">
-              We sent a secure sign-in link to <span className="font-semibold text-slate-200">{email}</span>. Check your inbox and click the link to log in.
+              We sent a secure sign-in link to{" "}
+              <span className="font-semibold text-slate-200">{email}</span>.
+              Check your inbox and click the link to log in.
             </p>
           </div>
         ) : (
@@ -108,22 +128,22 @@ export function LoginForm() {
                 disabled={loading}
               />
             </div>
-            {error && (
-              <FormError>{error}</FormError>
-            )}
+            {error && <FormError>{error}</FormError>}
             <Button
               type="submit"
-              className="w-full bg-white hover:bg-slate-200 text-slate-950 font-medium py-6 rounded-lg transition-all duration-200 shadow-lg shadow-white/5 active:scale-[0.98]"
+              className="w-full bg-primary hover:bg-primary/80 text-foreground font-medium py-6 rounded-lg transition-all duration-200 shadow-lg shadow-white/5 active:scale-[0.98]"
               disabled={loading}
             >
-              <Sparkles className="w-4 h-4" />
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Sending Link...
                 </>
               ) : (
-                "Send Magic Link"
+                <>
+                  <Sparkles className="w-4 h-4" />
+                  <span>Send Magic Link</span>
+                </>
               )}
             </Button>
           </form>
