@@ -79,22 +79,22 @@ export function CreatePortalDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button className="bg-slate-100 hover:bg-slate-200 text-slate-900 font-medium transition-colors shadow-sm">
+          <Button className="font-medium transition-colors shadow-sm">
             <Plus className="h-4 w-4" />
             Create Portal
           </Button>
         }
       />
-      <DialogContent className="sm:max-w-[425px] bg-slate-900 border-slate-800 text-white">
+      <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Create Document Portal</DialogTitle>
-          <DialogDescription className="text-slate-400">
+          <DialogDescription className="text-muted-foreground">
             Configure a portal where buyers can purchase your HOA disclosure bundle.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium text-slate-200">
+            <Label htmlFor="name" className="text-sm font-medium text-foreground">
               Portal Name
             </Label>
             <Input
@@ -102,17 +102,17 @@ export function CreatePortalDialog() {
               placeholder="e.g. Oakwood HOA Disclosures"
               value={name}
               onChange={handleNameChange}
-              className="bg-slate-950/80 border-slate-800 text-white placeholder-slate-500 focus-visible:ring-primary focus-visible:border-primary"
+              className="bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
               required
               disabled={loading}
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="slug" className="text-sm font-medium text-slate-200">
+            <Label htmlFor="slug" className="text-sm font-medium text-foreground">
               Public Link Slug
             </Label>
             <div className="flex rounded-md shadow-sm">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-800 bg-slate-950 text-slate-500 text-sm">
+              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
                 /p/
               </span>
               <Input
@@ -120,18 +120,18 @@ export function CreatePortalDialog() {
                 placeholder="oakwood-hoa"
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
-                className="rounded-l-none bg-slate-950/80 border-slate-800 text-white placeholder-slate-500 focus-visible:ring-primary focus-visible:border-primary"
+                className="rounded-l-none bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
                 required
                 disabled={loading}
               />
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="price" className="text-sm font-medium text-slate-200">
+            <Label htmlFor="price" className="text-sm font-medium text-foreground">
               Price (USD)
             </Label>
             <div className="flex rounded-md shadow-sm">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-800 bg-slate-950 text-slate-500 text-sm">
+              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
                 $
               </span>
               <Input
@@ -142,7 +142,7 @@ export function CreatePortalDialog() {
                 placeholder="35.00"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="rounded-l-none bg-slate-950/80 border-slate-800 text-white placeholder-slate-500 focus-visible:ring-primary focus-visible:border-primary"
+                className="rounded-l-none bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
                 required
                 disabled={loading}
               />
@@ -156,14 +156,13 @@ export function CreatePortalDialog() {
               type="button"
               variant="outline"
               onClick={() => setOpen(false)}
-              className="border-slate-800 text-slate-300 hover:bg-slate-800 hover:text-white"
               disabled={loading}
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="bg-white hover:bg-slate-200 text-slate-950 font-medium"
+              className="font-medium"
               disabled={loading}
             >
               {loading ? (

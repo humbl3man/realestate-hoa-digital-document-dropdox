@@ -174,7 +174,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard"
-          className="inline-flex items-center text-sm text-slate-400 hover:text-white transition-colors"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
         >
           <ArrowLeft className="mr-2 h-4 w-4" />
           Back to Dashboard
@@ -182,7 +182,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
         <Link
           href={publicPortalUrl}
           target="_blank"
-          className="inline-flex items-center text-sm text-slate-400 hover:text-white transition-colors gap-1.5"
+          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors gap-1.5"
         >
           <Globe className="w-4 h-4" />
           View Public Page
@@ -191,17 +191,17 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
       <div>
         <h1 className="text-3xl font-extrabold tracking-tight">{portal.name}</h1>
-        <p className="text-slate-400 mt-1">Manage portal settings and upload documents.</p>
+        <p className="text-muted-foreground mt-1">Manage portal settings and upload documents.</p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left/Middle: Document list & Uploader */}
         <div className="lg:col-span-2 space-y-8">
           {/* Uploader Card */}
-          <Card className="bg-slate-900/40 border-slate-900 backdrop-blur-sm">
+          <Card className="bg-card border-border shadow-sm">
             <CardHeader>
-              <CardTitle className="text-white text-lg">Upload Disclosures</CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardTitle className="text-card-foreground text-lg">Upload Disclosures</CardTitle>
+              <CardDescription className="text-muted-foreground">
                 Drag and drop your PDF disclosures here, or click to browse.
               </CardDescription>
             </CardHeader>
@@ -213,8 +213,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 onClick={() => fileInputRef.current?.click()}
                 className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 ${
                   isDragOver
-                    ? "border-white bg-white/5"
-                    : "border-slate-800 hover:border-slate-700 bg-slate-950/20"
+                    ? "border-primary bg-primary/5"
+                    : "border-border hover:border-primary/50 bg-muted/30"
                 }`}
               >
                 <input
@@ -226,21 +226,21 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   disabled={uploading}
                 />
                 <div className="flex flex-col items-center gap-3">
-                  <div className="w-10 h-10 rounded-lg bg-white/5 flex items-center justify-center border border-white/10">
+                  <div className="w-10 h-10 rounded-lg bg-background flex items-center justify-center border border-border">
                     {uploading ? (
-                      <Loader2 className="w-5 h-5 text-white animate-spin" />
+                      <Loader2 className="w-5 h-5 text-foreground animate-spin" />
                     ) : (
-                      <Upload className="w-5 h-5 text-slate-400" />
+                      <Upload className="w-5 h-5 text-muted-foreground" />
                     )}
                   </div>
                   {uploading ? (
-                    <p className="text-sm font-medium text-slate-300">Uploading PDF document...</p>
+                    <p className="text-sm font-medium text-foreground">Uploading PDF document...</p>
                   ) : (
                     <>
-                      <p className="text-sm font-medium text-slate-300">
-                        Drag & drop a file here, or <span className="text-white underline">browse</span>
+                      <p className="text-sm font-medium text-foreground">
+                        Drag & drop a file here, or <span className="text-primary underline">browse</span>
                       </p>
-                      <p className="text-xs text-slate-500">Only PDF files are supported</p>
+                      <p className="text-xs text-muted-foreground">Only PDF files are supported</p>
                     </>
                   )}
                 </div>
@@ -252,41 +252,41 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
           </Card>
 
           {/* Documents Table */}
-          <Card className="bg-slate-900/40 border-slate-900 backdrop-blur-sm">
+          <Card className="bg-card border-border shadow-sm">
             <CardHeader>
-              <CardTitle className="text-white text-lg">Documents in Bundle ({documents.length})</CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardTitle className="text-card-foreground text-lg">Documents in Bundle ({documents.length})</CardTitle>
+              <CardDescription className="text-muted-foreground">
                 These files will be zipped and emailed to buyers upon successful purchase.
               </CardDescription>
             </CardHeader>
-            <CardContent className="p-0 border-t border-slate-900">
+            <CardContent className="p-0 border-t border-border">
               {documents.length === 0 ? (
-                <div className="text-center py-12 text-slate-500 text-sm">
+                <div className="text-center py-12 text-muted-foreground text-sm">
                   No documents uploaded yet. Upload your first PDF above.
                 </div>
               ) : (
                 <Table>
-                  <TableHeader className="bg-slate-950/40">
-                    <TableRow className="border-b border-slate-900 hover:bg-transparent">
-                      <TableHead className="text-slate-400 font-medium py-3 pl-6">Filename</TableHead>
-                      <TableHead className="text-slate-400 font-medium">Size</TableHead>
-                      <TableHead className="text-slate-400 font-medium">Added</TableHead>
-                      <TableHead className="text-slate-400 font-medium text-right pr-6">Action</TableHead>
+                  <TableHeader className="bg-muted/30">
+                    <TableRow className="border-b border-border hover:bg-transparent">
+                      <TableHead className="text-muted-foreground font-medium py-3 pl-6">Filename</TableHead>
+                      <TableHead className="text-muted-foreground font-medium">Size</TableHead>
+                      <TableHead className="text-muted-foreground font-medium">Added</TableHead>
+                      <TableHead className="text-muted-foreground font-medium text-right pr-6">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {documents.map((doc) => (
-                      <TableRow key={doc.id} className="border-b border-slate-900/40 hover:bg-slate-950/20">
-                        <TableCell className="font-medium text-white py-3 pl-6 flex items-center gap-2">
-                          <FileText className="w-4 h-4 text-slate-400 shrink-0" />
+                      <TableRow key={doc.id} className="border-b border-border hover:bg-muted/30">
+                        <TableCell className="font-medium text-foreground py-3 pl-6 flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-muted-foreground shrink-0" />
                           <span className="truncate max-w-[240px] sm:max-w-xs" title={doc.fileName}>
                             {doc.fileName}
                           </span>
                         </TableCell>
-                        <TableCell className="text-slate-400 text-sm">
+                        <TableCell className="text-muted-foreground text-sm">
                           {formatBytes(doc.fileSize)}
                         </TableCell>
-                        <TableCell className="text-slate-400 text-sm">
+                        <TableCell className="text-muted-foreground text-sm">
                           {new Date(doc.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell className="text-right pr-6">
@@ -295,7 +295,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                             size="icon"
                             disabled={deletingId === doc.id}
                             onClick={() => handleDeleteDoc(doc.id)}
-                            className="text-slate-500 hover:text-rose-400 hover:bg-rose-950/20"
+                            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                           >
                             {deletingId === doc.id ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
@@ -315,50 +315,50 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
         {/* Right: Settings Form */}
         <div>
-          <Card className="bg-slate-900/40 border-slate-900 backdrop-blur-sm sticky top-24">
+          <Card className="bg-card border-border shadow-sm sticky top-24">
             <CardHeader>
-              <CardTitle className="text-white text-lg">Portal Settings</CardTitle>
-              <CardDescription className="text-slate-400">
+              <CardTitle className="text-card-foreground text-lg">Portal Settings</CardTitle>
+              <CardDescription className="text-muted-foreground">
                 Update storefront pricing and URL slug.
               </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSaveSettings} className="space-y-4">
                 <div className="space-y-1.5">
-                  <Label htmlFor="name" className="text-xs font-medium text-slate-300">
+                  <Label htmlFor="name" className="text-xs font-medium text-foreground">
                     Portal Name
                   </Label>
                   <Input
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="bg-slate-950/80 border-slate-800 text-white placeholder-slate-500 focus-visible:ring-primary focus-visible:border-primary"
+                    className="bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
                     required
                     disabled={savingSettings}
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="slug" className="text-xs font-medium text-slate-300">
+                  <Label htmlFor="slug" className="text-xs font-medium text-foreground">
                     Public Slug
                   </Label>
                   <Input
                     id="slug"
                     value={slug}
                     onChange={(e) => setSlug(e.target.value)}
-                    className="bg-slate-950/80 border-slate-800 text-white placeholder-slate-500 focus-visible:ring-primary focus-visible:border-primary"
+                    className="bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
                     required
                     disabled={savingSettings}
                   />
-                  <p className="text-[10px] text-slate-500 leading-normal">
-                    This determines the URL: <code className="text-slate-400">{publicPortalUrl}</code>
+                  <p className="text-[10px] text-muted-foreground leading-normal">
+                    This determines the URL: <code className="text-foreground">{publicPortalUrl}</code>
                   </p>
                 </div>
                 <div className="space-y-1.5">
-                  <Label htmlFor="price" className="text-xs font-medium text-slate-300">
+                  <Label htmlFor="price" className="text-xs font-medium text-foreground">
                     Price (USD)
                   </Label>
                   <div className="flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-slate-800 bg-slate-950 text-slate-500 text-sm">
+                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
                       $
                     </span>
                     <Input
@@ -368,7 +368,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                       min="0.01"
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      className="rounded-l-none bg-slate-950/80 border-slate-800 text-white placeholder-slate-500 focus-visible:ring-primary focus-visible:border-primary"
+                      className="rounded-l-none bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
                       required
                       disabled={savingSettings}
                     />
@@ -380,14 +380,14 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 )}
 
                 {settingsSuccess && (
-                  <p className="text-xs text-emerald-400 bg-emerald-500/10 p-2 rounded border border-emerald-500/20">
+                  <p className="text-xs text-primary bg-primary/10 p-2 rounded border border-primary/20">
                     Settings saved successfully!
                   </p>
                 )}
 
                 <Button
                   type="submit"
-                  className="w-full bg-slate-100 hover:bg-slate-200 text-slate-900 font-medium mt-2"
+                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium mt-2"
                   disabled={savingSettings}
                 >
                   {savingSettings ? (
