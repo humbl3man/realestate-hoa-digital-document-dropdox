@@ -1,38 +1,63 @@
 "use client";
 
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Loader2, Mail, Sparkles } from "lucide-react";
+import { FormError } from "@/components/ui/form-error";
 
 export function LoginForm() {
+  const searchParams = useSearchParams();
+  const urlError = searchParams.get("error");
+  
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
-  const [error, setError] = useState("");
+  const [formError, setFormError] = useState("");
+
+  const error = formError || (
+    urlError === "INVALID_TOKEN" ? "Your magic link is invalid or has expired. Please request a new one." :
+    urlError === "magic_link_expired" ? "Your magic link has expired. Please request a new one." :
+    urlError === "magic_link_invalid" ? "Your magic link is invalid. Please request a new one." :
+    urlError ? "An error occurred during sign in. Please try again." : 
+    ""
+  );
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
 
+    const emailResult = z.email("Please enter a valid email address.").safeParse(email);
+    if (!emailResult.success) {
+      setFormError(emailResult.error.issues[0].message);
+      return;
+    }
+
     setLoading(true);
-    setError("");
+    setFormError("");
 
     try {
       const { error: authError } = await authClient.signIn.magicLink({
         email,
         callbackURL: "/dashboard",
+        errorCallbackURL: "/",
       });
 
       if (authError) {
-        setError(authError.message || "Failed to send magic link. Please try again.");
+        setFormError(authError.message || "Failed to send magic link. Please try again.");
       } else {
         setSent(true);
       }
-    } catch (err: any) {
-      setError(err?.message || "An unexpected error occurred.");
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setFormError(err.message);
+      } else {
+        setFormError("An unexpected error occurred.");
+      }
     } finally {
       setLoading(false);
     }
@@ -84,9 +109,7 @@ export function LoginForm() {
               />
             </div>
             {error && (
-              <p className="text-xs text-rose-500 bg-rose-500/10 p-2 rounded border border-rose-500/20 animate-in fade-in duration-200">
-                {error}
-              </p>
+              <FormError>{error}</FormError>
             )}
             <Button
               type="submit"

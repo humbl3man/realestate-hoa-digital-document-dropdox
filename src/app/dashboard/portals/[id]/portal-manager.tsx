@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table";
 import { Loader2, Upload, FileText, Trash2, ArrowLeft, Save, Globe } from "lucide-react";
 import Link from "next/link";
+import { FormError } from "@/components/ui/form-error";
 
 interface Document {
   id: string;
@@ -245,9 +246,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 </div>
               </div>
               {uploadError && (
-                <p className="text-xs text-rose-500 bg-rose-500/10 p-2 rounded border border-rose-500/20 mt-4">
-                  {uploadError}
-                </p>
+                <FormError className="mt-4">{uploadError}</FormError>
               )}
             </CardContent>
           </Card>
@@ -377,9 +376,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 </div>
 
                 {settingsError && (
-                  <p className="text-xs text-rose-500 bg-rose-500/10 p-2 rounded border border-rose-500/20">
-                    {settingsError}
-                  </p>
+                  <FormError>{settingsError}</FormError>
                 )}
 
                 {settingsSuccess && (

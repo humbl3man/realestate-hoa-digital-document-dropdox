@@ -12,6 +12,7 @@ export const auth = betterAuth({
   }),
   plugins: [
     magicLink({
+      expiresIn: 900, // 900s = 15 minutes
       sendMagicLink: async ({ email, url }) => {
         const fromEmail = process.env.EMAIL_FROM || "onboarding@resend.dev";
         await resend.emails.send({

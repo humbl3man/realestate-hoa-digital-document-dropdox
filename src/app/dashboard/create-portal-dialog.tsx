@@ -16,6 +16,7 @@ import {
   DialogFooter,
 } from "@/components/ui/dialog";
 import { Loader2, Plus } from "lucide-react";
+import { FormError } from "@/components/ui/form-error";
 
 export function CreatePortalDialog() {
   const [open, setOpen] = useState(false);
@@ -148,9 +149,7 @@ export function CreatePortalDialog() {
             </div>
           </div>
           {error && (
-            <p className="text-xs text-rose-500 bg-rose-500/10 p-2 rounded border border-rose-500/20">
-              {error}
-            </p>
+            <FormError>{error}</FormError>
           )}
           <DialogFooter className="mt-2">
             <Button
