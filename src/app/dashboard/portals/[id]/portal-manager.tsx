@@ -32,6 +32,7 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { FormError } from "@/components/ui/form-error";
+import { toast } from "sonner";
 
 interface Document {
   id: string;
@@ -66,7 +67,6 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   const [deletingId, setDeletingId] = useState<string | null>(null);
 
   const [settingsError, setSettingsError] = useState("");
-  const [settingsSuccess, setSettingsSuccess] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
   const [isDragOver, setIsDragOver] = useState(false);
@@ -77,7 +77,6 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     e.preventDefault();
     setSavingSettings(true);
     setSettingsError("");
-    setSettingsSuccess(false);
 
     const parsedPrice = parseFloat(price);
     if (isNaN(parsedPrice) || parsedPrice <= 0) {
@@ -92,10 +91,11 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
         slug: slug.toLowerCase().replace(/[^a-z0-9-_]/g, ""),
         priceInCents: Math.round(parsedPrice * 100),
       });
-      setSettingsSuccess(true);
+      toast.success("Settings saved successfully!");
       router.refresh();
     } catch (err: any) {
       setSettingsError(err?.message || "Failed to update portal settings.");
+      toast.error("Failed to update portal settings.");
     } finally {
       setSavingSettings(false);
     }
@@ -453,12 +453,6 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 </div>
 
                 {settingsError && <FormError>{settingsError}</FormError>}
-
-                {settingsSuccess && (
-                  <p className="text-xs text-primary bg-primary/10 p-2 rounded border border-primary/20">
-                    Settings saved successfully!
-                  </p>
-                )}
 
                 <Button
                   type="submit"

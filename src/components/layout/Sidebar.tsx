@@ -18,11 +18,14 @@ export function Sidebar() {
 
   return (
     <aside className="w-[250px] border-r border-sidebar-border bg-sidebar h-full flex flex-col fixed left-0 top-0 text-sidebar-foreground">
-      <div className="p-6 flex items-center gap-2">
-        <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
-          <FileText size={20} />
+      <div className="p-6 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
+            <FileText size={20} />
+          </div>
+          <span className="font-heading font-semibold text-lg tracking-tight">{appConfig.name || "Untitled Digital Dropbox"}</span>
         </div>
-        <span className="font-heading font-semibold text-lg tracking-tight">{appConfig.name || "Untitled Digital Dropbox"}</span>
+        <ThemeToggle />
       </div>
 
       <nav className="flex-1 px-4 space-y-1 mt-4">
