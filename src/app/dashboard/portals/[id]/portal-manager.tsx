@@ -69,7 +69,6 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   const [settingsSuccess, setSettingsSuccess] = useState(false);
   const [uploadError, setUploadError] = useState("");
 
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const [isDragOver, setIsDragOver] = useState(false);
 
   const router = useRouter();
@@ -138,8 +137,6 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     const file = e.target.files?.[0];
     if (file) {
       uploadFile(file);
-      // Reset the input value so the same file can be selected again
-      e.target.value = "";
     }
   };
 
@@ -228,23 +225,26 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <div
+              <label
+                htmlFor="pdf-upload"
                 onDragOver={handleDragOver}
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
-                onClick={() => fileInputRef.current?.click()}
-                className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 ${
+                className={`block border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-200 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-primary has-[:focus-visible]:ring-offset-2 ${
                   isDragOver
                     ? "border-primary bg-primary/5"
                     : "border-border hover:border-primary/50 bg-muted/30"
                 }`}
               >
                 <input
+                  id="pdf-upload"
                   type="file"
-                  ref={fileInputRef}
                   onChange={handleFileChange}
+                  onClick={(e) => {
+                    e.currentTarget.value = "";
+                  }}
                   accept="application/pdf"
-                  className="hidden"
+                  className="sr-only"
                   disabled={uploading}
                 />
                 <div className="flex flex-col items-center gap-3">
@@ -271,7 +271,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     </>
                   )}
                 </div>
-              </div>
+              </label>
               {uploadError && (
                 <FormError className="mt-4">{uploadError}</FormError>
               )}
@@ -291,8 +291,15 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
             </CardHeader>
             <CardContent className="p-0 border-t border-border">
               {documents.length === 0 ? (
-                <div className="text-center py-12 text-muted-foreground text-sm">
-                  No documents uploaded yet. Upload your first PDF above.
+                <div className="text-center py-12 flex flex-col items-center">
+                  <FileText className="w-12 h-12 text-muted/30 mb-3" />
+                  <h3 className="text-sm font-medium text-foreground">
+                    No documents yet
+                  </h3>
+                  <p className="text-sm text-muted-foreground mt-1 max-w-sm">
+                    Upload your first PDF document above. These files will be
+                    zipped and emailed to buyers upon successful purchase.
+                  </p>
                 </div>
               ) : (
                 <Table>
@@ -340,6 +347,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                             disabled={deletingId === doc.id}
                             onClick={() => handleDeleteDoc(doc.id)}
                             className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                            aria-label={`Delete ${doc.fileName}`}
                           >
                             {deletingId === doc.id ? (
                               <Loader2 className="w-4 h-4 animate-spin" />
