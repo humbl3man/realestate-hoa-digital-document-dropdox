@@ -124,6 +124,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     const file = e.target.files?.[0];
     if (file) {
       uploadFile(file);
+// Reset the input value so the same file can be selected again
+      e.target.value = "";
     }
   };
 
