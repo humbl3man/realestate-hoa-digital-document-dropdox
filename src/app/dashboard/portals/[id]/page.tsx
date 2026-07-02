@@ -5,8 +5,6 @@ import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect, notFound } from "next/navigation";
 import { PortalManager } from "./portal-manager";
-import { FolderKanban } from "lucide-react";
-import { LogoutButton } from "@/components/logout-button";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -46,29 +44,8 @@ export default async function PortalDetailPage({ params }: PageProps) {
     .where(eq(documents.portalId, id));
 
   return (
-    <div className="min-h-screen bg-slate-950 text-white">
-      {/* Header */}
-      <header className="border-b border-slate-900 bg-slate-950/50 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 bg-white/5 rounded-lg flex items-center justify-center border border-white/10">
-              <FolderKanban className="w-5 h-5 text-white" />
-            </div>
-            <span className="font-bold text-lg tracking-tight">HOA Document Dropdox</span>
-          </div>
-          <div className="flex items-center gap-4">
-            <span className="text-sm text-slate-400 hidden sm:inline">
-              Logged in as <span className="text-slate-200">{session.user.email}</span>
-            </span>
-            <LogoutButton />
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <PortalManager portal={portal} documents={docs} />
-      </main>
+    <div className="py-2">
+      <PortalManager portal={portal} documents={docs} />
     </div>
   );
 }
