@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Loader2, Mail, Sparkles } from "lucide-react";
 import { FormError } from "@/components/ui/form-error";
+import { appConfig } from "@/config";
 
 export function LoginForm() {
   const searchParams = useSearchParams();
@@ -84,10 +85,10 @@ export function LoginForm() {
           <Mail className="w-6 h-6 text-primary" />
         </div>
         <CardTitle className="text-2xl font-bold tracking-tight text-white">
-          HOA Document Dropdox
+          {appConfig.name}
         </CardTitle>
         <CardDescription className="text-slate-400">
-          Sign in or create your manager account to get started
+          Sign in or create your account to get started
         </CardDescription>
       </CardHeader>
       <CardContent>

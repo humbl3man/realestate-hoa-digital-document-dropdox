@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createPortal } from "./actions";
+import { appConfig } from "@/config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,10 +16,11 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Loader2, Plus } from "lucide-react";
+import { Loader2, Plus, AlertCircle } from "lucide-react";
 import { FormError } from "@/components/ui/form-error";
+import Link from "next/link";
 
-export function CreatePortalDialog() {
+export function CreatePortalDialog({ stripeConnected = false }: { stripeConnected?: boolean }) {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -77,14 +79,39 @@ export function CreatePortalDialog() {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger
-        render={
-          <Button className="font-medium transition-colors shadow-sm">
+      {!stripeConnected ? (
+        // Stripe not connected: show disabled button with tooltip explanation
+        <div className="relative group">
+          <Button
+            id="create-portal-trigger"
+            className="font-medium transition-colors shadow-sm opacity-50 cursor-not-allowed"
+            disabled
+            aria-disabled="true"
+          >
             <Plus className="h-4 w-4" />
             Create Portal
           </Button>
-        }
-      />
+          {/* Tooltip wrapper with transparent bottom padding to bridge the hover gap */}
+          <div className="absolute bottom-full left-1/2 -translate-x-1/2 pb-2 hidden group-hover:flex z-50">
+            <div className="flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-popover border border-border shadow-md px-3 py-2 text-xs text-popover-foreground">
+              <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
+              <span>Connect Stripe first —{" "}</span>
+              <Link href="/dashboard/settings" className="underline font-medium" onClick={(e) => e.stopPropagation()}>
+                Go to Settings
+              </Link>
+            </div>
+          </div>
+        </div>
+      ) : (
+        <DialogTrigger
+          render={
+            <Button id="create-portal-trigger" className="font-medium transition-colors shadow-sm">
+              <Plus className="h-4 w-4" />
+              Create Portal
+            </Button>
+          }
+        />
+      )}
       <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">Create Document Portal</DialogTitle>
@@ -147,6 +174,9 @@ export function CreatePortalDialog() {
                 disabled={loading}
               />
             </div>
+            <p className="text-[10px] text-muted-foreground leading-normal mt-1">
+              The platform retains a {appConfig.platformFeePercentage}% fee on each transaction.
+            </p>
           </div>
           {error && (
             <FormError>{error}</FormError>
@@ -162,8 +192,9 @@ export function CreatePortalDialog() {
             </Button>
             <Button
               type="submit"
+              id="create-portal-submit"
               className="font-medium"
-              disabled={loading}
+              disabled={loading || !stripeConnected}
             >
               {loading ? (
                 <>

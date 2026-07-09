@@ -69,8 +69,14 @@ export async function POST(req: NextRequest) {
       const downloadLink = `${appUrl}/download/${token}`;
       const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
 
-      await resend.emails.send({
-        from: emailFrom,
+      console.log(`\n=========================================`);
+      console.log(`📦 PURCHASE SUCCESSFUL FOR: ${email}`);
+      console.log(`👉 DOWNLOAD LINK: ${downloadLink}`);
+      console.log(`=========================================\n`);
+
+      try {
+        await resend.emails.send({
+          from: emailFrom,
         to: email,
         subject: `Your disclosures are ready: ${portal.name}`,
         html: `
@@ -93,6 +99,9 @@ export async function POST(req: NextRequest) {
           </div>
         `,
       });
+      } catch (emailErr) {
+        console.error("Failed to send email (check your Resend domain settings), but download session was created:", emailErr);
+      }
 
       console.log(`Successfully created download session and emailed buyer: ${email}`);
     } catch (err: any) {

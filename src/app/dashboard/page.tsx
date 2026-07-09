@@ -1,9 +1,10 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/db";
-import { portals, documents } from "@/db/schema";
+import { portals, documents, user } from "@/db/schema";
 import { eq, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { stripe } from "@/lib/stripe";
 import Link from "next/link";
 import { CreatePortalDialog } from "./create-portal-dialog";
 import { deletePortal } from "./actions";
@@ -27,7 +28,7 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { ExternalLink, FolderKanban, Trash2 } from "lucide-react";
+import { ExternalLink, FolderKanban, Trash2, AlertTriangle } from "lucide-react";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -42,6 +43,23 @@ export default async function DashboardPage() {
     .select()
     .from(portals)
     .where(eq(portals.userId, session.user.id));
+
+  // Check if user has FULLY connected their Stripe account (details submitted)
+  const [dbUser] = await db
+    .select()
+    .from(user)
+    .where(eq(user.id, session.user.id))
+    .limit(1);
+    
+  let stripeConnected = false;
+  if (dbUser?.stripeAccountId) {
+    try {
+      const account = await stripe.accounts.retrieve(dbUser.stripeAccountId);
+      stripeConnected = account.details_submitted;
+    } catch {
+      // Ignored
+    }
+  }
 
   // Get file counts for each portal
   const docCounts: Record<string, number> = {};
@@ -59,12 +77,27 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in zoom-in-95 duration-300">
+      {/* Stripe not connected warning banner */}
+      {!stripeConnected && (
+        <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900 dark:bg-amber-950/20 dark:border-amber-800 dark:text-amber-200">
+          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+          <div className="text-sm">
+            <span className="font-semibold">Stripe not connected.</span>{" "}
+            You must{" "}
+            <a href="/dashboard/settings" className="underline underline-offset-2 hover:text-amber-700 dark:hover:text-amber-100 font-medium">
+              connect your Stripe account
+            </a>{" "}
+            before you can create portals or accept payments.
+          </div>
+        </div>
+      )}
+
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-3xl font-heading font-extrabold tracking-tight">Manager Dashboard</h1>
           <p className="text-muted-foreground mt-1 text-sm">Create and manage your HOA digital document storefronts.</p>
         </div>
-        <CreatePortalDialog />
+        <CreatePortalDialog stripeConnected={stripeConnected} />
       </div>
 
       {userPortals.length === 0 ? (
@@ -79,7 +112,7 @@ export default async function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <CreatePortalDialog />
+            <CreatePortalDialog stripeConnected={stripeConnected} />
           </CardContent>
         </Card>
       ) : (

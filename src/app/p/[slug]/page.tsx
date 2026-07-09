@@ -3,7 +3,14 @@ import { portals, documents } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { FileText, ShieldCheck, Mail, ArrowRight, Lock } from "lucide-react";
 import { PublicHeader } from "@/components/layout/PublicHeader";
 
@@ -12,7 +19,10 @@ interface PageProps {
   searchParams: Promise<{ purchased?: string }>;
 }
 
-export default async function PublicPortalPage({ params, searchParams }: PageProps) {
+export default async function PublicPortalPage({
+  params,
+  searchParams,
+}: PageProps) {
   const { slug } = await params;
   const { purchased } = await searchParams;
 
@@ -51,10 +61,13 @@ export default async function PublicPortalPage({ params, searchParams }: PagePro
       <main className="flex-1 w-full flex flex-col items-center justify-center p-4 sm:p-8">
         {purchased === "true" && (
           <div className="w-full max-w-lg mb-6 p-5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
-            <h3 className="font-bold font-heading text-lg text-emerald-900">Purchase Successful!</h3>
+            <h3 className="font-bold font-heading text-lg text-emerald-900">
+              Purchase Successful!
+            </h3>
             <p className="text-sm text-emerald-700 leading-relaxed">
-              We've emailed your secure, expiring download link to the address provided during checkout. 
-              Please check your inbox (and spam folder) within the next few minutes.
+              We've emailed your secure, expiring download link to the address
+              provided during checkout. Please check your inbox (and spam
+              folder) within the next few minutes.
             </p>
           </div>
         )}
@@ -69,7 +82,8 @@ export default async function PublicPortalPage({ params, searchParams }: PagePro
               {portal.name} Disclosures
             </CardTitle>
             <CardDescription className="text-slate-500 mt-3 text-base max-w-sm mx-auto leading-relaxed">
-              Official document package required for property transfer, disclosures, and home buyer due diligence.
+              Official document package required for property transfer,
+              disclosures, and home buyer due diligence.
             </CardDescription>
           </CardHeader>
 
@@ -78,11 +92,15 @@ export default async function PublicPortalPage({ params, searchParams }: PagePro
             <div>
               <h3 className="text-sm font-semibold text-slate-900 mb-4 flex justify-between items-center">
                 <span>Documents Included ({docs.length})</span>
-                <span className="text-slate-500 font-normal">{formatBytes(totalSize)}</span>
+                <span className="text-slate-500 font-normal">
+                  {formatBytes(totalSize)}
+                </span>
               </h3>
-              
+
               {docs.length === 0 ? (
-                <p className="text-sm text-slate-500 italic py-2 text-center bg-slate-50 rounded-lg">No files have been added to this bundle yet.</p>
+                <p className="text-sm text-slate-500 italic py-2 text-center bg-slate-50 rounded-lg">
+                  No files have been added to this bundle yet.
+                </p>
               ) : (
                 <div className="space-y-3">
                   {docs.map((doc) => (
@@ -94,7 +112,10 @@ export default async function PublicPortalPage({ params, searchParams }: PagePro
                         <div className="bg-white p-2 rounded-lg shadow-sm">
                           <FileText className="w-4 h-4 text-emerald-600 shrink-0" />
                         </div>
-                        <span className="text-slate-700 text-sm font-medium truncate" title={doc.fileName}>
+                        <span
+                          className="text-slate-700 text-sm font-medium truncate"
+                          title={doc.fileName}
+                        >
                           {doc.fileName}
                         </span>
                       </div>
@@ -115,7 +136,9 @@ export default async function PublicPortalPage({ params, searchParams }: PagePro
                   <ShieldCheck className="w-4 h-4 text-emerald-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-900">Secure Access</h4>
+                  <h4 className="text-sm font-semibold text-slate-900">
+                    Secure Access
+                  </h4>
                   <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                     Time-limited download links via secure Stripe checkout.
                   </p>
@@ -126,7 +149,9 @@ export default async function PublicPortalPage({ params, searchParams }: PagePro
                   <Mail className="w-4 h-4 text-emerald-600" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-slate-900">Instant Delivery</h4>
+                  <h4 className="text-sm font-semibold text-slate-900">
+                    Instant Delivery
+                  </h4>
                   <p className="text-xs text-slate-500 mt-1 leading-relaxed">
                     Link sent directly to your email instantly. No signup.
                   </p>
@@ -136,17 +161,34 @@ export default async function PublicPortalPage({ params, searchParams }: PagePro
           </CardContent>
 
           <CardFooter className="bg-slate-50 p-6 sm:px-10 sm:py-8 flex flex-col gap-5 border-t border-slate-100">
-            <form action="/api/checkout" method="POST" className="w-full">
-              <input type="hidden" name="portalId" value={portal.id} />
-              <Button
-                type="submit"
-                className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-14 rounded-xl text-lg shadow-lg shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                disabled={docs.length === 0}
-              >
-                Purchase Bundle — ${(portal.priceInCents / 100).toFixed(2)}
-                <ArrowRight className="w-5 h-5" />
-              </Button>
-            </form>
+            {purchased === "true" ? (
+              <div className="w-full flex flex-col items-center justify-center py-2 text-emerald-600 gap-2">
+                <ShieldCheck className="w-8 h-8" />
+                <p className="font-semibold">Purchase Complete</p>
+                <p className="text-xs text-slate-500 text-center max-w-[200px]">Check your email or terminal for the download link</p>
+              </div>
+            ) : portal.isActive ? (
+              <form action="/api/checkout" method="POST" className="w-full">
+                <input type="hidden" name="portalId" value={portal.id} />
+                <Button
+                  type="submit"
+                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-14 rounded-xl text-lg shadow-lg shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                  disabled={docs.length === 0}
+                >
+                  Purchase Bundle — ${(portal.priceInCents / 100).toFixed(2)}
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </form>
+            ) : (
+              <div className="w-full text-center py-4 px-6 rounded-xl bg-slate-100 border border-slate-200">
+                <p className="text-slate-500 text-sm font-medium">
+                  This portal is currently unavailable.
+                </p>
+                <p className="text-slate-400 text-xs mt-1">
+                  Please check back later or contact the portal owner.
+                </p>
+              </div>
+            )}
             <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
               <Lock className="w-3.5 h-3.5" />
               <span>Secure, encrypted checkout via Stripe</span>
@@ -156,7 +198,9 @@ export default async function PublicPortalPage({ params, searchParams }: PagePro
       </main>
 
       <footer className="w-full py-8 text-center text-slate-400 text-sm">
-        <p>&copy; {new Date().getFullYear()} {portal.name}. Need help? <a href="#" className="text-emerald-600 hover:underline">Contact Support</a></p>
+        <p>
+          &copy; {new Date().getFullYear()} {portal.name}
+        </p>
       </footer>
     </div>
   );

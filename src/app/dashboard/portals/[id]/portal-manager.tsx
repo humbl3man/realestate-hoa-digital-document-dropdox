@@ -3,6 +3,7 @@
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { deleteDocumentAction, updatePortal } from "../../actions";
+import { appConfig } from "@/config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -450,6 +451,9 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                       disabled={savingSettings}
                     />
                   </div>
+                  <p className="text-[10px] text-muted-foreground leading-normal mt-1">
+                    The platform retains a {appConfig.platformFeePercentage}% fee on each transaction.
+                  </p>
                 </div>
 
                 {settingsError && <FormError>{settingsError}</FormError>}

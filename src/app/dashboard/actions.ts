@@ -1,13 +1,14 @@
 "use server";
 
 import { db } from "@/db";
-import { portals, documents } from "@/db/schema";
+import { portals, documents, user } from "@/db/schema";
 import { auth } from "@/lib/auth";
 import { eq } from "drizzle-orm";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
 import { deleteDocument } from "@/lib/supabase";
+import { stripe } from "@/lib/stripe";
 
 export async function createPortal(formData: { name: string; slug: string; priceInCents: number }) {
   const session = await auth.api.getSession({
@@ -20,6 +21,26 @@ export async function createPortal(formData: { name: string; slug: string; price
 
   if (!formData.name || !formData.slug || formData.priceInCents <= 0) {
     throw new Error("Invalid inputs");
+  }
+
+  // Server-side guard: Stripe account must be connected AND fully onboarded before creating portals
+  const [dbUser] = await db
+    .select()
+    .from(user)
+    .where(eq(user.id, session.user.id))
+    .limit(1);
+
+  if (!dbUser?.stripeAccountId) {
+    throw new Error(
+      "You must connect a Stripe account before creating portals. Go to Settings → Payouts to get started."
+    );
+  }
+  
+  const account = await stripe.accounts.retrieve(dbUser.stripeAccountId);
+  if (!account.details_submitted) {
+    throw new Error(
+      "Your Stripe account setup is incomplete. Go to Settings → Payouts to finish onboarding before creating portals."
+    );
   }
 
   const cleanSlug = formData.slug
