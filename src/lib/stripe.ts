@@ -2,7 +2,9 @@ import Stripe from "stripe";
 
 const stripeSecretKey = process.env.STRIPE_SECRET_KEY || "sk_test_placeholder";
 
-const actualStripe = new Stripe(stripeSecretKey);
+const actualStripe = new Stripe(stripeSecretKey, {
+  apiVersion: "2026-06-24.dahlia"
+});
 
 export const stripe = process.env.E2E_MOCK === "true" 
   ? new Proxy(actualStripe, {
@@ -12,6 +14,15 @@ export const stripe = process.env.E2E_MOCK === "true"
             retrieve: async () => ({ details_submitted: true }),
             createLoginLink: async () => ({ url: "https://mock-stripe.com/login" }),
             create: async () => ({ id: "acct_mock123" })
+          };
+        }
+        if (prop === "v2") {
+          return {
+            core: {
+              accounts: {
+                create: async () => ({ id: "acct_mock123" })
+              }
+            }
           };
         }
         if (prop === "accountLinks") {

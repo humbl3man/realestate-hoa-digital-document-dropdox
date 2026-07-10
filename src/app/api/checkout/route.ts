@@ -49,7 +49,6 @@ export async function POST(req: NextRequest) {
     // Create Stripe Checkout Session using Destination Charges
     // Funds go to the seller; platform fee is retained by us
     const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
       line_items: [
         {
           price_data: {

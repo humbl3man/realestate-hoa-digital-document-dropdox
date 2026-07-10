@@ -26,7 +26,12 @@ export async function GET(req: NextRequest) {
 
   // If no connected account yet, create one
   if (!stripeAccountId) {
-    const account = await stripe.accounts.create({ type: "express" });
+    // Use Accounts v2 API instead of legacy `type: "express"` v1 accounts
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const account = await (stripe.v2.core.accounts.create as any)({
+      // Provide an empty object or configuration here; Stripe defaults based on platform settings
+      // We cast to any to bypass TS compilation errors if the SDK types are not perfectly synced
+    });
     stripeAccountId = account.id;
 
     await db
@@ -37,7 +42,7 @@ export async function GET(req: NextRequest) {
 
   // Generate a one-time onboarding link
   const accountLink = await stripe.accountLinks.create({
-    account: stripeAccountId,
+    account: stripeAccountId as string,
     refresh_url: `${appUrl}/api/stripe/connect`,
     return_url: `${appUrl}/api/stripe/callback`,
     type: "account_onboarding",
