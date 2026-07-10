@@ -26,11 +26,13 @@ export async function GET(req: NextRequest) {
 
   // If no connected account yet, create one
   if (!stripeAccountId) {
-    // Use Accounts v2 API instead of legacy `type: "express"` v1 accounts
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const account = await (stripe.v2.core.accounts.create as any)({
-      // Provide an empty object or configuration here; Stripe defaults based on platform settings
-      // We cast to any to bypass TS compilation errors if the SDK types are not perfectly synced
+    // Use Accounts v1 API with controller properties as recommended for migrating away from legacy `type: "express"`
+    const account = await stripe.accounts.create({
+      controller: {
+        fees: { payer: "application" },
+        losses: { payments: "application" },
+        stripe_dashboard: { type: "express" },
+      },
     });
     stripeAccountId = account.id;
 
