@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 import { Menu, FileText, LogOut } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/theme-toggle";
 import { appConfig } from "@/config";
 import { navigation } from "./Sidebar";
 import { cn } from "@/lib/utils";
@@ -32,7 +31,6 @@ export function MobileNav() {
               {appConfig.name || "Untitled"}
             </span>
           </div>
-          <ThemeToggle />
         </div>
 
         <nav className="flex-1 px-4 space-y-1 mt-4">

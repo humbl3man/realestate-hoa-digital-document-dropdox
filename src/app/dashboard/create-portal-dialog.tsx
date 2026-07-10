@@ -84,7 +84,7 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
         <div className="relative group">
           <Button
             id="create-portal-trigger"
-            className="font-medium transition-colors shadow-sm opacity-50 cursor-not-allowed"
+            className="opacity-50 cursor-not-allowed"
             disabled
             aria-disabled="true"
           >
@@ -105,7 +105,7 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
       ) : (
         <DialogTrigger
           render={
-            <Button id="create-portal-trigger" className="font-medium transition-colors shadow-sm">
+            <Button id="create-portal-trigger">
               <Plus className="h-4 w-4" />
               Create Portal
             </Button>
@@ -193,7 +193,6 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
             <Button
               type="submit"
               id="create-portal-submit"
-              className="font-medium"
               disabled={loading || !stripeConnected}
             >
               {loading ? (

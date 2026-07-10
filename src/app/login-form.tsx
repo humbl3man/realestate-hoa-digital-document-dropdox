@@ -6,15 +6,7 @@ import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-  CardContent,
-} from "@/components/ui/card";
-import { Loader2, Mail, Sparkles } from "lucide-react";
-import { FormError } from "@/components/ui/form-error";
+import { Loader2, Sparkles, AlertCircle, FileText } from "lucide-react";
 import { appConfig } from "@/config";
 
 export function LoginForm() {
@@ -79,60 +71,64 @@ export function LoginForm() {
   };
 
   return (
-    <Card className="w-full max-w-md bg-slate-900/60 border-slate-800 backdrop-blur-xl shadow-2xl">
-      <CardHeader className="text-center space-y-2">
-        <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
-          <Mail className="w-6 h-6 text-primary" />
+    <div className="w-full max-w-sm mx-auto">
+      <div className="flex flex-col items-start space-y-6 mb-8 w-full">
+        {/* Logo Icon */}
+        <div className="bg-primary text-foreground p-2.5 rounded-xl border border-primary/20 inline-flex items-center justify-center">
+          <FileText size={24} />
         </div>
-        <CardTitle className="text-2xl font-bold tracking-tight text-white">
-          {appConfig.name}
-        </CardTitle>
-        <CardDescription className="text-slate-400">
-          Sign in or create your account to get started
-        </CardDescription>
-      </CardHeader>
-      <CardContent>
+        
+        {/* Title */}
+        <div className="space-y-2">
+          <h2 className="text-2xl font-bold tracking-tight text-foreground">
+            Sign in to {appConfig.name}
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            Sign in or create your account to get started
+          </p>
+        </div>
+      </div>
+
+      <div className="w-full">
         {sent ? (
-          <div className="text-center space-y-4 py-4 animate-in fade-in zoom-in-95 duration-300">
-            <div className="inline-block p-3 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
-              <svg
-                className="w-8 h-8"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth="2"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d="M5 13l4 4L19 7"
-                />
-              </svg>
-            </div>
-            <h3 className="text-lg font-medium text-white">Check your email</h3>
-            <p className="text-sm text-slate-400">
+          <div className="text-center space-y-4 py-4 animate-in fade-in zoom-in-95 duration-300 bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-6">
+            <h3 className="text-lg font-medium text-emerald-600 dark:text-emerald-400">
+              Check your email
+            </h3>
+            <p className="text-sm text-emerald-600/80 dark:text-emerald-400/80">
               We sent a secure sign-in link to{" "}
-              <span className="font-semibold text-slate-200">{email}</span>.
-              Check your inbox and click the link to log in.
+              <span className="font-semibold text-emerald-700 dark:text-emerald-300">{email}</span>.
+              Click the link to log in.
             </p>
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+          <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             <div className="space-y-2">
+              <label htmlFor="email" className="block text-sm font-medium text-foreground">
+                Email address
+              </label>
               <Input
+                id="email"
                 type="email"
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-slate-950/80 border-slate-800 text-white placeholder-slate-500 focus-visible:ring-primary focus-visible:border-primary"
+                className="bg-background focus-visible:ring-primary focus-visible:border-primary shadow-sm h-11"
                 required
                 disabled={loading}
               />
             </div>
-            {error && <FormError>{error}</FormError>}
+            
+            {error && (
+              <div className="flex items-center gap-2 text-sm text-destructive bg-destructive/10 p-3 rounded-lg">
+                <AlertCircle className="w-4 h-4 shrink-0" />
+                <p>{error}</p>
+              </div>
+            )}
+            
             <Button
               type="submit"
-              className="w-full bg-primary hover:bg-primary/80 text-foreground font-medium py-6 rounded-lg transition-all duration-200 shadow-lg shadow-white/5 active:scale-[0.98]"
+              className="w-full h-11 text-base font-semibold"
               disabled={loading}
             >
               {loading ? (
@@ -142,14 +138,14 @@ export function LoginForm() {
                 </>
               ) : (
                 <>
-                  <Sparkles className="w-4 h-4" />
+                  <Sparkles className="w-4 h-4 mr-2" />
                   <span>Send Magic Link</span>
                 </>
               )}
             </Button>
           </form>
         )}
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

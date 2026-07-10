@@ -347,7 +347,6 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                             size="icon"
                             disabled={deletingId === doc.id}
                             onClick={() => handleDeleteDoc(doc.id)}
-                            className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
                             aria-label={`Delete ${doc.fileName}`}
                           >
                             {deletingId === doc.id ? (
@@ -460,7 +459,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
                 <Button
                   type="submit"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium mt-2"
+                  className="w-full mt-2"
                   disabled={savingSettings}
                 >
                   {savingSettings ? (

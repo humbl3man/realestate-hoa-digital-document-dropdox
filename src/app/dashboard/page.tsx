@@ -9,7 +9,13 @@ import Link from "next/link";
 import { CreatePortalDialog } from "./create-portal-dialog";
 import { deletePortal } from "./actions";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -28,7 +34,12 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { ExternalLink, FolderKanban, Trash2, AlertTriangle } from "lucide-react";
+import {
+  ExternalLink,
+  FolderKanban,
+  Trash2,
+  AlertTriangle,
+} from "lucide-react";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -50,7 +61,7 @@ export default async function DashboardPage() {
     .from(user)
     .where(eq(user.id, session.user.id))
     .limit(1);
-    
+
   let stripeConnected = false;
   if (dbUser?.stripeAccountId) {
     try {
@@ -82,9 +93,12 @@ export default async function DashboardPage() {
         <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900 dark:bg-amber-950/20 dark:border-amber-800 dark:text-amber-200">
           <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
           <div className="text-sm">
-            <span className="font-semibold">Stripe not connected.</span>{" "}
-            You must{" "}
-            <a href="/dashboard/settings" className="underline underline-offset-2 hover:text-amber-700 dark:hover:text-amber-100 font-medium">
+            <span className="font-semibold">Stripe not connected.</span> You
+            must{" "}
+            <a
+              href="/dashboard/settings"
+              className="underline underline-offset-2 hover:text-amber-700 dark:hover:text-amber-100 font-medium"
+            >
               connect your Stripe account
             </a>{" "}
             before you can create portals or accept payments.
@@ -94,8 +108,12 @@ export default async function DashboardPage() {
 
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-heading font-extrabold tracking-tight">Manager Dashboard</h1>
-          <p className="text-muted-foreground mt-1 text-sm">Create and manage your HOA digital document storefronts.</p>
+          <h1 className="text-3xl font-heading font-extrabold tracking-tight">
+            Manager Dashboard
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Create and manage your HOA digital document storefronts.
+          </p>
         </div>
         <CreatePortalDialog stripeConnected={stripeConnected} />
       </div>
@@ -108,7 +126,8 @@ export default async function DashboardPage() {
             </div>
             <CardTitle className="text-xl">No portals yet</CardTitle>
             <CardDescription className="max-w-sm mx-auto">
-              Get started by creating your first document portal. You&apos;ll be able to upload files and set a price.
+              Get started by creating your first document portal. You&apos;ll be
+              able to upload files and set a price.
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -125,7 +144,7 @@ export default async function DashboardPage() {
                 <TableHead className="font-medium">Price</TableHead>
                 <TableHead className="font-medium">Files</TableHead>
                 <TableHead className="font-medium">Created At</TableHead>
-                <TableHead className="font-medium text-right">Actions</TableHead>
+                <TableHead className="font-medium text-right"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -133,7 +152,10 @@ export default async function DashboardPage() {
                 const fileCount = docCounts[portal.id] || 0;
                 const publicUrl = `/p/${portal.slug}`;
                 return (
-                  <TableRow key={portal.id} className="hover:bg-muted/30 transition-colors">
+                  <TableRow
+                    key={portal.id}
+                    className="hover:bg-muted/30 transition-colors"
+                  >
                     <TableCell className="font-semibold py-4">
                       <Link
                         href={`/dashboard/portals/${portal.id}`}
@@ -155,25 +177,26 @@ export default async function DashboardPage() {
                     <TableCell className="text-muted-foreground">
                       ${(portal.priceInCents / 100).toFixed(2)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground">{fileCount} files</TableCell>
+                    <TableCell className="text-muted-foreground">
+                      {fileCount} files
+                    </TableCell>
                     <TableCell className="text-muted-foreground text-sm">
                       {portal.createdAt.toLocaleDateString()}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
                         <Link href={`/dashboard/portals/${portal.id}`} passHref>
-                          <Button variant="secondary" size="sm" className="bg-secondary hover:bg-secondary/80">
+                          <Button variant="secondary" size="sm">
                             Manage
                           </Button>
                         </Link>
                         <Dialog>
                           <DialogTrigger
                             render={
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
-                              >
+                                <Button
+                                  variant="ghost"
+                                  size="icon"
+                                >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             }
@@ -182,11 +205,14 @@ export default async function DashboardPage() {
                             <DialogHeader>
                               <DialogTitle>Delete Portal</DialogTitle>
                               <DialogDescription>
-                                Are you sure you want to delete this portal? This action cannot be undone.
+                                Are you sure you want to delete this portal?
+                                This action cannot be undone.
                               </DialogDescription>
                             </DialogHeader>
                             <DialogFooter>
-                              <DialogClose render={<Button variant="outline" />}>
+                              <DialogClose
+                                render={<Button variant="outline" />}
+                              >
                                 Cancel
                               </DialogClose>
                               <form

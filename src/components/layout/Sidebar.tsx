@@ -2,10 +2,15 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, FileText, Settings, CreditCard, LogOut } from "lucide-react";
+import {
+  LayoutDashboard,
+  FileText,
+  Settings,
+  CreditCard,
+  LogOut,
+} from "lucide-react";
 import { cn } from "@/lib/utils";
 import { appConfig } from "@/config";
-import { ThemeToggle } from "@/components/theme-toggle";
 
 export const navigation = [
   { name: "Portals", href: "/dashboard", icon: LayoutDashboard },
@@ -23,9 +28,10 @@ export function Sidebar() {
           <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
             <FileText size={20} />
           </div>
-          <span className="font-heading font-semibold text-lg tracking-tight">{appConfig.name || "Untitled Digital Dropbox"}</span>
+          <span className="font-heading font-semibold text-lg tracking-tight">
+            {appConfig.name || "Untitled Digital Dropbox"}
+          </span>
         </div>
-        <ThemeToggle />
       </div>
 
       <nav className="flex-1 px-4 space-y-1 mt-4">
@@ -39,7 +45,7 @@ export function Sidebar() {
                 "flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-sm font-medium",
                 isActive
                   ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-muted-foreground"
+                  : "hover:bg-sidebar-primary/10 hover:text-sidebar-accent-foreground text-muted-foreground",
               )}
             >
               <item.icon size={18} />
@@ -51,7 +57,7 @@ export function Sidebar() {
 
       <div className="p-4 border-t border-sidebar-border">
         <form action="/api/logout" method="POST">
-          <button 
+          <button
             type="submit"
             className="flex w-full items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-sidebar-accent hover:text-destructive text-muted-foreground transition-colors"
           >

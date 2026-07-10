@@ -75,35 +75,42 @@ export function SettingsForm({
           <h2 className="text-lg font-medium">Payouts</h2>
           <p className="text-sm text-muted-foreground">
             Connect your Stripe account to receive payments from document sales.
-            The platform retains a {appConfig.platformFeePercentage}% fee on each transaction.
+            The platform retains a {appConfig.platformFeePercentage}% fee on
+            each transaction.
           </p>
         </div>
 
         {stripeAccountId ? (
           // Connected state
-          <div className="rounded-xl border border-emerald-200 bg-emerald-50 p-5 space-y-4 dark:bg-emerald-950/20 dark:border-emerald-800">
-            <div className="flex items-center gap-3">
-              <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+          <div className="rounded-xl border border-emerald-600 bg-emerald-50 p-5 space-y-4">
+            <div className="flex items-center gap-6">
               <div>
-                <p className="text-sm font-semibold text-emerald-900 dark:text-emerald-100">
+                <CheckCircle2
+                  width={30}
+                  height={30}
+                  className="text-emerald-600 shrink-0"
+                />
+              </div>
+              <div>
+                <p className="text-lg font-semibold text-green-800 mb-1">
                   Stripe account connected
                 </p>
                 {stripeAccountEmail && (
-                  <p className="text-xs text-emerald-700 dark:text-emerald-300 mt-0.5">
+                  <p className="text-xs text-muted-foreground mt-0.5">
                     {stripeAccountEmail}
                   </p>
                 )}
+                <a
+                  href="/api/stripe/dashboard"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <ExternalLink className="w-4 h-4" />
+                  Open Stripe Dashboard
+                </a>
               </div>
             </div>
-            <a
-              href="/api/stripe/dashboard"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 text-sm font-medium text-emerald-700 dark:text-emerald-300 hover:text-emerald-900 dark:hover:text-emerald-100 transition-colors"
-            >
-              <ExternalLink className="w-4 h-4" />
-              Open Stripe Dashboard
-            </a>
           </div>
         ) : (
           // Not connected state
@@ -111,9 +118,9 @@ export function SettingsForm({
             <div className="flex items-start gap-3">
               <Zap className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
               <p className="text-sm text-muted-foreground leading-relaxed">
-                You haven&apos;t connected a Stripe account yet. Once connected, buyers
-                will be able to purchase your document bundles and payments will
-                be sent directly to your Stripe balance.
+                You haven&apos;t connected a Stripe account yet. Once connected,
+                buyers will be able to purchase your document bundles and
+                payments will be sent directly to your Stripe balance.
               </p>
             </div>
             <a href="/api/stripe/connect">

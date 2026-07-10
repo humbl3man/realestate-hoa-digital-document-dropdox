@@ -17,23 +17,23 @@ export default async function LandingPage() {
   });
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-50 font-sans selection:bg-primary/30">
+    <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
       {/* Background gradients */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-20" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/20 rounded-full blur-[120px] opacity-50" />
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-50" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[120px] opacity-70" />
       </div>
 
       {/* Header */}
       <header className="relative z-10 w-full max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
         <div className="flex items-center gap-3 group">
-          <div className="bg-primary/10 text-primary p-2.5 rounded-xl border border-primary/20 shadow-[0_0_15px_rgba(var(--primary),0.2)]">
+          <div className="bg-primary text-foreground p-2.5 rounded-xl border border-primary/20">
             <FileText
               size={24}
               className="group-hover:scale-110 transition-transform duration-300"
             />
           </div>
-          <span className="font-heading font-bold text-xl md:text-2xl tracking-tight text-white">
+          <span className="font-heading font-bold text-xl md:text-2xl tracking-tight text-foreground">
             {appConfig.name}
           </span>
         </div>
@@ -42,7 +42,7 @@ export default async function LandingPage() {
             <Link href="/dashboard">
               <Button
                 variant="default"
-                className="rounded-full px-6 shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all font-medium"
+                className="rounded-full px-6 transition-all font-medium"
               >
                 Dashboard
               </Button>
@@ -51,14 +51,14 @@ export default async function LandingPage() {
             <>
               <Link
                 href="/login"
-                className="hidden sm:inline-block text-sm font-medium text-slate-300 hover:text-white transition-colors"
+                className="hidden sm:inline-block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
               >
                 Login
               </Link>
               <Link href="/login">
                 <Button
                   variant="default"
-                  className="rounded-full px-6 shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-all font-medium"
+                  className="rounded-full px-6 transition-all font-medium"
                 >
                   Create Account
                 </Button>
@@ -71,19 +71,19 @@ export default async function LandingPage() {
       {/* Main Content */}
       <main className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-20 pb-32 flex flex-col items-center text-center">
         {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-900/50 border border-slate-800 backdrop-blur-sm mb-12">
+        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100/50 border border-border mb-12">
           <span className="flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-          <span className="text-sm font-medium text-slate-300">
-            The smart portal for HOA & Property Managers
+          <span className="text-sm font-medium text-secondary-foreground">
+            The smart portal for HOA, Real Estate Agents, and Landlords
           </span>
         </div>
 
         {/* Hero Typography */}
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-white via-slate-200 to-slate-500 max-w-4xl mb-8">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-foreground via-foreground to-muted-foreground max-w-4xl mb-8">
           Securely share documents and collect payments effortlessly.
         </h1>
 
-        <p className="text-lg md:text-xl text-slate-400 max-w-2xl mb-12 leading-relaxed">
+        <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-12 leading-relaxed">
           The modern digital dropbox designed for real estate professionals.
           Automate document requests, charge for downloads, and stay compliant
           without the email chaos.
@@ -95,7 +95,7 @@ export default async function LandingPage() {
             <Link href="/dashboard">
               <Button
                 size="lg"
-                className="rounded-full px-8 h-14 text-base font-semibold shadow-[0_0_30px_-5px_rgba(var(--primary),0.4)] hover:shadow-[0_0_40px_-5px_rgba(var(--primary),0.6)] transition-all group"
+                className="rounded-full px-8 h-14 text-base font-semibold transition-all group"
               >
                 Go to Dashboard
                 <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -106,13 +106,13 @@ export default async function LandingPage() {
               <Link href="/login">
                 <Button
                   size="lg"
-                  className="rounded-full px-8 h-14 text-base font-semibold shadow-[0_0_30px_-5px_rgba(var(--primary),0.4)] hover:shadow-[0_0_40px_-5px_rgba(var(--primary),0.6)] transition-all group"
+                  className="rounded-full px-8 h-14 text-base font-semibold transition-all group"
                 >
                   Create a free account
                   <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
-              <p className="text-sm text-slate-500 sm:hidden">
+              <p className="text-sm text-muted-foreground sm:hidden">
                 Requires easy Stripe setup
               </p>
             </>
@@ -122,42 +122,42 @@ export default async function LandingPage() {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-32">
           {/* Feature 1 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 backdrop-blur-md hover:bg-slate-900/60 transition-colors">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center mb-6">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 shadow-sm transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-6">
               <Shield size={24} />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-3">
+            <h3 className="text-xl font-semibold text-card-foreground mb-3">
               Bank-Grade Security
             </h3>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               Protect sensitive tenant and HOA information. All documents are
               encrypted in transit and at rest.
             </p>
           </div>
 
           {/* Feature 2 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 backdrop-blur-md hover:bg-slate-900/60 transition-colors">
-            <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-400 flex items-center justify-center mb-6">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 shadow-sm transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center mb-6">
               <FolderOpen size={24} />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-3">
+            <h3 className="text-xl font-semibold text-card-foreground mb-3">
               Perfect Organization
             </h3>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               Say goodbye to lost email attachments. Everything is automatically
               sorted by property and resident.
             </p>
           </div>
 
           {/* Feature 3 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-slate-900/40 border border-slate-800/50 backdrop-blur-md hover:bg-slate-900/60 transition-colors">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center mb-6">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 shadow-sm transition-colors">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-6">
               <CircleDollarSign size={24} />
             </div>
-            <h3 className="text-xl font-semibold text-white mb-3">
+            <h3 className="text-xl font-semibold text-card-foreground mb-3">
               Monetize Downloads
             </h3>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="text-muted-foreground leading-relaxed">
               Easily charge fees for CC&amp;Rs, resale certificates, and other
               records. Payments process securely via Stripe before the download
               unlocks.
@@ -167,7 +167,7 @@ export default async function LandingPage() {
       </main>
 
       {/* Footer */}
-      <footer className="relative z-10 w-full border-t border-slate-800/50 bg-slate-950/50 py-8 text-center text-slate-500 text-sm">
+      <footer className="relative z-10 w-full border-t border-border bg-background py-8 text-center text-muted-foreground text-sm">
         <p>
           &copy; {new Date().getFullYear()} {appConfig.name}. All rights
           reserved.
