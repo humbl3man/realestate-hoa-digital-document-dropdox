@@ -12,7 +12,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { FileText, ShieldCheck, Mail, ArrowRight, Lock } from "lucide-react";
-import { PublicHeader } from "@/components/layout/PublicHeader";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -56,18 +55,17 @@ export default async function PublicPortalPage({
 
   return (
     <div className="min-h-screen w-full flex flex-col items-center bg-slate-50 text-slate-900 font-sans">
-      <PublicHeader title={portal.name} />
-
       <main className="flex-1 w-full flex flex-col items-center justify-center p-4 sm:p-8">
         {purchased === "true" && (
-          <div className="w-full max-w-lg mb-6 p-5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
+          <div className="w-full max-w-lg mb-6 p-5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex flex-col items-center text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
+            <ShieldCheck className="w-10 h-10 text-emerald-600 mb-2" />
             <h3 className="font-bold font-heading text-lg text-emerald-900">
-              Purchase Successful!
+              Purchase Complete
             </h3>
             <p className="text-sm text-emerald-700 leading-relaxed">
-              We've emailed your secure, expiring download link to the address
-              provided during checkout. Please check your inbox (and spam
-              folder) within the next few minutes.
+              We{`'`}ve emailed your secure, expiring download link to the
+              address provided during checkout. Please check your inbox (and
+              spam folder) within the next few minutes.
             </p>
           </div>
         )}
@@ -79,7 +77,7 @@ export default async function PublicPortalPage({
               Official Document Portal
             </div>
             <CardTitle className="text-3xl font-heading font-bold tracking-tight text-slate-900">
-              {portal.name} Disclosures
+              {portal.name}
             </CardTitle>
             <CardDescription className="text-slate-500 mt-3 text-base max-w-sm mx-auto leading-relaxed">
               Official document package required for property transfer,
@@ -160,40 +158,36 @@ export default async function PublicPortalPage({
             </div>
           </CardContent>
 
-          <CardFooter className="bg-slate-50 p-6 sm:px-10 sm:py-8 flex flex-col gap-5 border-t border-slate-100">
-            {purchased === "true" ? (
-              <div className="w-full flex flex-col items-center justify-center py-2 text-emerald-600 gap-2">
-                <ShieldCheck className="w-8 h-8" />
-                <p className="font-semibold">Purchase Complete</p>
-                <p className="text-xs text-slate-500 text-center max-w-[200px]">Check your email or terminal for the download link</p>
+          {purchased !== "true" && (
+            <CardFooter className="bg-slate-50 p-6 sm:px-10 sm:py-8 flex flex-col gap-5 border-t border-slate-100">
+              {portal.isActive ? (
+                <form action="/api/checkout" method="POST" className="w-full">
+                  <input type="hidden" name="portalId" value={portal.id} />
+                  <Button
+                    type="submit"
+                    className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-14 rounded-xl text-lg shadow-lg shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
+                    disabled={docs.length === 0}
+                  >
+                    Purchase Bundle — ${(portal.priceInCents / 100).toFixed(2)}
+                    <ArrowRight className="w-5 h-5" />
+                  </Button>
+                </form>
+              ) : (
+                <div className="w-full text-center py-4 px-6 rounded-xl bg-slate-100 border border-slate-200">
+                  <p className="text-slate-500 text-sm font-medium">
+                    This portal is currently unavailable.
+                  </p>
+                  <p className="text-slate-400 text-xs mt-1">
+                    Please check back later or contact the portal owner.
+                  </p>
+                </div>
+              )}
+              <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+                <Lock className="w-3.5 h-3.5" />
+                <span>Secure, encrypted checkout via Stripe</span>
               </div>
-            ) : portal.isActive ? (
-              <form action="/api/checkout" method="POST" className="w-full">
-                <input type="hidden" name="portalId" value={portal.id} />
-                <Button
-                  type="submit"
-                  className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-14 rounded-xl text-lg shadow-lg shadow-emerald-600/20 active:scale-[0.98] transition-all flex items-center justify-center gap-2"
-                  disabled={docs.length === 0}
-                >
-                  Purchase Bundle — ${(portal.priceInCents / 100).toFixed(2)}
-                  <ArrowRight className="w-5 h-5" />
-                </Button>
-              </form>
-            ) : (
-              <div className="w-full text-center py-4 px-6 rounded-xl bg-slate-100 border border-slate-200">
-                <p className="text-slate-500 text-sm font-medium">
-                  This portal is currently unavailable.
-                </p>
-                <p className="text-slate-400 text-xs mt-1">
-                  Please check back later or contact the portal owner.
-                </p>
-              </div>
-            )}
-            <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
-              <Lock className="w-3.5 h-3.5" />
-              <span>Secure, encrypted checkout via Stripe</span>
-            </div>
-          </CardFooter>
+            </CardFooter>
+          )}
         </Card>
       </main>
 
