@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { appConfig } from "@/config";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-const navigation = [
+export const navigation = [
   { name: "Portals", href: "/dashboard", icon: LayoutDashboard },
   { name: "Sales", href: "/dashboard/sales", icon: CreditCard },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
@@ -17,7 +17,7 @@ export function Sidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="w-[250px] border-r border-sidebar-border bg-sidebar h-full flex flex-col fixed left-0 top-0 text-sidebar-foreground">
+    <aside className="hidden md:flex w-[250px] border-r border-sidebar-border bg-sidebar h-full flex-col fixed left-0 top-0 text-sidebar-foreground">
       <div className="p-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
