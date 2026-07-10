@@ -59,8 +59,10 @@ export async function createPortal(formData: { name: string; slug: string; price
     throw new Error("Slug is already taken. Please choose another one.");
   }
 
+  const newId = randomUUID();
+
   await db.insert(portals).values({
-    id: randomUUID(),
+    id: newId,
     userId: session.user.id,
     name: formData.name,
     slug: cleanSlug,
@@ -69,6 +71,7 @@ export async function createPortal(formData: { name: string; slug: string; price
   });
 
   revalidatePath("/dashboard");
+  return { id: newId };
 }
 
 export async function deletePortal(id: string) {

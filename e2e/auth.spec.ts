@@ -1,6 +1,9 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Authentication Flow', () => {
+  // Clear any authenticated state for this suite
+  test.use({ storageState: { cookies: [], origins: [] } });
+
   test('should display login form', async ({ page }) => {
     await page.goto('/');
     

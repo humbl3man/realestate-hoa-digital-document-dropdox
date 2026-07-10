@@ -60,7 +60,7 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
     setError("");
 
     try {
-      await createPortal({
+      const result = await createPortal({
         name,
         slug: slugify(slug), // ensure valid slug format
         priceInCents: Math.round(parsedPrice * 100),
@@ -69,7 +69,7 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
       setSlug("");
       setPrice("");
       setOpen(false);
-      router.refresh();
+      router.push(`/dashboard/portals/${result.id}`);
     } catch (err: any) {
       setError(err?.message || "Something went wrong.");
     } finally {

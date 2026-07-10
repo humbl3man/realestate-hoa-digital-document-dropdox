@@ -36,3 +36,18 @@ export const auth = betterAuth({
     }),
   ],
 });
+
+if (process.env.E2E_MOCK === "true") {
+  const originalGetSession = auth.api.getSession;
+  auth.api.getSession = async (opts: any) => {
+    const reqHeaders = await opts?.headers;
+    const cookieHeader = reqHeaders?.get("cookie") || "";
+    if (cookieHeader.includes("better-auth.session_token=test-session-token-123")) {
+      return {
+        session: { id: "test-session-id", userId: "test-user-id", expiresAt: new Date(Date.now() + 1000 * 60 * 60 * 24 * 7), createdAt: new Date(), updatedAt: new Date(), token: "test-session-token-123" },
+        user: { id: "test-user-id", email: "e2e-test@example.com", name: "E2E Test User", emailVerified: true, stripeAccountId: "acct_mock123", createdAt: new Date(), updatedAt: new Date() }
+      } as any;
+    }
+    return originalGetSession(opts);
+  };
+}
