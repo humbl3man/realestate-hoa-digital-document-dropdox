@@ -8,6 +8,7 @@ import { updateProfile } from "./actions";
 import { appConfig } from "@/config";
 import { toast } from "sonner";
 import { Loader2, CheckCircle2, ExternalLink, Zap } from "lucide-react";
+import Link from "next/link";
 
 interface SettingsFormProps {
   initialName: string;
@@ -100,7 +101,7 @@ export function SettingsForm({
                     {stripeAccountEmail}
                   </p>
                 )}
-                <a
+                <Link
                   href="/api/stripe/dashboard"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -108,7 +109,7 @@ export function SettingsForm({
                 >
                   <ExternalLink className="w-4 h-4" />
                   Open Stripe Dashboard
-                </a>
+                </Link>
               </div>
             </div>
           </div>

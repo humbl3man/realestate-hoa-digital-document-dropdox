@@ -4,7 +4,7 @@ import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { deleteDocumentAction, updatePortal } from "../../actions";
 import { appConfig } from "@/config";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -30,6 +30,7 @@ import {
   ArrowLeft,
   Save,
   Globe,
+  ExternalLink,
 } from "lucide-react";
 import Link from "next/link";
 import { FormError } from "@/components/ui/form-error";
@@ -196,10 +197,12 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
         <Link
           href={publicPortalUrl}
           target="_blank"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors gap-1.5"
+          className={buttonVariants({
+            variant: "secondary",
+          })}
         >
-          <Globe className="w-4 h-4" />
           View Public Page
+          <ExternalLink width={30} height={30} />
         </Link>
       </div>
 
@@ -451,7 +454,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     />
                   </div>
                   <p className="text-[10px] text-muted-foreground leading-normal mt-1">
-                    The platform retains a {appConfig.platformFeePercentage}% fee on each transaction.
+                    The platform retains a {appConfig.platformFeePercentage}%
+                    fee on each transaction.
                   </p>
                 </div>
 
