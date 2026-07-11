@@ -77,7 +77,7 @@ export function LoginForm() {
         <div className="bg-primary text-foreground p-2.5 rounded-xl border border-primary/20 inline-flex items-center justify-center">
           <FileText size={24} />
         </div>
-        
+
         {/* Title */}
         <div className="space-y-2">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">
@@ -91,20 +91,21 @@ export function LoginForm() {
 
       <div className="w-full">
         {sent ? (
-          <div className="text-center space-y-4 py-4 animate-in fade-in zoom-in-95 duration-300 bg-emerald-500/10 border border-emerald-500/20 rounded-xl p-6">
-            <h3 className="text-lg font-medium text-emerald-600 dark:text-emerald-400">
-              Check your email
-            </h3>
-            <p className="text-sm text-emerald-600/80 dark:text-emerald-400/80">
+          <div className="space-y-4 p-4 animate-in fade-in zoom-in-95 duration-300 bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 rounded-xl">
+            <h3 className="text-lg font-medium">Check your email</h3>
+            <p className="text-sm text-emerald-700">
               We sent a secure sign-in link to{" "}
-              <span className="font-semibold text-emerald-700 dark:text-emerald-300">{email}</span>.
+              <span className="font-semibold text-emerald-900">{email}</span>.
               Click the link to log in.
             </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             <div className="space-y-2">
-              <label htmlFor="email" className="block text-sm font-medium text-foreground">
+              <label
+                htmlFor="email"
+                className="block text-sm font-medium text-foreground"
+              >
                 Email address
               </label>
               <Input
@@ -118,14 +119,14 @@ export function LoginForm() {
                 disabled={loading}
               />
             </div>
-            
+
             {error && (
               <div className="flex items-center gap-2 text-sm text-destructive bg-destructive/10 p-3 rounded-lg">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <p>{error}</p>
               </div>
             )}
-            
+
             <Button
               type="submit"
               className="w-full h-11 text-base font-semibold"

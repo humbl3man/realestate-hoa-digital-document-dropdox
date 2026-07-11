@@ -90,14 +90,14 @@ export default async function DashboardPage() {
     <div className="space-y-8 animate-in fade-in zoom-in-95 duration-300">
       {/* Stripe not connected warning banner */}
       {!stripeConnected && (
-        <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900 dark:bg-amber-950/20 dark:border-amber-800 dark:text-amber-200">
-          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-amber-600 dark:text-amber-400" />
+        <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900">
+          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-amber-600" />
           <div className="text-sm">
             <span className="font-semibold">Stripe not connected.</span> You
             must{" "}
             <a
               href="/dashboard/settings"
-              className="underline underline-offset-2 hover:text-amber-700 dark:hover:text-amber-100 font-medium"
+              className="underline underline-offset-2 hover:text-amber-700 font-medium"
             >
               connect your Stripe account
             </a>{" "}
