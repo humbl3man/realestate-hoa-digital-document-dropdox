@@ -16,11 +16,10 @@ import {
   DialogTrigger,
   DialogFooter,
 } from "@/components/ui/dialog";
-import { Loader2, Plus, AlertCircle } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { FormError } from "@/components/ui/form-error";
-import Link from "next/link";
 
-export function CreatePortalDialog({ stripeConnected = false }: { stripeConnected?: boolean }) {
+export function CreatePortalDialog() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
@@ -79,49 +78,30 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      {!stripeConnected ? (
-        // Stripe not connected: show disabled button with tooltip explanation
-        <div className="relative group">
-          <Button
-            id="create-portal-trigger"
-            className="opacity-50 cursor-not-allowed"
-            disabled
-            aria-disabled="true"
-          >
+      <DialogTrigger
+        render={
+          <Button id="create-portal-trigger">
             <Plus className="h-4 w-4" />
             Create Portal
           </Button>
-          {/* Tooltip wrapper with transparent bottom padding to bridge the hover gap */}
-          <div className="absolute bottom-full left-1/2 -translate-x-1/2 pb-2 hidden group-hover:flex z-50">
-            <div className="flex items-center gap-1.5 whitespace-nowrap rounded-lg bg-popover border border-border shadow-md px-3 py-2 text-xs text-popover-foreground">
-              <AlertCircle className="w-3.5 h-3.5 text-amber-500 shrink-0" />
-              <span>Connect Stripe first —{" "}</span>
-              <Link href="/dashboard/settings" className="underline font-medium" onClick={(e) => e.stopPropagation()}>
-                Go to Settings
-              </Link>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <DialogTrigger
-          render={
-            <Button id="create-portal-trigger">
-              <Plus className="h-4 w-4" />
-              Create Portal
-            </Button>
-          }
-        />
-      )}
+        }
+      />
       <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">Create Document Portal</DialogTitle>
+          <DialogTitle className="text-xl font-bold">
+            Create Document Portal
+          </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Configure a portal where buyers can purchase your HOA disclosure bundle.
+            Configure a portal where buyers can purchase your HOA disclosure
+            bundle.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4 py-4">
           <div className="space-y-2">
-            <Label htmlFor="name" className="text-sm font-medium text-foreground">
+            <Label
+              htmlFor="name"
+              className="text-sm font-medium text-foreground"
+            >
               Portal Name
             </Label>
             <Input
@@ -135,7 +115,10 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="slug" className="text-sm font-medium text-foreground">
+            <Label
+              htmlFor="slug"
+              className="text-sm font-medium text-foreground"
+            >
               Public Link Slug
             </Label>
             <div className="flex rounded-md shadow-sm">
@@ -154,7 +137,10 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="price" className="text-sm font-medium text-foreground">
+            <Label
+              htmlFor="price"
+              className="text-sm font-medium text-foreground"
+            >
               Price (USD)
             </Label>
             <div className="flex rounded-md shadow-sm">
@@ -175,12 +161,11 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
               />
             </div>
             <p className="text-[10px] text-muted-foreground leading-normal mt-1">
-              The platform retains a {appConfig.platformFeePercentage}% fee on each transaction.
+              The platform retains a {appConfig.platformFeePercentage}% fee on
+              each transaction.
             </p>
           </div>
-          {error && (
-            <FormError>{error}</FormError>
-          )}
+          {error && <FormError>{error}</FormError>}
           <DialogFooter className="mt-2">
             <Button
               type="button"
@@ -190,11 +175,7 @@ export function CreatePortalDialog({ stripeConnected = false }: { stripeConnecte
             >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              id="create-portal-submit"
-              disabled={loading || !stripeConnected}
-            >
+            <Button type="submit" id="create-portal-submit" disabled={loading}>
               {loading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />

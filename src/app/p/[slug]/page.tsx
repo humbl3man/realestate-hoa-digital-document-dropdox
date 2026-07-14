@@ -72,7 +72,7 @@ export default async function PublicPortalPage({
 
         <Card className="w-full max-w-lg bg-white border border-slate-200 shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
           <CardHeader className="text-center pt-10 pb-8 border-b border-slate-100">
-            <div className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-50 text-emerald-600 text-xs font-semibold rounded-full mb-4">
+            <div className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-secondary text-xs font-semibold rounded-full mb-4">
               <ShieldCheck size={14} />
               Official Document Portal
             </div>
@@ -130,8 +130,8 @@ export default async function PublicPortalPage({
             {/* Value Prop/Features */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-slate-100">
               <div className="flex items-start gap-3">
-                <div className="bg-emerald-50 p-1.5 rounded-lg shrink-0 mt-0.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
+                <div className="bg-secondary/10 p-1.5 rounded-lg shrink-0 mt-0.5">
+                  <ShieldCheck className="w-4 h-4 text-secondary" />
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-slate-900">
@@ -143,8 +143,8 @@ export default async function PublicPortalPage({
                 </div>
               </div>
               <div className="flex items-start gap-3">
-                <div className="bg-emerald-50 p-1.5 rounded-lg shrink-0 mt-0.5">
-                  <Mail className="w-4 h-4 text-emerald-600" />
+                <div className="bg-secondary/10 p-1.5 rounded-lg shrink-0 mt-0.5">
+                  <Mail className="w-4 h-4 text-secondary" />
                 </div>
                 <div>
                   <h4 className="text-sm font-semibold text-slate-900">
@@ -165,10 +165,12 @@ export default async function PublicPortalPage({
                   <input type="hidden" name="portalId" value={portal.id} />
                   <Button
                     type="submit"
+                    variant="accent"
                     className="w-full h-14 text-lg flex items-center justify-center gap-2"
                     disabled={docs.length === 0}
                   >
-                    Purchase Bundle — ${(portal.priceInCents / 100).toFixed(2)}
+                    Purchase Bundle &mdash; $
+                    {(portal.priceInCents / 100).toFixed(2)}
                     <ArrowRight className="w-5 h-5" />
                   </Button>
                 </form>

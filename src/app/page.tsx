@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,6 +16,10 @@ export default async function LandingPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
+
+  if (session) {
+    redirect("/dashboard");
+  }
 
   return (
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
@@ -79,7 +84,7 @@ export default async function LandingPage() {
         </div>
 
         {/* Hero Typography */}
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-foreground via-foreground to-muted-foreground max-w-4xl mb-8">
+        <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent pb-1 bg-clip-text bg-linear-to-br from-foreground via-foreground to-muted-foreground max-w-4xl mb-8">
           Securely share documents and collect payments effortlessly.
         </h1>
 

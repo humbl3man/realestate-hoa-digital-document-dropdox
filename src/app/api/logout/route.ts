@@ -4,7 +4,7 @@ import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   try {
-    const res = NextResponse.redirect(new URL("/", req.url), 302);
+    const res = NextResponse.redirect(new URL("/login?loggedOut=true", req.url), 302);
     
     // Attempt to use better-auth to sign out and clear cookies
     await auth.api.signOut({
@@ -22,6 +22,6 @@ export async function POST(req: Request) {
     return res;
   } catch (error) {
     console.error("Logout error", error);
-    return NextResponse.redirect(new URL("/", req.url), 302);
+    return NextResponse.redirect(new URL("/login?loggedOut=true", req.url), 302);
   }
 }

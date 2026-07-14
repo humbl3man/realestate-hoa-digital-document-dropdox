@@ -8,7 +8,7 @@ import { stripe } from "@/lib/stripe";
 import Link from "next/link";
 import { CreatePortalDialog } from "./create-portal-dialog";
 import { deletePortal } from "./actions";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -88,6 +88,18 @@ export default async function DashboardPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in zoom-in-95 duration-300">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-heading font-extrabold tracking-tight">
+            Portal Manager
+          </h1>
+          <p className="text-muted-foreground mt-1 text-sm">
+            Create and manage your HOA digital document storefronts.
+          </p>
+        </div>
+        {stripeConnected && <CreatePortalDialog />}
+      </div>
+
       {/* Stripe not connected warning banner */}
       {!stripeConnected && (
         <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900">
@@ -95,28 +107,16 @@ export default async function DashboardPage() {
           <div className="text-sm">
             <span className="font-semibold">Stripe not connected.</span> You
             must{" "}
-            <a
-              href="/dashboard/settings"
+            <Link
+              href="/api/stripe/connect"
               className="underline underline-offset-2 hover:text-amber-700 font-medium"
             >
               connect your Stripe account
-            </a>{" "}
-            before you can create portals or accept payments.
+            </Link>{" "}
+            `` before you can create portals or accept payments.
           </div>
         </div>
       )}
-
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-heading font-extrabold tracking-tight">
-            Manager Dashboard
-          </h1>
-          <p className="text-muted-foreground mt-1 text-sm">
-            Create and manage your HOA digital document storefronts.
-          </p>
-        </div>
-        <CreatePortalDialog stripeConnected={stripeConnected} />
-      </div>
 
       {userPortals.length === 0 ? (
         <Card className="border-dashed py-12 text-center bg-transparent">
@@ -130,9 +130,11 @@ export default async function DashboardPage() {
               able to upload files and set a price.
             </CardDescription>
           </CardHeader>
-          <CardContent>
-            <CreatePortalDialog stripeConnected={stripeConnected} />
-          </CardContent>
+          {stripeConnected && (
+            <CardContent>
+              <CreatePortalDialog />
+            </CardContent>
+          )}
         </Card>
       ) : (
         <div className="bg-card border border-border rounded-xl overflow-hidden shadow-sm">
@@ -157,10 +159,7 @@ export default async function DashboardPage() {
                     className="hover:bg-muted/30 transition-colors"
                   >
                     <TableCell className="font-semibold py-4">
-                      <Link
-                        href={`/dashboard/portals/${portal.id}`}
-                        className="hover:text-primary transition-colors"
-                      >
+                      <Link href={`/dashboard/portals/${portal.id}`}>
                         {portal.name}
                       </Link>
                     </TableCell>
@@ -168,7 +167,7 @@ export default async function DashboardPage() {
                       <Link
                         href={publicUrl}
                         target="_blank"
-                        className="text-muted-foreground hover:text-foreground flex items-center gap-1.5 text-sm transition-colors"
+                        className="hover:text-accent flex items-center gap-1.5 text-sm transition-colors"
                       >
                         {publicUrl}
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -185,18 +184,19 @@ export default async function DashboardPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Link href={`/dashboard/portals/${portal.id}`} passHref>
-                          <Button variant="secondary" size="sm">
-                            Manage
-                          </Button>
-                        </Link>
+                        {/* <Link
+                          href={`/dashboard/portals/${portal.id}`}
+                          className={buttonVariants({
+                            variant: "ghost",
+                            size: "sm",
+                          })}
+                        >
+                          Manage
+                        </Link> */}
                         <Dialog>
                           <DialogTrigger
                             render={
-                                <Button
-                                  variant="ghost"
-                                  size="icon"
-                                >
+                              <Button variant="ghost" size="icon">
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             }

@@ -1,6 +1,7 @@
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { appConfig } from "@/config";
+import { ClientSessionCheck } from "@/components/client-session-check";
 
 export default function DashboardLayout({
   children,
@@ -9,6 +10,7 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="min-h-screen bg-background text-foreground flex w-full">
+      <ClientSessionCheck />
       <Sidebar />
       <main className="flex-1 md:ml-[250px] flex flex-col h-screen relative w-full">
         <div className="md:hidden flex items-center justify-between p-4 border-b border-border sticky top-0 bg-background z-10">

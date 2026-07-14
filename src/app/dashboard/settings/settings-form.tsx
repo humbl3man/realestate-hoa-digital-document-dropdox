@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { updateProfile } from "./actions";
@@ -9,6 +9,7 @@ import { appConfig } from "@/config";
 import { toast } from "sonner";
 import { Loader2, CheckCircle2, ExternalLink, Zap } from "lucide-react";
 import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 interface SettingsFormProps {
   initialName: string;
@@ -26,13 +27,20 @@ export function SettingsForm({
   async function handleSubmit(formData: FormData) {
     setIsPending(true);
     const result = await updateProfile(formData);
-    setIsPending(false);
 
     if (result.error) {
+      setIsPending(false);
       toast.error("Error", {
         description: result.error,
       });
     } else {
+      // Sync the updated name to the client-side session cache
+      // so the sidebar and other components react instantly
+      await authClient.updateUser({
+        name: formData.get("name") as string,
+      });
+      setIsPending(false);
+
       toast.success("Success", {
         description: "Your profile has been updated.",
       });
@@ -60,7 +68,7 @@ export function SettingsForm({
               required
             />
           </div>
-          <Button type="submit" disabled={isPending}>
+          <Button variant="secondary" type="submit" disabled={isPending}>
             {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             Save Changes
           </Button>
@@ -73,7 +81,7 @@ export function SettingsForm({
       {/* Payouts / Stripe Connect */}
       <div>
         <div className="mb-6">
-          <h2 className="text-lg font-medium">Payouts</h2>
+          <h2 className="text-lg font-medium mb-2">Payouts</h2>
           <p className="text-sm text-muted-foreground">
             Connect your Stripe account to receive payments from document sales.
             The platform retains a {appConfig.platformFeePercentage}% fee on
@@ -83,21 +91,21 @@ export function SettingsForm({
 
         {stripeAccountId ? (
           // Connected state
-          <div className="rounded-xl border border-emerald-600 bg-emerald-50 p-5 space-y-4">
+          <div className="rounded-xl border-2 border-success/50 p-5 space-y-4">
             <div className="flex items-center gap-6">
               <div>
                 <CheckCircle2
                   width={30}
                   height={30}
-                  className="text-emerald-600 shrink-0"
+                  className="shrink-0 text-success"
                 />
               </div>
               <div>
-                <p className="text-lg font-semibold text-green-800 mb-1">
+                <p className="text-lg text-success font-semibold mb-1">
                   Stripe account connected
                 </p>
                 {stripeAccountEmail && (
-                  <p className="text-xs text-muted-foreground mt-0.5">
+                  <p className="text-xs text-success-foreground mt-0.5">
                     {stripeAccountEmail}
                   </p>
                 )}
@@ -105,7 +113,10 @@ export function SettingsForm({
                   href="/api/stripe/dashboard"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                  className={buttonVariants({
+                    variant: "ghost",
+                    size: "sm",
+                  })}
                 >
                   <ExternalLink className="w-4 h-4" />
                   Open Stripe Dashboard

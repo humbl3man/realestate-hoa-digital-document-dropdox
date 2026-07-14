@@ -2,7 +2,11 @@
 
 import { useState, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { deleteDocumentAction, updatePortal } from "../../actions";
+import {
+  deleteDocumentAction,
+  updatePortal,
+  deletePortal,
+} from "../../actions";
 import { appConfig } from "@/config";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -14,6 +18,16 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -67,6 +81,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   const [savingSettings, setSavingSettings] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [deletingPortal, setDeletingPortal] = useState(false);
 
   const [settingsError, setSettingsError] = useState("");
   const [uploadError, setUploadError] = useState("");
@@ -169,6 +184,18 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
       alert(err?.message || "Failed to delete document.");
     } finally {
       setDeletingId(null);
+    }
+  };
+
+  const handleDeletePortal = async () => {
+    setDeletingPortal(true);
+    try {
+      await deletePortal(portal.id);
+      toast.success("Portal deleted successfully!");
+      router.push("/dashboard");
+    } catch (err: any) {
+      toast.error(err?.message || "Failed to delete portal.");
+      setDeletingPortal(false);
     }
   };
 
@@ -369,8 +396,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
         </div>
 
         {/* Right: Settings Form */}
-        <div>
-          <Card className="bg-card border-border shadow-sm sticky top-24">
+        <div className="space-y-6 sticky top-24 self-start">
+          <Card className="bg-card border-border shadow-sm">
             <CardHeader>
               <CardTitle className="text-card-foreground text-lg">
                 Portal Settings
@@ -438,7 +465,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     Price (USD)
                   </Label>
                   <div className="flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
+                    <span className="in line-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
                       $
                     </span>
                     <Input
@@ -463,6 +490,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
                 <Button
                   type="submit"
+                  variant="secondary"
                   className="w-full mt-2"
                   disabled={savingSettings}
                 >
@@ -479,6 +507,59 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   )}
                 </Button>
               </form>
+              <Dialog>
+                <DialogTrigger
+                  render={
+                    <Button
+                      type="button"
+                      variant="destructive"
+                      className="w-full mt-4"
+                      disabled={deletingPortal}
+                    />
+                  }
+                >
+                  {deletingPortal ? (
+                    <>
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                      Deleting...
+                    </>
+                  ) : (
+                    <>
+                      <Trash2 className="mr-2 h-4 w-4" />
+                      Delete Portal
+                    </>
+                  )}
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle>Delete Portal</DialogTitle>
+                    <DialogDescription>
+                      Are you sure you want to delete this portal? This action
+                      cannot be undone and all associated documents will be
+                      permanently removed.
+                    </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter>
+                    <DialogClose render={<Button variant="outline" />}>
+                      Cancel
+                    </DialogClose>
+                    <Button
+                      variant="destructive"
+                      onClick={handleDeletePortal}
+                      disabled={deletingPortal}
+                    >
+                      {deletingPortal ? (
+                        <>
+                          <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                          Deleting...
+                        </>
+                      ) : (
+                        "Delete Portal"
+                      )}
+                    </Button>
+                  </DialogFooter>
+                </DialogContent>
+              </Dialog>
             </CardContent>
           </Card>
         </div>

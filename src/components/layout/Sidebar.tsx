@@ -11,6 +11,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { appConfig } from "@/config";
+import { authClient } from "@/lib/auth-client";
+import { Button } from "../ui/button";
 
 export const navigation = [
   { name: "Portals", href: "/dashboard", icon: LayoutDashboard },
@@ -20,9 +22,14 @@ export const navigation = [
 
 export function Sidebar() {
   const pathname = usePathname();
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  const initial = user?.name
+    ? user.name.charAt(0).toUpperCase()
+    : user?.email?.charAt(0).toUpperCase() || "?";
 
   return (
-    <aside className="hidden md:flex w-[250px] border-r border-sidebar-border bg-sidebar h-full flex-col fixed left-0 top-0 text-sidebar-foreground">
+    <aside className="hidden md:flex w-[250px] border-r border-secondary/10 bg-secondary/1 h-full flex-col fixed left-0 top-0 text-sidebar-foreground">
       <div className="p-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
@@ -44,8 +51,8 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-sm font-medium",
                 isActive
-                  ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                  : "hover:bg-sidebar-primary/10 hover:text-sidebar-accent-foreground text-muted-foreground",
+                  ? "bg-secondary text-secondary-foreground"
+                  : "hover:bg-secondary/10 hover:text-sidebar-accent-foreground text-muted-foreground",
               )}
             >
               <item.icon size={18} />
@@ -55,15 +62,27 @@ export function Sidebar() {
         })}
       </nav>
 
-      <div className="p-4 border-t border-sidebar-border">
+      <div className="p-4 border-t border-secondary/15">
+        {user && (
+          <div className="flex items-center gap-3 p-3 mb-2 bg-secondary/5 border border-secondary/15">
+            <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-primary/50 text-foreground font-semibold text-sm">
+              {initial}
+            </div>
+            <div className="flex flex-col min-w-0 flex-1">
+              <span className="text-sm font-medium text-sidebar-foreground truncate">
+                {user.name || "User"}
+              </span>
+              <span className="text-xs text-muted-foreground truncate">
+                {user.email}
+              </span>
+            </div>
+          </div>
+        )}
         <form action="/api/logout" method="POST">
-          <button
-            type="submit"
-            className="flex w-full items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-sidebar-accent hover:text-destructive text-muted-foreground transition-colors"
-          >
+          <Button type="submit" variant="ghost" className="w-full">
             <LogOut size={18} />
             Sign Out
-          </button>
+          </Button>
         </form>
       </div>
     </aside>

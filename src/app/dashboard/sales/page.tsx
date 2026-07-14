@@ -39,16 +39,22 @@ export default async function SalesPage() {
           <DollarSign className="w-10 h-10 text-slate-400" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold tracking-tight mb-2 text-slate-900">
+          <h2 className="text-2xl font-bold tracking-tight mb-2">
             Start Selling Documents
           </h2>
-          <p className="text-slate-500 mb-6 leading-relaxed">
+          <p className="text-muted mb-6 leading-relaxed">
             Connect your Stripe account to start accepting payments and view
             your sales history here.
           </p>
-          <Button asChild className="w-full">
-            <Link href="/api/stripe/connect">Connect Stripe Account</Link>
-          </Button>
+          <Link
+            href="/api/stripe/connect"
+            className={buttonVariants({
+              variant: "default",
+            })}
+          >
+            Connect Stripe Account
+            <ExternalLink />
+          </Link>
         </div>
       </div>
     );
@@ -93,7 +99,7 @@ export default async function SalesPage() {
             href="/api/stripe/dashboard"
             target="_blank"
             rel="noopener noreferrer"
-            className={buttonVariants({ variant: "secondary" })}
+            className={buttonVariants({ variant: "ghost" })}
           >
             View in Stripe
             <ExternalLink className="w-4 h-4 ml-2" />
@@ -113,12 +119,15 @@ export default async function SalesPage() {
             When you sell a document bundle, the transaction details will appear
             here.
           </p>
-          <Button asChild variant="outline">
-            <Link href="/dashboard">
-              <PlusCircle className="w-4 h-4 mr-2" />
-              Create a Portal
-            </Link>
-          </Button>
+          <Link
+            href="/dashboard"
+            className={buttonVariants({
+              variant: "default",
+            })}
+          >
+            <PlusCircle className="w-4 h-4 mr-2" />
+            Create a Portal
+          </Link>
         </div>
       ) : (
         <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
