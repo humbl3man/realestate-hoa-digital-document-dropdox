@@ -6,6 +6,7 @@ import { createPortal } from "./actions";
 import { appConfig } from "@/config";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   Dialog,
@@ -23,6 +24,7 @@ export function CreatePortalDialog() {
   const [open, setOpen] = useState(false);
   const [name, setName] = useState("");
   const [slug, setSlug] = useState("");
+  const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
@@ -55,6 +57,11 @@ export function CreatePortalDialog() {
       return;
     }
 
+    if (description.length > 100) {
+      setError("Description must be 100 characters or less.");
+      return;
+    }
+
     setLoading(true);
     setError("");
 
@@ -62,10 +69,12 @@ export function CreatePortalDialog() {
       const result = await createPortal({
         name,
         slug: slugify(slug), // ensure valid slug format
+        description: description || undefined,
         priceInCents: Math.round(parsedPrice * 100),
       });
       setName("");
       setSlug("");
+      setDescription("");
       setPrice("");
       setOpen(false);
       router.push(`/dashboard/portals/${result.id}`);
@@ -96,7 +105,11 @@ export function CreatePortalDialog() {
             bundle.
           </DialogDescription>
         </DialogHeader>
-        <form onSubmit={handleSubmit} className="space-y-4 py-4">
+        <form
+          id="create-portal-form"
+          onSubmit={handleSubmit}
+          className="space-y-4 pt-4 pb-2"
+        >
           <div className="space-y-2">
             <Label
               htmlFor="name"
@@ -109,7 +122,7 @@ export function CreatePortalDialog() {
               placeholder="e.g. Oakwood HOA Disclosures"
               value={name}
               onChange={handleNameChange}
-              className="bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+              className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
               required
               disabled={loading}
             />
@@ -130,11 +143,31 @@ export function CreatePortalDialog() {
                 placeholder="oakwood-hoa"
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
-                className="rounded-l-none bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+                className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
                 required
                 disabled={loading}
               />
             </div>
+          </div>
+          <div className="space-y-2">
+            <Label
+              htmlFor="description"
+              className="text-sm font-medium text-foreground"
+            >
+              Description (Optional)
+            </Label>
+            <Textarea
+              id="description"
+              placeholder="e.g. Official document package required for property transfer..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              maxLength={100}
+              className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary resize-none"
+              disabled={loading}
+            />
+            <p className="text-[10px] text-muted-foreground leading-normal mt-1">
+              {description.length}/100 characters.
+            </p>
           </div>
           <div className="space-y-2">
             <Label
@@ -152,10 +185,10 @@ export function CreatePortalDialog() {
                 type="number"
                 step="0.01"
                 min="0.01"
-                placeholder="35.00"
+                placeholder="100.00"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="rounded-l-none bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+                className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
                 required
                 disabled={loading}
               />
@@ -166,27 +199,32 @@ export function CreatePortalDialog() {
             </p>
           </div>
           {error && <FormError>{error}</FormError>}
-          <DialogFooter className="mt-2">
-            <Button
-              type="button"
-              variant="outline"
-              onClick={() => setOpen(false)}
-              disabled={loading}
-            >
-              Cancel
-            </Button>
-            <Button type="submit" id="create-portal-submit" disabled={loading}>
-              {loading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Creating...
-                </>
-              ) : (
-                "Create Portal"
-              )}
-            </Button>
-          </DialogFooter>
         </form>
+        <DialogFooter className="mt-2">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setOpen(false)}
+            disabled={loading}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            form="create-portal-form"
+            id="create-portal-submit"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Creating...
+              </>
+            ) : (
+              "Create Portal"
+            )}
+          </Button>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

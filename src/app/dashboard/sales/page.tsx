@@ -130,7 +130,7 @@ export default async function SalesPage() {
           </Link>
         </div>
       ) : (
-        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden shadow-sm">
+        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
           <Table>
             <TableHeader className="bg-slate-50/50">
               <TableRow>

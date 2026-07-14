@@ -10,7 +10,7 @@ import { randomUUID } from "crypto";
 import { deleteDocument } from "@/lib/supabase";
 import { stripe } from "@/lib/stripe";
 
-export async function createPortal(formData: { name: string; slug: string; priceInCents: number }) {
+export async function createPortal(formData: { name: string; slug: string; priceInCents: number; description?: string }) {
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -21,6 +21,10 @@ export async function createPortal(formData: { name: string; slug: string; price
 
   if (!formData.name || !formData.slug || formData.priceInCents <= 0) {
     throw new Error("Invalid inputs");
+  }
+
+  if (formData.description && formData.description.length > 100) {
+    throw new Error("Description must be 100 characters or less.");
   }
 
   // Server-side guard: Stripe account must be connected AND fully onboarded before creating portals
@@ -66,6 +70,7 @@ export async function createPortal(formData: { name: string; slug: string; price
     userId: session.user.id,
     name: formData.name,
     slug: cleanSlug,
+    description: formData.description || null,
     priceInCents: formData.priceInCents,
     createdAt: new Date(),
   });
@@ -129,7 +134,7 @@ export async function deleteDocumentAction(docId: string, portalId: string) {
 
 export async function updatePortal(
   portalId: string,
-  formData: { name: string; slug: string; priceInCents: number }
+  formData: { name: string; slug: string; priceInCents: number; description?: string }
 ) {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -142,6 +147,10 @@ export async function updatePortal(
   const [portal] = await db.select().from(portals).where(eq(portals.id, portalId)).limit(1);
   if (!portal || portal.userId !== session.user.id) {
     throw new Error("Unauthorized");
+  }
+
+  if (formData.description && formData.description.length > 100) {
+    throw new Error("Description must be 100 characters or less.");
   }
 
   const cleanSlug = formData.slug
@@ -166,6 +175,7 @@ export async function updatePortal(
     .set({
       name: formData.name,
       slug: cleanSlug,
+      description: formData.description || null,
       priceInCents: formData.priceInCents,
     })
     .where(eq(portals.id, portalId));

@@ -15,7 +15,7 @@ export default function NotFound() {
   return (
     <div className="min-h-screen w-full flex flex-col items-center bg-slate-50 text-slate-900 font-sans">
       <main className="flex-1 w-full flex flex-col items-center justify-center p-4 sm:p-8">
-        <Card className="w-full max-w-lg bg-white border border-slate-200 shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <Card className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
           <CardHeader className="text-center pt-10 pb-8 border-b border-slate-100">
             <div className="mx-auto inline-flex items-center justify-center w-16 h-16 bg-slate-50 text-slate-400 rounded-full mb-4 ring-8 ring-slate-50/50">
               <FileQuestion size={32} />

@@ -10,6 +10,7 @@ export const portals = sqliteTable("portals", {
     .references(() => user.id, { onDelete: "cascade" }),
   name: text("name").notNull(),
   slug: text("slug").unique().notNull(),
+  description: text("description"),
   priceInCents: integer("price_in_cents").notNull(),
   isActive: integer("is_active", { mode: "boolean" }).default(true).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),

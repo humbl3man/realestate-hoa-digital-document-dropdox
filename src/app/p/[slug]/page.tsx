@@ -70,7 +70,7 @@ export default async function PublicPortalPage({
           </div>
         )}
 
-        <Card className="w-full max-w-lg bg-white border border-slate-200 shadow-xl shadow-slate-200/50 rounded-2xl overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
+        <Card className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
           <CardHeader className="text-center pt-10 pb-8 border-b border-slate-100">
             <div className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-secondary text-xs font-semibold rounded-full mb-4">
               <ShieldCheck size={14} />
@@ -80,8 +80,8 @@ export default async function PublicPortalPage({
               {portal.name}
             </CardTitle>
             <CardDescription className="text-slate-500 mt-3 text-base max-w-sm mx-auto leading-relaxed">
-              Official document package required for property transfer,
-              disclosures, and home buyer due diligence.
+              {portal.description ||
+                "Official document package required for property transfer, disclosures, and home buyer due diligence."}
             </CardDescription>
           </CardHeader>
 

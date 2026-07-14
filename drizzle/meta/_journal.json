@@ -8,6 +8,13 @@
       "when": 1782838720521,
       "tag": "0000_silly_drax",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1784069016120,
+      "tag": "0001_cool_gamora",
+      "breakpoints": true
     }
   ]
 }

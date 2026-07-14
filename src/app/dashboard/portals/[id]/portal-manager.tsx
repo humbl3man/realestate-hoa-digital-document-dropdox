@@ -10,6 +10,7 @@ import {
 import { appConfig } from "@/config";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   Card,
@@ -64,6 +65,7 @@ interface Portal {
   userId: string;
   name: string;
   slug: string;
+  description: string | null;
   priceInCents: number;
   createdAt: Date;
 }
@@ -76,6 +78,7 @@ interface PortalManagerProps {
 export function PortalManager({ portal, documents }: PortalManagerProps) {
   const [name, setName] = useState(portal.name);
   const [slug, setSlug] = useState(portal.slug);
+  const [description, setDescription] = useState(portal.description || "");
   const [price, setPrice] = useState((portal.priceInCents / 100).toFixed(2));
 
   const [savingSettings, setSavingSettings] = useState(false);
@@ -102,10 +105,17 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
       return;
     }
 
+    if (description.length > 100) {
+      setSettingsError("Description must be 100 characters or less.");
+      setSavingSettings(false);
+      return;
+    }
+
     try {
       await updatePortal(portal.id, {
         name,
         slug: slug.toLowerCase().replace(/[^a-z0-9-_]/g, ""),
+        description: description || undefined,
         priceInCents: Math.round(parsedPrice * 100),
       });
       toast.success("Settings saved successfully!");
@@ -246,7 +256,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
         {/* Left/Middle: Document list & Uploader */}
         <div className="lg:col-span-2 space-y-8">
           {/* Uploader Card */}
-          <Card className="bg-card border-border shadow-sm">
+          <Card className="bg-card border-border">
             <CardHeader>
               <CardTitle className="text-card-foreground text-lg">
                 Upload PDF Files
@@ -310,7 +320,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
           </Card>
 
           {/* Documents Table */}
-          <Card className="bg-card border-border shadow-sm">
+          <Card className="bg-card border-border">
             <CardHeader>
               <CardTitle className="text-card-foreground text-lg">
                 Documents in Bundle ({documents.length})
@@ -323,8 +333,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
             <CardContent className="p-0 border-t border-border">
               {documents.length === 0 ? (
                 <div className="text-center py-12 flex flex-col items-center">
-                  <FileText className="w-12 h-12 text-muted/30 mb-3" />
-                  <h3 className="text-sm font-medium text-foreground">
+                  <FileText className="w-12 h-12 text-secondary mb-3" />
+                  <h3 className="font-medium text-lg text-foreground">
                     No documents yet
                   </h3>
                   <p className="text-sm text-muted-foreground mt-1 max-w-sm">
@@ -397,7 +407,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
         {/* Right: Settings Form */}
         <div className="space-y-6 sticky top-24 self-start">
-          <Card className="bg-card border-border shadow-sm">
+          <Card className="bg-secondary/2 border-border">
             <CardHeader>
               <CardTitle className="text-card-foreground text-lg">
                 Portal Settings
@@ -419,7 +429,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+                    className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
                     required
                     disabled={savingSettings}
                   />
@@ -447,7 +457,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                             .replace(/[^a-z0-9-_]/g, ""),
                         );
                       }}
-                      className="rounded-l-none bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+                      className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
                       required
                       disabled={savingSettings}
                     />
@@ -455,6 +465,26 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   <p className="text-[10px] text-muted-foreground leading-normal">
                     Portal URL preview:{" "}
                     <code className="text-foreground">{`/p/${slug}`}</code>
+                  </p>
+                </div>
+                <div className="space-y-1.5">
+                  <Label
+                    htmlFor="description"
+                    className="text-xs font-medium text-foreground"
+                  >
+                    Description (Optional)
+                  </Label>
+                  <Textarea
+                    id="description"
+                    placeholder="e.g. Official document package required for property transfer..."
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                    maxLength={100}
+                    className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary resize-none"
+                    disabled={savingSettings}
+                  />
+                  <p className="text-[10px] text-muted-foreground leading-normal mt-1">
+                    {description.length}/100 characters.
                   </p>
                 </div>
                 <div className="space-y-1.5">
@@ -474,8 +504,9 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                       step="0.01"
                       min="0.01"
                       value={price}
+                      placeholder="100.00"
                       onChange={(e) => setPrice(e.target.value)}
-                      className="rounded-l-none bg-background border-border text-foreground placeholder-muted-foreground focus-visible:ring-primary focus-visible:border-primary"
+                      className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
                       required
                       disabled={savingSettings}
                     />

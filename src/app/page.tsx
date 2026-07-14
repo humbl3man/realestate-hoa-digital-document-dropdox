@@ -127,7 +127,7 @@ export default async function LandingPage() {
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-32">
           {/* Feature 1 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 shadow-sm transition-colors">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 transition-colors">
             <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-6">
               <Shield size={24} />
             </div>
@@ -141,7 +141,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Feature 2 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 shadow-sm transition-colors">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 transition-colors">
             <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center mb-6">
               <FolderOpen size={24} />
             </div>
@@ -155,7 +155,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Feature 3 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 shadow-sm transition-colors">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 transition-colors">
             <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-6">
               <CircleDollarSign size={24} />
             </div>
