@@ -226,16 +226,18 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
       <div className="flex items-center justify-between">
         <Link
           href="/dashboard"
-          className="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className={buttonVariants({
+            variant: "ghost",
+          })}
         >
-          <ArrowLeft className="mr-2 h-4 w-4" />
+          <ArrowLeft className="h-4 w-4" />
           Back to Dashboard
         </Link>
         <Link
           href={publicPortalUrl}
           target="_blank"
           className={buttonVariants({
-            variant: "secondary",
+            variant: "accent",
           })}
         >
           View Public Page
