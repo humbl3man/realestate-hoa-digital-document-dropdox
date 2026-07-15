@@ -203,7 +203,7 @@ export function CreatePortalDialog() {
         <DialogFooter className="mt-2">
           <Button
             type="button"
-            variant="outline"
+            variant="ghost"
             onClick={() => setOpen(false)}
             disabled={loading}
           >

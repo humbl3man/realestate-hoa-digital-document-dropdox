@@ -573,7 +573,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
-                    <DialogClose render={<Button variant="outline" />}>
+                    <DialogClose render={<Button variant="ghost" />}>
                       Cancel
                     </DialogClose>
                     <Button

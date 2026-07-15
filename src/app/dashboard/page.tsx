@@ -34,12 +34,7 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import {
-  ExternalLink,
-  FolderKanban,
-  Trash2,
-  AlertTriangle,
-} from "lucide-react";
+import { ExternalLink, FolderKanban, Trash2, Unplug } from "lucide-react";
 
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
@@ -94,31 +89,34 @@ export default async function DashboardPage() {
             Portal Manager
           </h1>
           <p className="text-muted-foreground mt-1 text-sm">
-            Create and manage your HOA digital document storefronts.
+            Create and manage your digital document portals
           </p>
         </div>
         {stripeConnected && <CreatePortalDialog />}
       </div>
 
-      {/* Stripe not connected warning banner */}
-      {!stripeConnected && (
-        <div className="flex items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-4 text-amber-900">
-          <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5 text-amber-600" />
-          <div className="text-sm">
-            <span className="font-semibold">Stripe not connected.</span> You
-            must{" "}
+      {!stripeConnected ? (
+        <Card className="py-12 text-center bg-secondary/3 border-none">
+          <CardHeader>
+            <div className="p-2 bg-secondary/10 mx-auto rounded-md mb-6">
+              <Unplug width={35} height={35} />
+            </div>
+            <CardTitle className="text-2xl">Stripe Not Connected</CardTitle>
+            <CardDescription className="max-w-sm mx-auto">
+              Before you can create document portals or accept payments, you
+              need to connect your Stripe account.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
             <Link
               href="/api/stripe/connect"
-              className="underline underline-offset-2 hover:text-amber-700 font-medium"
+              className={buttonVariants({ variant: "secondary" })}
             >
-              connect your Stripe account
-            </Link>{" "}
-            `` before you can create portals or accept payments.
-          </div>
-        </div>
-      )}
-
-      {userPortals.length === 0 ? (
+              Connect Stripe Account
+            </Link>
+          </CardContent>
+        </Card>
+      ) : userPortals.length === 0 ? (
         <Card className="border-dashed py-12 text-center bg-transparent">
           <CardHeader>
             <div className="mx-auto w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-2">
@@ -130,11 +128,9 @@ export default async function DashboardPage() {
               able to upload files and set a price.
             </CardDescription>
           </CardHeader>
-          {stripeConnected && (
-            <CardContent>
-              <CreatePortalDialog />
-            </CardContent>
-          )}
+          <CardContent>
+            <CreatePortalDialog />
+          </CardContent>
         </Card>
       ) : (
         <div className="bg-card border border-border rounded-xl overflow-hidden">
@@ -210,9 +206,7 @@ export default async function DashboardPage() {
                               </DialogDescription>
                             </DialogHeader>
                             <DialogFooter>
-                              <DialogClose
-                                render={<Button variant="outline" />}
-                              >
+                              <DialogClose render={<Button variant="ghost" />}>
                                 Cancel
                               </DialogClose>
                               <form

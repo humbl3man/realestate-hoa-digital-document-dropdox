@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { updateProfile } from "./actions";
 import { appConfig } from "@/config";
 import { toast } from "sonner";
-import { Loader2, CheckCircle2, ExternalLink, Zap } from "lucide-react";
+import { Loader2, CheckCircle2, ExternalLink, Zap, Unplug } from "lucide-react";
 import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 
@@ -83,7 +83,12 @@ export function SettingsForm({
         <div className="mb-6">
           <h2 className="text-lg font-medium mb-2">Payouts</h2>
           <p className="text-sm text-muted-foreground">
-            Connect your Stripe account to receive payments from document sales.
+            {!stripeAccountId && (
+              <>
+                Connect your Stripe account to receive payments from document
+                sales.
+              </>
+            )}
             The platform retains a {appConfig.platformFeePercentage}% fee on
             each transaction.
           </p>
@@ -91,44 +96,24 @@ export function SettingsForm({
 
         {stripeAccountId ? (
           // Connected state
-          <div className="rounded-xl border-2 border-success/50 p-5 space-y-4">
-            <div className="flex items-center gap-6">
-              <div>
-                <CheckCircle2
-                  width={30}
-                  height={30}
-                  className="shrink-0 text-success"
-                />
-              </div>
-              <div>
-                <p className="text-lg text-success font-semibold mb-1">
-                  Stripe account connected
-                </p>
-                {stripeAccountEmail && (
-                  <p className="text-xs text-success-foreground mt-0.5">
-                    {stripeAccountEmail}
-                  </p>
-                )}
-                <Link
-                  href="/api/stripe/dashboard"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={buttonVariants({
-                    variant: "ghost",
-                    size: "sm",
-                  })}
-                >
-                  <ExternalLink className="w-4 h-4" />
-                  Open Stripe Dashboard
-                </Link>
-              </div>
-            </div>
-          </div>
+          <>
+            <Link
+              href="/api/stripe/dashboard"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonVariants({
+                variant: "secondary",
+              })}
+            >
+              <ExternalLink className="w-4 h-4" />
+              Open Stripe Dashboard
+            </Link>
+          </>
         ) : (
           // Not connected state
-          <div className="rounded-xl border border-border bg-muted/30 p-5 space-y-4">
+          <div className="rounded-xl bg-secondary/3 p-5 space-y-4">
             <div className="flex items-start gap-3">
-              <Zap className="w-5 h-5 text-muted-foreground shrink-0 mt-0.5" />
+              <Unplug className="w-5 h-5 text-muted-foreground shrink-0 mt-2" />
               <p className="text-sm text-muted-foreground leading-relaxed">
                 You haven&apos;t connected a Stripe account yet. Once connected,
                 buyers will be able to purchase your document bundles and
@@ -136,7 +121,11 @@ export function SettingsForm({
               </p>
             </div>
             <a href="/api/stripe/connect">
-              <Button id="stripe-connect-button" className="w-full sm:w-auto">
+              <Button
+                id="stripe-connect-button"
+                variant="secondary"
+                className="w-full sm:w-auto"
+              >
                 Connect with Stripe
               </Button>
             </a>
