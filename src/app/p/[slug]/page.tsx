@@ -57,12 +57,12 @@ export default async function PublicPortalPage({
     <div className="min-h-screen w-full flex flex-col items-center bg-slate-50 text-slate-900 font-sans">
       <main className="flex-1 w-full flex flex-col items-center justify-center p-4 sm:p-8">
         {purchased === "true" && (
-          <div className="w-full max-w-lg mb-6 p-5 bg-emerald-50 border border-emerald-200 text-emerald-800 rounded-xl flex flex-col items-center text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
-            <ShieldCheck className="w-10 h-10 text-emerald-600 mb-2" />
-            <h3 className="font-bold font-heading text-lg text-emerald-900">
+          <div className="w-full max-w-lg mb-6 p-5 border-2 border-accent/20 bg-accent/5 rounded-xl flex flex-col items-center text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
+            <ShieldCheck className="w-10 h-10 text-accent mb-2" />
+            <h3 className="font-bold font-heading text-lg">
               Purchase Complete
             </h3>
-            <p className="text-sm text-emerald-700 leading-relaxed">
+            <p className="text-sm leading-relaxed">
               We{`'`}ve emailed your secure, expiring download link to the
               address provided during checkout. Please check your inbox (and
               spam folder) within the next few minutes.

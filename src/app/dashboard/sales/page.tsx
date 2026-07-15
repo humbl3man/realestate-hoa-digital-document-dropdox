@@ -6,7 +6,7 @@ import { eq, desc } from "drizzle-orm";
 import { redirect } from "next/navigation";
 import { appConfig } from "@/config";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { ExternalLink, DollarSign, PlusCircle } from "lucide-react";
+import { ExternalLink, DollarSign, PlusCircle, ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import {
   Table,
@@ -122,11 +122,11 @@ export default async function SalesPage() {
           <Link
             href="/dashboard"
             className={buttonVariants({
-              variant: "default",
+              variant: "secondary",
             })}
           >
-            <PlusCircle className="w-4 h-4 mr-2" />
-            Create a Portal
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Go to Dashboard
           </Link>
         </div>
       ) : (

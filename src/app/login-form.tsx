@@ -6,7 +6,13 @@ import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2, Sparkles, AlertCircle, FileText } from "lucide-react";
+import {
+  Loader2,
+  Sparkles,
+  AlertCircle,
+  FileText,
+  MailCheck,
+} from "lucide-react";
 import { appConfig } from "@/config";
 
 export function LoginForm() {
@@ -91,13 +97,18 @@ export function LoginForm() {
 
       <div className="w-full">
         {sent ? (
-          <div className="space-y-4 p-4 animate-in fade-in zoom-in-95 duration-300 bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 rounded-xl">
-            <h3 className="text-lg font-medium">Check your email</h3>
-            <p className="text-sm text-emerald-700">
-              We sent a secure sign-in link to{" "}
-              <span className="font-semibold text-emerald-900">{email}</span>.
-              Click the link to log in.
-            </p>
+          <div className="p-4 animate-in fade-in zoom-in-95 duration-300 bg-accent/10 border border-accent/30 rounded-xl flex gap-6 items-center">
+            <MailCheck width={40} height={40} />
+            <div>
+              <h3 className="text-lg font-medium">Check your email</h3>
+              <p className="text-sm text-foreground-muted">
+                We sent a secure sign-in link to{" "}
+                <span className="font-bold">{email}</span>.
+              </p>
+              <p className="text-sm text-foreground-muted mt-2">
+                Click the link to log in.
+              </p>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>

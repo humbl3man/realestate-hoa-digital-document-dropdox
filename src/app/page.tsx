@@ -2,7 +2,7 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import {
   FileText,
   Shield,
@@ -75,14 +75,6 @@ export default async function LandingPage() {
 
       {/* Main Content */}
       <main className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-20 pb-32 flex flex-col items-center text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-emerald-100/50 border border-border mb-12">
-          <span className="flex h-2 w-2 rounded-full bg-emerald-500 shadow-[0_0_8px_#10b981]"></span>
-          <span className="text-sm font-medium text-secondary-foreground">
-            The smart portal for HOA, Real Estate Agents, and Landlords
-          </span>
-        </div>
-
         {/* Hero Typography */}
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent pb-1 bg-clip-text bg-linear-to-br from-foreground via-foreground to-muted-foreground max-w-4xl mb-8">
           Securely share documents and collect payments effortlessly.
@@ -95,39 +87,26 @@ export default async function LandingPage() {
         </p>
 
         {/* CTA */}
-        <div className="flex flex-col sm:flex-row items-center gap-4">
-          {session ? (
-            <Link href="/dashboard">
-              <Button
-                size="lg"
-                className="rounded-full px-8 h-14 text-base font-semibold transition-all group"
-              >
-                Go to Dashboard
-                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </Button>
-            </Link>
-          ) : (
-            <>
-              <Link href="/login">
-                <Button
-                  size="lg"
-                  className="rounded-full px-8 h-14 text-base font-semibold transition-all group"
-                >
-                  Create a free account
-                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </Button>
-              </Link>
-              <p className="text-sm text-muted-foreground sm:hidden">
-                Requires easy Stripe setup
-              </p>
-            </>
-          )}
+        <div className="flex flex-col gap-2">
+          <Link
+            href="/login"
+            className={buttonVariants({
+              variant: "accent",
+              size: "xl",
+            })}
+          >
+            Create a free account
+            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+          </Link>
+          <p className="text-xs text-muted-foreground">
+            Requires easy Stripe setup
+          </p>
         </div>
 
         {/* Features Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-32">
           {/* Feature 1 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 transition-colors">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
             <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-6">
               <Shield size={24} />
             </div>
@@ -141,7 +120,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Feature 2 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 transition-colors">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
             <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center mb-6">
               <FolderOpen size={24} />
             </div>
@@ -155,7 +134,7 @@ export default async function LandingPage() {
           </div>
 
           {/* Feature 3 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border hover:bg-secondary/50 transition-colors">
+          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
             <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-6">
               <CircleDollarSign size={24} />
             </div>
