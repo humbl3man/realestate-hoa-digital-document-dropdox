@@ -56,17 +56,19 @@ export default async function LandingPage() {
             <>
               <Link
                 href="/login"
-                className="hidden sm:inline-block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className={buttonVariants({
+                  variant: "ghost",
+                })}
               >
                 Login
               </Link>
-              <Link href="/login">
-                <Button
-                  variant="default"
-                  className="rounded-full px-6 transition-all font-medium"
-                >
-                  Create Account
-                </Button>
+              <Link
+                href="/login"
+                className={buttonVariants({
+                  variant: "accent",
+                })}
+              >
+                Create Account
               </Link>
             </>
           )}
