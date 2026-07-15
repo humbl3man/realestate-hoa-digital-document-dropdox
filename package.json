@@ -11,7 +11,9 @@
     "db:push": "drizzle-kit push",
     "db:studio": "drizzle-kit studio",
     "stripe:listen": "node scripts/stripe-listen.js",
+    "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:ci": "vitest run --coverage",
     "test:watch": "vitest",
     "test:e2e": "playwright test"
   },

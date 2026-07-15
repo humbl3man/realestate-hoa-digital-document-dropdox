@@ -39,6 +39,7 @@ export const auth = betterAuth({
 
 if (process.env.E2E_MOCK === "true") {
   const originalGetSession = auth.api.getSession;
+  // @ts-expect-error — intentional E2E mock override; signature doesn't match strict API type
   auth.api.getSession = async (opts: any) => {
     const reqHeaders = await opts?.headers;
     const cookieHeader = reqHeaders?.get("cookie") || "";
