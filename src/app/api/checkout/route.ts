@@ -7,11 +7,22 @@ import { appConfig } from "@/config";
 
 export async function POST(req: NextRequest) {
   try {
+    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
     const formData = await req.formData();
     const portalId = formData.get("portalId") as string | null;
 
+    const referer = req.headers.get("referer");
+    const fallbackErrorRedirect = (errorCode: string) => {
+      if (referer) {
+        const url = new URL(referer);
+        url.searchParams.set("error", errorCode);
+        return NextResponse.redirect(url.toString(), { status: 303 });
+      }
+      return new NextResponse(`Checkout Error: ${errorCode}`, { status: 400 });
+    };
+
     if (!portalId) {
-      return new NextResponse("Missing portalId", { status: 400 });
+      return fallbackErrorRedirect("not-found");
     }
 
     const [portal] = await db
@@ -21,12 +32,12 @@ export async function POST(req: NextRequest) {
       .limit(1);
 
     if (!portal) {
-      return new NextResponse("Portal not found", { status: 404 });
+      return fallbackErrorRedirect("not-found");
     }
 
     // Reject purchases for deactivated portals (e.g. seller disconnected Stripe)
     if (!portal.isActive) {
-      return new NextResponse("This portal is currently unavailable", { status: 403 });
+      return NextResponse.redirect(`${appUrl}/p/${portal.slug}?error=unavailable`, { status: 303 });
     }
 
     // Fetch the portal owner's connected Stripe account
@@ -37,14 +48,11 @@ export async function POST(req: NextRequest) {
       .limit(1);
 
     if (!portalOwner?.stripeAccountId) {
-      return new NextResponse("Portal owner has not connected a Stripe account", { status: 400 });
+      return NextResponse.redirect(`${appUrl}/p/${portal.slug}?error=not-connected`, { status: 303 });
     }
 
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
-
     // Calculate platform fee
-    const feePercentage = appConfig.platformFeePercentage;
-    const platformFee = Math.round(portal.priceInCents * (feePercentage / 100));
+    const platformFee = Math.round(portal.priceInCents * (appConfig.platformFeePercentage / 100));
 
     // Create Stripe Checkout Session using Destination Charges
     // Funds go to the seller; platform fee is retained by us
@@ -54,8 +62,8 @@ export async function POST(req: NextRequest) {
           price_data: {
             currency: "usd",
             product_data: {
-              name: `${portal.name} - HOA Disclosures`,
-              description: "ZIP archive containing uploaded HOA disclosure documents",
+              name: `${portal.name} Documents`,
+              description: portal.description || "ZIP archive containing uploaded documents",
             },
             unit_amount: portal.priceInCents,
           },

@@ -15,7 +15,7 @@ import { FileText, ShieldCheck, Mail, ArrowRight, Lock } from "lucide-react";
 
 interface PageProps {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ purchased?: string }>;
+  searchParams: Promise<{ purchased?: string; error?: string }>;
 }
 
 export default async function PublicPortalPage({
@@ -23,7 +23,7 @@ export default async function PublicPortalPage({
   searchParams,
 }: PageProps) {
   const { slug } = await params;
-  const { purchased } = await searchParams;
+  const { purchased, error } = await searchParams;
 
   // Fetch portal
   const [portal] = await db
@@ -70,6 +70,20 @@ export default async function PublicPortalPage({
           </div>
         )}
 
+        {error && (
+          <div className="w-full max-w-lg mb-6 p-5 bg-destructive/10 text-destructive rounded-xl flex flex-col items-center text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
+            <h3 className="font-bold font-heading text-lg">
+              Checkout Unavailable
+            </h3>
+            <p className="text-sm leading-relaxed">
+              {error === "unavailable" && "This portal is currently unavailable for purchase."}
+              {error === "not-connected" && "The portal owner has not fully connected their payment account."}
+              {error === "not-found" && "The requested portal was not found."}
+              {!["unavailable", "not-connected", "not-found"].includes(error) && "An unexpected error occurred during checkout. Please try again."}
+            </p>
+          </div>
+        )}
+
         <Card className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
           <CardHeader className="text-center pt-10 pb-8 border-b border-slate-100">
             <div className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 text-secondary text-xs font-semibold rounded-full mb-4">
@@ -81,7 +95,7 @@ export default async function PublicPortalPage({
             </CardTitle>
             <CardDescription className="text-slate-500 mt-3 text-base max-w-sm mx-auto leading-relaxed">
               {portal.description ||
-                "Official document package required for property transfer, disclosures, and home buyer due diligence."}
+                "Official document package for secure distribution and due diligence."}
             </CardDescription>
           </CardHeader>
 

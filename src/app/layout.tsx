@@ -12,7 +12,7 @@ import { Toaster } from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: appConfig.name,
-  description: "Securely purchase and download HOA document bundles.",
+  description: "Securely purchase and download document bundles.",
 };
 
 export default function RootLayout({

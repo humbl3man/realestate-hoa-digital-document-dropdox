@@ -478,7 +478,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   </Label>
                   <Textarea
                     id="description"
-                    placeholder="e.g. Official document package required for property transfer..."
+                    placeholder="e.g. Official document package for secure distribution..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     maxLength={100}

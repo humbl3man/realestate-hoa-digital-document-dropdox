@@ -101,8 +101,7 @@ export function CreatePortalDialog() {
             Create Document Portal
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">
-            Configure a portal where buyers can purchase your HOA disclosure
-            bundle.
+            Configure a portal where buyers can purchase your document bundle.
           </DialogDescription>
         </DialogHeader>
         <form
@@ -119,7 +118,7 @@ export function CreatePortalDialog() {
             </Label>
             <Input
               id="name"
-              placeholder="e.g. Oakwood HOA Disclosures"
+              placeholder="e.g. Property Documents"
               value={name}
               onChange={handleNameChange}
               className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
@@ -140,7 +139,7 @@ export function CreatePortalDialog() {
               </span>
               <Input
                 id="slug"
-                placeholder="oakwood-hoa"
+                placeholder="property-documents"
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
                 className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
