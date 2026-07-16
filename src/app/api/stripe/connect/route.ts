@@ -44,14 +44,32 @@ export async function GET(req: NextRequest) {
     }
 
     // Generate a one-time onboarding link
-    const accountLink = await stripe.accountLinks.create({
-      account: stripeAccountId as string,
-      refresh_url: `${appUrl}/api/stripe/connect`,
-      return_url: `${appUrl}/api/stripe/callback`,
-      type: "account_onboarding",
-    });
+    try {
+      const accountLink = await stripe.accountLinks.create({
+        account: stripeAccountId as string,
+        refresh_url: `${appUrl}/api/stripe/connect`,
+        return_url: `${appUrl}/api/stripe/callback`,
+        type: "account_onboarding",
+      });
 
-    return NextResponse.redirect(accountLink.url);
+      return NextResponse.redirect(accountLink.url);
+    } catch (err: unknown) {
+      const message = err instanceof Error ? err.message : String(err);
+      
+      // Auto-heal if the database contains a stale/invalid Stripe Account ID 
+      // (Common when switching between local/staging environments sharing the same DB)
+      if (message.includes("not connected to your platform") || message.includes("does not exist")) {
+        console.log("Auto-healing stale Stripe Account ID for user:", session.user.id);
+        await db
+          .update(user)
+          .set({ stripeAccountId: null })
+          .where(eq(user.id, session.user.id));
+          
+        return NextResponse.redirect(new URL("/api/stripe/connect", req.url));
+      }
+      
+      throw err; // re-throw if it's a different error
+    }
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : String(err);
     console.error("Stripe connect error:", err);
