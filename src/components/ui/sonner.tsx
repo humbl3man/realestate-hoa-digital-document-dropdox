@@ -11,7 +11,8 @@ import {
 } from "lucide-react";
 
 const Toaster = ({ ...props }: ToasterProps) => {
-  const { theme = "system" } = useTheme();
+  // TODO: When the user changes the theme, the toast should update to "system"
+  const { theme = "light" } = useTheme();
 
   return (
     <Sonner
