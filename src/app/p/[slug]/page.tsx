@@ -54,15 +54,15 @@ export default async function PublicPortalPage({
   const totalSize = docs.reduce((acc, curr) => acc + curr.fileSize, 0);
 
   return (
-    <div className="min-h-screen w-full flex flex-col items-center bg-slate-50 text-slate-900 font-sans">
+    <div className="min-h-screen w-full flex flex-col items-center bg-secondary/5 font-sans">
       <main className="flex-1 w-full flex flex-col items-center justify-center p-4 sm:p-8">
         {purchased === "true" && (
-          <div className="w-full max-w-lg mb-6 p-5 border-2 border-accent/20 bg-accent/5 rounded-xl flex flex-col items-center text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
-            <ShieldCheck className="w-10 h-10 text-accent mb-2" />
+          <div className="w-full max-w-lg mb-6 p-5 bg-success text-success-foreground rounded-xl flex flex-col items-center text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
+            <ShieldCheck className="w-10 h-10 text-success-foreground mb-2" />
             <h3 className="font-bold font-heading text-lg">
-              Purchase Complete
+              Thank you for your purchase!
             </h3>
-            <p className="text-sm leading-relaxed">
+            <p className="text-sm text-success-foreground/90 leading-relaxed">
               We{`'`}ve emailed your secure, expiring download link to the
               address provided during checkout. Please check your inbox (and
               spam folder) within the next few minutes.
@@ -72,7 +72,7 @@ export default async function PublicPortalPage({
 
         <Card className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
           <CardHeader className="text-center pt-10 pb-8 border-b border-slate-100">
-            <div className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 bg-primary/10 text-secondary text-xs font-semibold rounded-full mb-4">
+            <div className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 text-secondary text-xs font-semibold rounded-full mb-4">
               <ShieldCheck size={14} />
               Official Document Portal
             </div>
