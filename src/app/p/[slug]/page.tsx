@@ -85,7 +85,7 @@ export default async function PublicPortalPage({
         )}
 
         <Card className="w-full max-w-lg bg-white border border-slate-200 rounded-2xl overflow-hidden relative animate-in fade-in slide-in-from-bottom-4 duration-500">
-          <CardHeader className="text-center pt-10 pb-8 border-b border-slate-100">
+          <CardHeader className="shrink-0 text-center pt-10 pb-8 border-b border-slate-100">
             <div className="mx-auto inline-flex items-center gap-1.5 px-3 py-1 bg-accent/10 text-secondary text-xs font-semibold rounded-full mb-4">
               <ShieldCheck size={14} />
               Official Document Portal
@@ -173,7 +173,7 @@ export default async function PublicPortalPage({
           </CardContent>
 
           {purchased !== "true" && (
-            <CardFooter className="bg-slate-50 p-6 sm:px-10 sm:py-8 flex flex-col gap-5 border-t border-slate-100">
+            <CardFooter className="shrink-0 bg-slate-50 p-6 sm:px-10 sm:py-8 hidden sm:flex flex-col gap-5 border-t border-slate-100">
               {portal.isActive ? (
                 <form action="/api/checkout" method="POST" className="w-full">
                   <input type="hidden" name="portalId" value={portal.id} />
@@ -205,9 +205,39 @@ export default async function PublicPortalPage({
             </CardFooter>
           )}
         </Card>
+
+        {purchased !== "true" && (
+          <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 bg-white p-4 pb-[calc(1rem+env(safe-area-inset-bottom))] flex flex-col gap-4 border-t border-slate-200 shadow-[0_-10px_40px_rgba(0,0,0,0.08)]">
+            {portal.isActive ? (
+              <form action="/api/checkout" method="POST" className="w-full">
+                <input type="hidden" name="portalId" value={portal.id} />
+                <Button
+                  type="submit"
+                  variant="accent"
+                  className="w-full h-14 text-lg flex items-center justify-center gap-2"
+                  disabled={docs.length === 0}
+                >
+                  Purchase Bundle &mdash; $
+                  {(portal.priceInCents / 100).toFixed(2)}
+                  <ArrowRight className="w-5 h-5" />
+                </Button>
+              </form>
+            ) : (
+              <div className="w-full text-center py-4 px-6 rounded-xl bg-slate-100 border border-slate-200">
+                <p className="text-slate-500 text-sm font-medium">
+                  Currently unavailable.
+                </p>
+              </div>
+            )}
+            <div className="flex items-center justify-center gap-2 text-xs text-slate-500">
+              <Lock className="w-3.5 h-3.5" />
+              <span>Secure checkout via Stripe</span>
+            </div>
+          </div>
+        )}
       </main>
 
-      <footer className="w-full py-8 text-center text-slate-400 text-sm">
+      <footer className="w-full pt-8 pb-[calc(8rem+env(safe-area-inset-bottom))] sm:py-8 text-center text-slate-400 text-sm">
         <p>
           &copy; {new Date().getFullYear()} {portal.name}
         </p>
