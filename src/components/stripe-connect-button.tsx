@@ -7,7 +7,7 @@ import { Loader2 } from "lucide-react";
 export function StripeConnectButton({ children, onClick, ...props }: ButtonProps) {
   const [isConnecting, setIsConnecting] = useState(false);
 
-  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleClick: ButtonProps["onClick"] = (e) => {
     setIsConnecting(true);
     if (onClick) {
       onClick(e);
