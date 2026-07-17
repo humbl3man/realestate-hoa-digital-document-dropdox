@@ -30,9 +30,9 @@ export function MobileNav() {
       </SheetTrigger>
       <SheetContent
         side="left"
-        className="w-[250px] p-0 flex flex-col bg-sidebar text-sidebar-foreground border-sidebar-border border-r"
+        className="w-[250px] p-0 flex flex-col bg-background text-foreground border-border border-r"
       >
-        <div className="p-6 flex items-center justify-between border-b border-sidebar-border">
+        <div className="p-6 flex items-center justify-between border-b border-secondary/10">
           <div className="flex items-center gap-2">
             <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
               <FileText size={20} />
@@ -53,8 +53,8 @@ export function MobileNav() {
                 className={cn(
                   "flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-sm font-medium",
                   isActive
-                    ? "bg-sidebar-primary text-sidebar-primary-foreground"
-                    : "hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-muted-foreground",
+                    ? "bg-secondary text-secondary-foreground"
+                    : "hover:bg-secondary/10 text-muted-foreground",
                 )}
                 onClick={() => setOpen(false)}
               >
@@ -65,14 +65,14 @@ export function MobileNav() {
           })}
         </nav>
 
-        <div className="p-4 border-t border-sidebar-border">
+        <div className="p-4 border-t border-secondary/15">
           {user && (
-            <div className="flex items-center gap-3 px-3 py-3 mb-2 rounded-md bg-sidebar-primary/5 border border-sidebar-border/50">
-              <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-primary/10 text-primary font-semibold text-sm">
+            <div className="flex items-center gap-3 p-3 mb-2 bg-secondary/5 border border-secondary/15 rounded-md">
+              <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-primary/50 text-foreground font-semibold text-sm">
                 {initial}
               </div>
               <div className="flex flex-col min-w-0 flex-1">
-                <span className="text-sm font-medium text-sidebar-foreground truncate">
+                <span className="text-sm font-medium text-foreground truncate">
                   {user.name || "User"}
                 </span>
                 <span className="text-xs text-muted-foreground truncate">
@@ -82,13 +82,10 @@ export function MobileNav() {
             </div>
           )}
           <form action="/api/logout" method="POST">
-            <button
-              type="submit"
-              className="flex w-full items-center gap-3 px-3 py-2 rounded-md text-sm font-medium hover:bg-sidebar-accent hover:text-destructive text-muted-foreground transition-colors"
-            >
-              <LogOut size={18} />
+            <Button type="submit" variant="ghost" className="w-full justify-start text-muted-foreground hover:text-destructive">
+              <LogOut size={18} className="mr-2" />
               Sign Out
-            </button>
+            </Button>
           </form>
         </div>
       </SheetContent>
