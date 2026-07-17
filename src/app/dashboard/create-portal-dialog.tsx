@@ -89,7 +89,7 @@ export function CreatePortalDialog() {
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger
         render={
-          <Button id="create-portal-trigger">
+          <Button variant="accent" id="create-portal-trigger">
             <Plus className="h-4 w-4" />
             Create Portal
           </Button>
@@ -213,6 +213,7 @@ export function CreatePortalDialog() {
             form="create-portal-form"
             id="create-portal-submit"
             disabled={loading}
+            variant="accent"
           >
             {loading ? (
               <>
