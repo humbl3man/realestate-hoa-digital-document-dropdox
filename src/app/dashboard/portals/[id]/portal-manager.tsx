@@ -44,8 +44,8 @@ import {
   Trash2,
   ArrowLeft,
   Save,
-  Globe,
   ExternalLink,
+  AlertTriangle,
 } from "lucide-react";
 import Link from "next/link";
 import { FormError } from "@/components/ui/form-error";
@@ -261,6 +261,17 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left/Middle: Document list & Uploader */}
         <div className="lg:col-span-2 space-y-8">
+          {/* Disclaimer Banner */}
+          <div className="bg-accent/5 border border-accent/50 rounded-lg p-4 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-semibold mb-1">Important Privacy Notice</p>
+              <p>
+                Please ensure that you do not upload any documents containing sensitive personal information, such as Social Security Numbers (SSN), driver's license numbers, or full bank account details.
+              </p>
+            </div>
+          </div>
+
           {/* Uploader Card */}
           <Card className="bg-card border-border">
             <CardHeader>
