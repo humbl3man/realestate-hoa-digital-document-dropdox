@@ -57,18 +57,10 @@ export default async function LandingPage() {
               <Link
                 href="/login"
                 className={buttonVariants({
-                  variant: "ghost",
-                })}
-              >
-                Login
-              </Link>
-              <Link
-                href="/login"
-                className={buttonVariants({
                   variant: "accent",
                 })}
               >
-                Create Account
+                Get Started
               </Link>
             </>
           )}
@@ -93,16 +85,13 @@ export default async function LandingPage() {
           <Link
             href="/login"
             className={buttonVariants({
-              variant: "accent",
+              variant: "default",
               size: "xl",
             })}
           >
             Create a free account
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <p className="text-xs text-muted-foreground">
-            Requires easy Stripe setup
-          </p>
         </div>
 
         {/* Features Grid */}
