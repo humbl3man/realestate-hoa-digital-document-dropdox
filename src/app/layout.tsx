@@ -9,6 +9,7 @@ const inter = Inter({
 
 import { appConfig } from "@/config";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
 
 export const metadata: Metadata = {
   title: appConfig.name,
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
