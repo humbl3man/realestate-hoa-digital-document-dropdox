@@ -19,6 +19,8 @@ import {
 } from "@/components/ui/table";
 import { formatCurrency, formatDate } from "@/lib/utils";
 
+import { StripeConnectButton } from "@/components/stripe-connect-button";
+
 export default async function SalesPage() {
   const session = await auth.api.getSession({ headers: await headers() });
   if (!session) {
@@ -46,15 +48,10 @@ export default async function SalesPage() {
             Connect your Stripe account to start accepting payments and view
             your sales history here.
           </p>
-          <Link
-            href="/api/stripe/connect"
-            className={buttonVariants({
-              variant: "secondary",
-            })}
-          >
+          <StripeConnectButton variant="secondary">
             Connect Stripe Account
-            <ExternalLink />
-          </Link>
+            <ExternalLink className="ml-2 w-4 h-4 inline-block" />
+          </StripeConnectButton>
         </div>
       </div>
     );

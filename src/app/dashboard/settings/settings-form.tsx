@@ -17,6 +17,8 @@ interface SettingsFormProps {
   stripeAccountEmail: string | null;
 }
 
+import { StripeConnectButton } from "@/components/stripe-connect-button";
+
 export function SettingsForm({
   initialName,
   stripeAccountId,
@@ -120,15 +122,13 @@ export function SettingsForm({
                 payments will be sent directly to your Stripe balance.
               </p>
             </div>
-            <a href="/api/stripe/connect">
-              <Button
-                id="stripe-connect-button"
-                variant="secondary"
-                className="w-full sm:w-auto"
-              >
-                Connect with Stripe
-              </Button>
-            </a>
+            <StripeConnectButton
+              id="stripe-connect-button"
+              variant="secondary"
+              className="w-full sm:w-auto"
+            >
+              Connect with Stripe
+            </StripeConnectButton>
           </div>
         )}
       </div>

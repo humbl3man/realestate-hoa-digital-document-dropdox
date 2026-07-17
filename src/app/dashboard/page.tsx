@@ -36,6 +36,8 @@ import {
 } from "@/components/ui/dialog";
 import { ExternalLink, FolderKanban, Trash2, Unplug } from "lucide-react";
 
+import { StripeConnectButton } from "@/components/stripe-connect-button";
+
 export default async function DashboardPage() {
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -108,12 +110,9 @@ export default async function DashboardPage() {
             </CardDescription>
           </CardHeader>
           <CardContent>
-            <Link
-              href="/api/stripe/connect"
-              className={buttonVariants({ variant: "secondary" })}
-            >
+            <StripeConnectButton variant="secondary">
               Connect Stripe Account
-            </Link>
+            </StripeConnectButton>
           </CardContent>
         </Card>
       ) : userPortals.length === 0 ? (
