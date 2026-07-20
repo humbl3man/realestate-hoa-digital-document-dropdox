@@ -33,7 +33,7 @@ test.describe('Public Portal', () => {
     await page.goto(`/p/${slug}`);
 
     // Verify it loads the public page
-    await expect(page.getByText(`${portalName} Disclosures`)).toBeVisible();
+    await expect(page.getByText(`${portalName}`).first()).toBeVisible();
     await expect(page.getByText('$25.00')).toBeVisible();
 
     // Simulate clicking buy

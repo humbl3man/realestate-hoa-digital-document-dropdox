@@ -18,7 +18,7 @@ test.describe('Portals Management', () => {
     await page.goto('/dashboard');
     
     // Check if we're on the dashboard
-    await expect(page.getByRole('heading', { name: 'Manager Dashboard' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Portal Manager' })).toBeVisible();
     
     // Open dialog
     await page.getByRole('button', { name: 'Create Portal' }).first().click();
