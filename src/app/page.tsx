@@ -2,15 +2,11 @@ import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
+import { Logo } from "@/components/ui/logo";
 import { Button, buttonVariants } from "@/components/ui/button";
-import {
-  FileText,
-  Shield,
-  CircleDollarSign,
-  FolderOpen,
-  ArrowRight,
-} from "lucide-react";
+import { Shield, CircleDollarSign, FolderOpen, ArrowRight } from "lucide-react";
 import { appConfig } from "@/config";
+import { cn } from "@/lib/utils";
 
 export default async function LandingPage() {
   const session = await auth.api.getSession({
@@ -31,13 +27,8 @@ export default async function LandingPage() {
 
       {/* Header */}
       <header className="relative z-10 w-full max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-        <div className="flex items-center gap-3 group">
-          <div className="bg-primary text-foreground p-2.5 rounded-xl border border-primary/20">
-            <FileText
-              size={24}
-              className="group-hover:scale-110 transition-transform duration-300"
-            />
-          </div>
+        <div className="flex items-center gap-3">
+          <Logo width={32} height={32} />
           <span className="font-heading font-bold text-xl md:text-2xl tracking-tight text-foreground">
             {appConfig.name}
           </span>
@@ -57,10 +48,21 @@ export default async function LandingPage() {
               <Link
                 href="/login"
                 className={buttonVariants({
-                  variant: "accent",
+                  variant: "secondary",
                 })}
               >
-                Get Started
+                Create Account
+              </Link>
+              <Link
+                href="/login"
+                className={cn(
+                  buttonVariants({
+                    variant: "ghost",
+                  }),
+                  "hidden sm:flex",
+                )}
+              >
+                Login
               </Link>
             </>
           )}
@@ -75,9 +77,9 @@ export default async function LandingPage() {
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-12 leading-relaxed">
-          The modern digital dropbox designed for professionals.
-          Automate document requests, charge for downloads, and stay compliant
-          without the email chaos.
+          The modern digital dropbox designed for professionals. Automate
+          document requests, charge for downloads, and stay compliant without
+          the email chaos.
         </p>
 
         {/* CTA */}
@@ -90,12 +92,12 @@ export default async function LandingPage() {
             })}
           >
             Create a free account
-            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+            <ArrowRight className="ml-2 w-5 h-5" />
           </Link>
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-32">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-14 sm:mt-32">
           {/* Feature 1 */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
             <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-6">
@@ -105,8 +107,8 @@ export default async function LandingPage() {
               Bank-Grade Security
             </h3>
             <p className="text-muted-foreground leading-relaxed">
-              Protect sensitive information. All documents are
-              encrypted in transit and at rest.
+              Protect sensitive information. All documents are encrypted in
+              transit and at rest.
             </p>
           </div>
 

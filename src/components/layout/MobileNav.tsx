@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Logo } from "@/components/ui/logo";
 import { usePathname } from "next/navigation";
 import { Menu, FileText, LogOut } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -34,9 +35,7 @@ export function MobileNav() {
       >
         <div className="p-6 flex items-center justify-between border-b border-secondary/10">
           <div className="flex items-center gap-2">
-            <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
-              <FileText size={20} />
-            </div>
+            <Logo width={32} height={32} />
             <span className="font-heading font-semibold text-lg tracking-tight">
               {appConfig.name || "Untitled"}
             </span>
