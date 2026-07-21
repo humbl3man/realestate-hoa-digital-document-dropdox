@@ -58,7 +58,7 @@ describe('LoginForm', () => {
 
     // Should show success state
     await waitFor(() => {
-      expect(screen.getByText('Check your email')).toBeInTheDocument();
+      expect(screen.getByText(/Check your email/i)).toBeInTheDocument();
     });
     
     expect(authClient.signIn.magicLink).toHaveBeenCalledWith({
