@@ -1,8 +1,6 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Public Portal', () => {
-  const runId = Math.random().toString(36).substring(7);
-
   test.beforeEach(async ({ page }) => {
     // Intercept checkout API call
     await page.route('**/api/checkout', async (route) => {
@@ -14,6 +12,7 @@ test.describe('Public Portal', () => {
   });
 
   test('should display portal to public and allow checkout', async ({ page }) => {
+    const runId = Math.random().toString(36).substring(7);
     // First create a portal
     await page.goto('/dashboard');
     await page.getByRole('button', { name: 'Create Portal' }).first().click();
@@ -34,7 +33,7 @@ test.describe('Public Portal', () => {
 
     // Verify it loads the public page
     await expect(page.getByText(`${portalName}`).first()).toBeVisible();
-    await expect(page.getByText('$25.00')).toBeVisible();
+    await expect(page.getByText('$25.00').first()).toBeVisible();
 
     // Simulate clicking buy
     const buyButton = page.getByRole('button', { name: /Buy/i });

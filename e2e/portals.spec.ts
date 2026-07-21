@@ -1,8 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test.describe('Portals Management', () => {
-  // Generate a random string to avoid duplicate slugs in parallel test runs
-  const runId = Math.random().toString(36).substring(7);
+  // We will generate unique IDs inside each test
 
   test.beforeEach(async ({ page }) => {
     // Intercept Supabase upload API calls in case we upload a file
@@ -30,6 +29,7 @@ test.describe('Portals Management', () => {
   });
 
   test('should create a portal and redirect to management page', async ({ page }) => {
+    const runId = Math.random().toString(36).substring(7);
     await page.goto('/dashboard');
     
     await page.getByRole('button', { name: 'Create Portal' }).first().click();
@@ -52,6 +52,7 @@ test.describe('Portals Management', () => {
   });
 
   test('should not allow duplicate portal slugs', async ({ page }) => {
+    const runId = Math.random().toString(36).substring(7);
     await page.goto('/dashboard');
     
     // Create first one
