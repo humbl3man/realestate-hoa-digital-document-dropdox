@@ -452,7 +452,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     id="name"
                     value={name}
                     onChange={(e) => setName(e.target.value)}
-                    className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
+                    className="focus-visible:ring-primary focus-visible:border-primary"
                     required
                     disabled={savingSettings}
                   />
@@ -465,7 +465,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     Public Slug
                   </Label>
                   <div className="flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
+                    <span className="inline-flex items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm">
                       /p/
                     </span>
                     <Input
@@ -480,7 +480,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                             .replace(/[^a-z0-9-_]/g, ""),
                         );
                       }}
-                      className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
+                      className="rounded-l-none focus-visible:ring-primary focus-visible:border-primary"
                       required
                       disabled={savingSettings}
                     />
@@ -503,7 +503,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     maxLength={100}
-                    className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary resize-none"
+                    className="resize-none focus-visible:ring-primary focus-visible:border-primary"
                     disabled={savingSettings}
                   />
                   <p className="text-[10px] text-muted-foreground leading-normal mt-1">
@@ -518,7 +518,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     Price (USD)
                   </Label>
                   <div className="flex rounded-md shadow-sm">
-                    <span className="in line-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
+                    <span className="inline-flex items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm">
                       $
                     </span>
                     <Input
@@ -529,7 +529,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                       value={price}
                       placeholder="100.00"
                       onChange={(e) => setPrice(e.target.value)}
-                      className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
+                      className="rounded-l-none focus-visible:ring-primary focus-visible:border-primary"
                       required
                       disabled={savingSettings}
                     />

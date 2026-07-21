@@ -4,16 +4,12 @@ import { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Loader2,
-  Sparkles,
-  AlertCircle,
-  FileText,
-  MailCheck,
-} from "lucide-react";
+import { Loader2, Sparkles, AlertCircle } from "lucide-react";
 import { appConfig } from "@/config";
+import { cn } from "@/lib/utils";
+import { Logo } from "@/components/ui/logo";
 
 export function LoginForm() {
   const searchParams = useSearchParams();
@@ -80,35 +76,24 @@ export function LoginForm() {
     <div className="w-full max-w-sm mx-auto">
       <div className="flex flex-col items-start space-y-6 mb-8 w-full">
         {/* Logo Icon */}
-        <div className="bg-primary text-foreground p-2.5 rounded-xl border border-primary/20 inline-flex items-center justify-center">
-          <FileText size={24} />
-        </div>
+        <Logo width={60} height={60} />
 
         {/* Title */}
         <div className="space-y-2">
           <h2 className="text-2xl font-bold tracking-tight text-foreground">
             Sign in to {appConfig.name}
           </h2>
-          <p className="text-sm text-muted-foreground">
-            Sign in or create your account to get started
-          </p>
         </div>
       </div>
 
       <div className="w-full">
         {sent ? (
-          <div className="p-4 animate-in fade-in zoom-in-95 duration-300 bg-accent/10 border border-accent/30 rounded-xl flex gap-6 items-center">
-            <MailCheck width={40} height={40} />
-            <div>
-              <h3 className="text-lg font-medium">Check your email</h3>
-              <p className="text-sm text-foreground-muted">
-                We sent a secure sign-in link to{" "}
-                <span className="font-bold">{email}</span>.
-              </p>
-              <p className="text-sm text-foreground-muted mt-2">
-                Click the link to log in.
-              </p>
-            </div>
+          <div>
+            <p className="text-sm text-foreground-muted">
+              Check your email! We sent a secure sign-in link to{" "}
+              <span className="font-bold">{email}</span>. Click the link to log
+              in.
+            </p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
@@ -125,14 +110,13 @@ export function LoginForm() {
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="bg-background focus-visible:ring-primary focus-visible:border-primary shadow-sm h-11"
                 required
                 disabled={loading}
               />
             </div>
 
             {error && (
-              <div className="flex items-center gap-2 text-sm text-destructive bg-destructive/10 p-3 rounded-lg">
+              <div className="flex items-center gap-2 text-sm text-destructive">
                 <AlertCircle className="w-4 h-4 shrink-0" />
                 <p>{error}</p>
               </div>
@@ -140,7 +124,12 @@ export function LoginForm() {
 
             <Button
               type="submit"
-              className="w-full h-11 text-base font-semibold"
+              className={cn(
+                buttonVariants({
+                  variant: "secondary",
+                }),
+                "w-full",
+              )}
               disabled={loading}
             >
               {loading ? (
@@ -155,6 +144,10 @@ export function LoginForm() {
                 </>
               )}
             </Button>
+            <p className="text-xs text-muted-foreground mt-4">
+              If you don&apos;t have an account, one will be automatically
+              created for you.
+            </p>
           </form>
         )}
       </div>

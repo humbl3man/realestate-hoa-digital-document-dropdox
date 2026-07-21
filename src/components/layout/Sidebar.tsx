@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Logo } from "@/components/ui/logo";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
@@ -32,9 +33,7 @@ export function Sidebar() {
     <aside className="hidden md:flex w-[250px] border-r border-secondary/10 bg-secondary/1 h-full flex-col fixed left-0 top-0 text-sidebar-foreground">
       <div className="p-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
-          <div className="bg-primary text-primary-foreground p-1.5 rounded-md">
-            <FileText size={20} />
-          </div>
+          <Logo width={32} height={32} />
           <span className="font-heading font-semibold text-lg tracking-tight">
             {appConfig.name || "Untitled Digital Dropbox"}
           </span>

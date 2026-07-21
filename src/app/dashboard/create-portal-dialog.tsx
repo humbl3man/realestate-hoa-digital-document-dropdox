@@ -121,7 +121,7 @@ export function CreatePortalDialog() {
               placeholder="e.g. Property Documents"
               value={name}
               onChange={handleNameChange}
-              className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
+              className="focus-visible:ring-primary focus-visible:border-primary"
               required
               disabled={loading}
             />
@@ -134,7 +134,7 @@ export function CreatePortalDialog() {
               Public Link Slug
             </Label>
             <div className="flex rounded-md shadow-sm">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
+              <span className="inline-flex items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm">
                 /p/
               </span>
               <Input
@@ -142,7 +142,7 @@ export function CreatePortalDialog() {
                 placeholder="property-documents"
                 value={slug}
                 onChange={(e) => setSlug(e.target.value)}
-                className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
+                className="rounded-l-none focus-visible:ring-primary focus-visible:border-primary"
                 required
                 disabled={loading}
               />
@@ -161,7 +161,7 @@ export function CreatePortalDialog() {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               maxLength={100}
-              className="bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary resize-none"
+              className="resize-none focus-visible:ring-primary focus-visible:border-primary"
               disabled={loading}
             />
             <p className="text-[10px] text-muted-foreground leading-normal mt-1">
@@ -176,7 +176,7 @@ export function CreatePortalDialog() {
               Price (USD)
             </Label>
             <div className="flex rounded-md shadow-sm">
-              <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-border bg-muted text-muted-foreground text-sm">
+              <span className="inline-flex items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm">
                 $
               </span>
               <Input
@@ -187,7 +187,7 @@ export function CreatePortalDialog() {
                 placeholder="100.00"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}
-                className="rounded-l-none bg-background border-border text-foreground focus-visible:ring-primary focus-visible:border-primary"
+                className="rounded-l-none focus-visible:ring-primary focus-visible:border-primary"
                 required
                 disabled={loading}
               />
