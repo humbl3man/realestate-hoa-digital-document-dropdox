@@ -5,7 +5,7 @@ test.describe('Authentication Flow', () => {
   test.use({ storageState: { cookies: [], origins: [] } });
 
   test('should display login form', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/login');
     
     // Check if the login form is rendered
     await expect(page.getByPlaceholder('name@example.com')).toBeVisible();
@@ -13,7 +13,7 @@ test.describe('Authentication Flow', () => {
   });
 
   test('should show validation error for invalid email', async ({ page }) => {
-    await page.goto('/');
+    await page.goto('/login');
     await page.waitForTimeout(500); // Wait for React hydration
     
     await page.getByPlaceholder('name@example.com').fill('not-an-email');
@@ -29,7 +29,7 @@ test.describe('Authentication Flow', () => {
       await route.fulfill({ json });
     });
 
-    await page.goto('/');
+    await page.goto('/login');
     await page.waitForTimeout(500); // Wait for React hydration
     
     await page.getByPlaceholder('name@example.com').fill('e2e-test@example.com');

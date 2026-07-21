@@ -56,17 +56,11 @@ export default async function LandingPage() {
             <>
               <Link
                 href="/login"
-                className="hidden sm:inline-block text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                className={buttonVariants({
+                  variant: "accent",
+                })}
               >
-                Login
-              </Link>
-              <Link href="/login">
-                <Button
-                  variant="default"
-                  className="rounded-full px-6 transition-all font-medium"
-                >
-                  Create Account
-                </Button>
+                Get Started
               </Link>
             </>
           )}
@@ -81,7 +75,7 @@ export default async function LandingPage() {
         </h1>
 
         <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-12 leading-relaxed">
-          The modern digital dropbox designed for real estate professionals.
+          The modern digital dropbox designed for professionals.
           Automate document requests, charge for downloads, and stay compliant
           without the email chaos.
         </p>
@@ -91,16 +85,13 @@ export default async function LandingPage() {
           <Link
             href="/login"
             className={buttonVariants({
-              variant: "accent",
+              variant: "default",
               size: "xl",
             })}
           >
             Create a free account
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
           </Link>
-          <p className="text-xs text-muted-foreground">
-            Requires easy Stripe setup
-          </p>
         </div>
 
         {/* Features Grid */}
@@ -114,7 +105,7 @@ export default async function LandingPage() {
               Bank-Grade Security
             </h3>
             <p className="text-muted-foreground leading-relaxed">
-              Protect sensitive tenant and HOA information. All documents are
+              Protect sensitive information. All documents are
               encrypted in transit and at rest.
             </p>
           </div>
@@ -129,7 +120,7 @@ export default async function LandingPage() {
             </h3>
             <p className="text-muted-foreground leading-relaxed">
               Say goodbye to lost email attachments. Everything is automatically
-              sorted by property and resident.
+              centralized, searchable, and securely organized.
             </p>
           </div>
 

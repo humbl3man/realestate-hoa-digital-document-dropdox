@@ -15,7 +15,7 @@ export function FormError({ message, children, className }: FormErrorProps) {
   return (
     <p
       className={cn(
-        "text-xs text-destructive bg-destructive/5 p-2 rounded border border-destructive animate-in fade-in duration-200 flex items-center gap-2",
+        "text-sm text-destructive bg-destructive/5 p-2 rounded border border-destructive animate-in fade-in duration-200 flex items-center gap-2",
         className,
       )}
     >

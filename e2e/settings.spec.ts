@@ -11,7 +11,7 @@ test.describe('Settings and Stripe', () => {
     // it will show "Connected to Stripe" instead of "Connect Stripe".
     // We should assert that the Stripe integration section works.
     await expect(page.getByText('Payouts')).toBeVisible();
-    await expect(page.getByText('Stripe account connected')).toBeVisible();
+    await expect(page.getByText('Open Stripe Dashboard')).toBeVisible();
   });
 
   test('should display fee disclaimer', async ({ page }) => {

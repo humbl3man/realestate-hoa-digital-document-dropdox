@@ -9,10 +9,12 @@ const inter = Inter({
 
 import { appConfig } from "@/config";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata: Metadata = {
   title: appConfig.name,
-  description: "Securely purchase and download HOA document bundles.",
+  description: "Securely purchase and download document bundles.",
 };
 
 export default function RootLayout({
@@ -29,6 +31,8 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col bg-background text-foreground">
         {children}
         <Toaster />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );

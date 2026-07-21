@@ -44,8 +44,8 @@ import {
   Trash2,
   ArrowLeft,
   Save,
-  Globe,
   ExternalLink,
+  AlertTriangle,
 } from "lucide-react";
 import Link from "next/link";
 import { FormError } from "@/components/ui/form-error";
@@ -128,8 +128,12 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     }
   };
 
-  const uploadFile = async (file: File) => {
-    if (file.type !== "application/pdf") {
+  const uploadFiles = async (files: File[]) => {
+    const validFiles = files.filter(
+      (f) => f.type === "application/pdf" || f.name.endsWith(".pdf"),
+    );
+
+    if (validFiles.length === 0) {
       setUploadError("Only PDF files are allowed.");
       return;
     }
@@ -138,7 +142,9 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     setUploadError("");
 
     const formData = new FormData();
-    formData.append("file", file);
+    for (const file of validFiles) {
+      formData.append("file", file);
+    }
     formData.append("portalId", portal.id);
 
     try {
@@ -149,7 +155,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
       const data = await res.json();
       if (!res.ok) {
-        throw new Error(data.error || "Failed to upload file.");
+        throw new Error(data.error || "Failed to upload files.");
       }
 
       router.refresh();
@@ -161,9 +167,9 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      uploadFile(file);
+    const files = e.target.files;
+    if (files && files.length > 0) {
+      uploadFiles(Array.from(files));
     }
   };
 
@@ -179,9 +185,9 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();
     setIsDragOver(false);
-    const file = e.dataTransfer.files?.[0];
-    if (file) {
-      uploadFile(file);
+    const files = e.dataTransfer.files;
+    if (files && files.length > 0) {
+      uploadFiles(Array.from(files));
     }
   };
 
@@ -257,6 +263,20 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left/Middle: Document list & Uploader */}
         <div className="lg:col-span-2 space-y-8">
+          {/* Disclaimer Banner */}
+          <div className="bg-accent/5 border border-accent/50 rounded-lg p-4 flex items-start gap-3">
+            <AlertTriangle className="w-5 h-5 shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-semibold mb-1">Important Privacy Notice</p>
+              <p>
+                Please ensure that you do not upload any documents containing
+                sensitive personal information, such as Social Security Numbers
+                (SSN), driver&apos;s license numbers, or full bank account
+                details.
+              </p>
+            </div>
+          </div>
+
           {/* Uploader Card */}
           <Card className="bg-card border-border">
             <CardHeader>
@@ -282,6 +302,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 <input
                   id="pdf-upload"
                   type="file"
+                  multiple
                   onChange={handleFileChange}
                   onClick={(e) => {
                     e.currentTarget.value = "";
@@ -300,13 +321,13 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   </div>
                   {uploading ? (
                     <p className="text-sm font-medium text-foreground">
-                      Uploading PDF document...
+                      Uploading PDF documents...
                     </p>
                   ) : (
                     <>
                       <p className="text-sm font-medium text-foreground">
-                        Drag & drop a file here, or{" "}
-                        <span className="text-primary underline">browse</span>
+                        Drag & drop file(s) here, or{" "}
+                        <span className="text-accent underline">browse</span>
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Only PDF files are supported
@@ -478,7 +499,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   </Label>
                   <Textarea
                     id="description"
-                    placeholder="e.g. Official document package required for property transfer..."
+                    placeholder="e.g. Official document package for secure distribution..."
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     maxLength={100}
@@ -573,7 +594,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     </DialogDescription>
                   </DialogHeader>
                   <DialogFooter>
-                    <DialogClose render={<Button variant="outline" />}>
+                    <DialogClose render={<Button variant="ghost" />}>
                       Cancel
                     </DialogClose>
                     <Button

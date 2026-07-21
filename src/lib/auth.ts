@@ -26,7 +26,7 @@ export const auth = betterAuth({
           await resend.emails.send({
             from: fromEmail,
             to: email,
-            subject: "Sign in to your HOA Portal Dashboard",
+            subject: "Sign in to your Document Portal Dashboard",
             html: `<p>Click the link to sign in to your dashboard:</p><p><a href="${url}">${url}</a></p>`,
           });
         } catch (err) {
