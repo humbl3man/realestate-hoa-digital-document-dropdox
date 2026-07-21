@@ -129,8 +129,10 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   };
 
   const uploadFiles = async (files: File[]) => {
-    const validFiles = files.filter(f => f.type === "application/pdf" || f.name.endsWith(".pdf"));
-    
+    const validFiles = files.filter(
+      (f) => f.type === "application/pdf" || f.name.endsWith(".pdf"),
+    );
+
     if (validFiles.length === 0) {
       setUploadError("Only PDF files are allowed.");
       return;
@@ -267,7 +269,10 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
             <div className="text-sm">
               <p className="font-semibold mb-1">Important Privacy Notice</p>
               <p>
-                Please ensure that you do not upload any documents containing sensitive personal information, such as Social Security Numbers (SSN), driver's license numbers, or full bank account details.
+                Please ensure that you do not upload any documents containing
+                sensitive personal information, such as Social Security Numbers
+                (SSN), driver&apos;s license numbers, or full bank account
+                details.
               </p>
             </div>
           </div>
