@@ -48,7 +48,7 @@ export default async function LandingPage() {
               <Link
                 href="/login"
                 className={buttonVariants({
-                  variant: "secondary",
+                  variant: "accent",
                 })}
               >
                 Create Account
@@ -86,10 +86,13 @@ export default async function LandingPage() {
         <div className="flex flex-col gap-2">
           <Link
             href="/login"
-            className={buttonVariants({
-              variant: "default",
-              size: "xl",
-            })}
+            className={cn(
+              buttonVariants({
+                variant: "default",
+                size: "xl",
+              }),
+              "h-14 text-lg",
+            )}
           >
             Create a free account
             <ArrowRight className="ml-2 w-5 h-5" />

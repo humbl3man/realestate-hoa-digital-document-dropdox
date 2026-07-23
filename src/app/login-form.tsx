@@ -126,7 +126,7 @@ export function LoginForm() {
               type="submit"
               className={cn(
                 buttonVariants({
-                  variant: "secondary",
+                  variant: "default",
                 }),
                 "w-full",
               )}

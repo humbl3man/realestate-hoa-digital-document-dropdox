@@ -243,7 +243,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
           href={publicPortalUrl}
           target="_blank"
           className={buttonVariants({
-            variant: "accent",
+            variant: "ghost",
           })}
         >
           View Public Page
@@ -544,7 +544,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
                 <Button
                   type="submit"
-                  variant="secondary"
+                  variant="accent"
                   className="w-full mt-2"
                   disabled={savingSettings}
                 >
@@ -566,8 +566,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   render={
                     <Button
                       type="button"
-                      variant="destructive"
-                      className="w-full mt-4"
+                      variant="ghost"
+                      className="w-full mt-4 text-destructive hover:bg-destructive/10"
                       disabled={deletingPortal}
                     />
                   }
