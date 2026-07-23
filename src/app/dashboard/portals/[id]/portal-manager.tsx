@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   deleteDocumentAction,
@@ -42,11 +42,10 @@ import {
   Upload,
   FileText,
   Trash2,
-  ArrowLeft,
-  Save,
   ExternalLink,
   AlertTriangle,
   ChevronRight,
+  Save,
 } from "lucide-react";
 import Link from "next/link";
 import { FormError } from "@/components/ui/form-error";
