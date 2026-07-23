@@ -53,7 +53,6 @@ export default async function SettingsPage() {
       </div>
       
       <SettingsForm
-        initialName={session.user.name}
         stripeAccountId={isFullyConnected ? dbUser!.stripeAccountId : null}
         stripeAccountEmail={stripeAccountEmail}
       />

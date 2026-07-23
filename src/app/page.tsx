@@ -103,7 +103,7 @@ export default async function LandingPage() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-14 sm:mt-32">
           {/* Feature 1 */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
-            <div className="w-12 h-12 rounded-2xl bg-indigo-500/10 text-indigo-500 flex items-center justify-center mb-6">
+            <div className="w-12 h-12 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mb-6">
               <Shield size={24} />
             </div>
             <h3 className="text-xl font-semibold text-card-foreground mb-3">
@@ -117,7 +117,7 @@ export default async function LandingPage() {
 
           {/* Feature 2 */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
-            <div className="w-12 h-12 rounded-2xl bg-orange-500/10 text-orange-500 flex items-center justify-center mb-6">
+            <div className="w-12 h-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center mb-6">
               <FolderOpen size={24} />
             </div>
             <h3 className="text-xl font-semibold text-card-foreground mb-3">
@@ -131,7 +131,7 @@ export default async function LandingPage() {
 
           {/* Feature 3 */}
           <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
-            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-500 flex items-center justify-center mb-6">
+            <div className="w-12 h-12 rounded-2xl bg-primary/20 text-foreground flex items-center justify-center mb-6">
               <CircleDollarSign size={24} />
             </div>
             <h3 className="text-xl font-semibold text-card-foreground mb-3">

@@ -133,8 +133,8 @@ export function CreatePortalDialog() {
             >
               Public Link Slug
             </Label>
-            <div className="flex rounded-md shadow-sm">
-              <span className="inline-flex items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm">
+            <div className="flex">
+              <span className="inline-flex h-8 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
                 /p/
               </span>
               <Input
@@ -175,8 +175,8 @@ export function CreatePortalDialog() {
             >
               Price (USD)
             </Label>
-            <div className="flex rounded-md shadow-sm">
-              <span className="inline-flex items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm">
+            <div className="flex">
+              <span className="inline-flex h-8 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
                 $
               </span>
               <Input

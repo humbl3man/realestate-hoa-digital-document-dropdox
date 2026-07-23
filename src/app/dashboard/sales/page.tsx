@@ -82,26 +82,10 @@ export default async function SalesPage() {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div>
-          <h1 className="text-3xl font-heading font-bold tracking-tight text-slate-900">
-            Sales
-          </h1>
-          <p className="text-slate-500 mt-1">
-            View your recent transactions and earnings.
-          </p>
-        </div>
-        <div className="flex items-center gap-3">
-          <Link
-            href="/api/stripe/dashboard"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={buttonVariants({ variant: "ghost" })}
-          >
-            View in Stripe
-            <ExternalLink className="w-4 h-4 ml-2" />
-          </Link>
-        </div>
+      <div>
+        <h1 className="text-3xl font-heading font-bold tracking-tight">
+          Sales
+        </h1>
       </div>
 
       {sales.length === 0 ? (
@@ -127,10 +111,28 @@ export default async function SalesPage() {
           </Link>
         </div>
       ) : (
-        <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
+        <div className="rounded-xl border border-border bg-card overflow-hidden">
+          {/* Table header section */}
+          <div className="flex items-start justify-between px-6 py-5 border-b border-border">
+            <div>
+              <h2 className="text-base font-semibold text-foreground">Transactions</h2>
+              <p className="text-sm text-muted-foreground mt-0.5">
+                A list of all your recent sales including document, buyer, and earnings breakdown.
+              </p>
+            </div>
+            <Link
+              href="/api/stripe/dashboard"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={buttonVariants({ variant: "secondary", size: "sm" })}
+            >
+              View in Stripe
+              <ExternalLink className="w-3.5 h-3.5 ml-1.5" />
+            </Link>
+          </div>
           <Table>
-            <TableHeader className="bg-slate-50/50">
-              <TableRow>
+            <TableHeader>
+              <TableRow className="hover:bg-transparent">
                 <TableHead className="w-[180px]">Date</TableHead>
                 <TableHead>Document</TableHead>
                 <TableHead>Buyer</TableHead>
@@ -148,26 +150,23 @@ export default async function SalesPage() {
                 const netEarned = sale.grossAmount - platformFee;
 
                 return (
-                  <TableRow
-                    key={sale.id}
-                    className="hover:bg-slate-50/50 transition-colors"
-                  >
-                    <TableCell className="text-slate-500 text-sm">
+                  <TableRow key={sale.id}>
+                    <TableCell className="text-muted-foreground">
                       {formatDate(sale.date)}
                     </TableCell>
-                    <TableCell className="font-medium text-slate-900">
+                    <TableCell className="font-semibold text-foreground">
                       {sale.portalName}
                     </TableCell>
-                    <TableCell className="text-slate-600 text-sm">
+                    <TableCell className="text-muted-foreground">
                       {sale.buyerEmail}
                     </TableCell>
-                    <TableCell className="text-right text-slate-900">
+                    <TableCell className="text-right text-foreground">
                       {formatCurrency(sale.grossAmount)}
                     </TableCell>
-                    <TableCell className="text-right text-slate-500 text-sm">
+                    <TableCell className="text-right text-muted-foreground">
                       -{formatCurrency(platformFee)}
                     </TableCell>
-                    <TableCell className="text-right font-medium text-emerald-600">
+                    <TableCell className="text-right font-medium text-success">
                       {formatCurrency(netEarned)}
                     </TableCell>
                   </TableRow>
@@ -178,17 +177,17 @@ export default async function SalesPage() {
               <TableRow>
                 <TableCell
                   colSpan={3}
-                  className="text-right font-medium text-slate-900"
+                  className="text-right font-medium text-foreground"
                 >
                   Totals
                 </TableCell>
-                <TableCell className="text-right font-medium text-slate-900">
+                <TableCell className="text-right font-medium text-foreground">
                   {formatCurrency(totalGross)}
                 </TableCell>
-                <TableCell className="text-right text-slate-500 font-medium">
+                <TableCell className="text-right text-muted-foreground font-medium">
                   -{formatCurrency(totalFees)}
                 </TableCell>
-                <TableCell className="text-right font-medium text-emerald-600">
+                <TableCell className="text-right font-medium text-success">
                   {formatCurrency(totalNet)}
                 </TableCell>
               </TableRow>

@@ -8,7 +8,7 @@ import { stripe } from "@/lib/stripe";
 import Link from "next/link";
 import { CreatePortalDialog } from "./create-portal-dialog";
 import { deletePortal } from "./actions";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
@@ -34,7 +34,8 @@ import {
   DialogTrigger,
   DialogClose,
 } from "@/components/ui/dialog";
-import { ExternalLink, FolderKanban, Trash2, Unplug } from "lucide-react";
+import { ExternalLink, FolderKanban, Trash2, Unplug, AlertTriangle } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 import { StripeConnectButton } from "@/components/stripe-connect-button";
 
@@ -118,7 +119,7 @@ export default async function DashboardPage() {
       ) : userPortals.length === 0 ? (
         <Card className="border-dashed py-12 text-center bg-transparent">
           <CardHeader>
-            <div className="mx-auto w-12 h-12 bg-muted rounded-xl flex items-center justify-center mb-2">
+            <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-border bg-muted/40 mb-2">
               <FolderKanban className="w-6 h-6 text-muted-foreground" />
             </div>
             <CardTitle className="text-xl">No portals yet</CardTitle>
@@ -134,14 +135,14 @@ export default async function DashboardPage() {
       ) : (
         <div className="bg-card border border-border rounded-xl overflow-hidden">
           <Table>
-            <TableHeader className="bg-muted/50">
+            <TableHeader>
               <TableRow className="hover:bg-transparent">
-                <TableHead className="font-medium py-4">Portal Name</TableHead>
-                <TableHead className="font-medium">Public URL</TableHead>
-                <TableHead className="font-medium">Price</TableHead>
-                <TableHead className="font-medium">Files</TableHead>
-                <TableHead className="font-medium">Created At</TableHead>
-                <TableHead className="font-medium text-right"></TableHead>
+                <TableHead>Portal Name</TableHead>
+                <TableHead>Public URL</TableHead>
+                <TableHead>Price</TableHead>
+                <TableHead>Files</TableHead>
+                <TableHead>Created At</TableHead>
+                <TableHead className="text-right"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -149,20 +150,20 @@ export default async function DashboardPage() {
                 const fileCount = docCounts[portal.id] || 0;
                 const publicUrl = `/p/${portal.slug}`;
                 return (
-                  <TableRow
-                    key={portal.id}
-                    className="hover:bg-muted/30 transition-colors"
-                  >
-                    <TableCell className="font-semibold py-4">
-                      <Link href={`/dashboard/portals/${portal.id}`}>
+                  <TableRow key={portal.id}>
+                    <TableCell className="font-semibold text-foreground">
+                      <Link
+                        href={`/dashboard/portals/${portal.id}`}
+                        className="hover:underline underline-offset-2"
+                      >
                         {portal.name}
                       </Link>
                     </TableCell>
-                    <TableCell>
+                    <TableCell className="text-muted-foreground">
                       <Link
                         href={publicUrl}
                         target="_blank"
-                        className="hover:text-accent flex items-center gap-1.5 text-sm transition-colors"
+                        className="hover:text-accent flex items-center gap-1.5 transition-colors"
                       >
                         {publicUrl}
                         <ExternalLink className="w-3.5 h-3.5" />
@@ -171,38 +172,49 @@ export default async function DashboardPage() {
                     <TableCell className="text-muted-foreground">
                       ${(portal.priceInCents / 100).toFixed(2)}
                     </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {fileCount} files
+                    <TableCell>
+                      <span
+                        className={cn(
+                          "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset",
+                          fileCount === 0
+                            ? "bg-muted text-muted-foreground ring-border"
+                            : "bg-success/10 text-success ring-success/20",
+                        )}
+                      >
+                        {fileCount} {fileCount === 1 ? "file" : "files"}
+                      </span>
                     </TableCell>
-                    <TableCell className="text-muted-foreground text-sm">
+                    <TableCell className="text-muted-foreground">
                       {portal.createdAt.toLocaleDateString()}
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        {/* <Link
-                          href={`/dashboard/portals/${portal.id}`}
-                          className={buttonVariants({
-                            variant: "ghost",
-                            size: "sm",
-                          })}
-                        >
-                          Manage
-                        </Link> */}
                         <Dialog>
                           <DialogTrigger
                             render={
-                              <Button variant="ghost" size="icon">
+                              <Button
+                                variant="ghost"
+                                size="icon"
+                                aria-label={`Delete portal "${portal.name}"`}
+                              >
                                 <Trash2 className="w-4 h-4" />
                               </Button>
                             }
                           />
                           <DialogContent>
                             <DialogHeader>
-                              <DialogTitle>Delete Portal</DialogTitle>
-                              <DialogDescription>
-                                Are you sure you want to delete this portal?
-                                This action cannot be undone.
-                              </DialogDescription>
+                              <div className="flex items-start gap-4">
+                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-destructive/10">
+                                  <AlertTriangle className="h-5 w-5 text-destructive" />
+                                </div>
+                                <div>
+                                  <DialogTitle>Delete Portal</DialogTitle>
+                                  <DialogDescription>
+                                    Are you sure you want to delete this portal?
+                                    This action cannot be undone.
+                                  </DialogDescription>
+                                </div>
+                              </div>
                             </DialogHeader>
                             <DialogFooter>
                               <DialogClose render={<Button variant="ghost" />}>
