@@ -50,8 +50,8 @@ export function Sidebar() {
               className={cn(
                 "flex items-center gap-3 px-3 py-2 rounded-md transition-colors text-sm font-medium",
                 isActive
-                  ? "bg-secondary text-secondary-foreground"
-                  : "hover:bg-secondary/10 hover:text-sidebar-accent-foreground text-muted-foreground",
+                  ? "bg-secondary/8 text-secondary font-semibold"
+                  : "hover:bg-secondary/8 hover:text-foreground text-muted-foreground",
               )}
             >
               <item.icon size={18} />
@@ -63,8 +63,8 @@ export function Sidebar() {
 
       <div className="p-4 border-t border-secondary/15">
         {user && (
-          <div className="flex items-center gap-3 p-3 mb-2 bg-secondary/5 border border-secondary/15">
-            <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-primary/50 text-foreground font-semibold text-sm">
+          <div className="flex items-center gap-3 p-3 mb-2 bg-secondary/5 border border-secondary/15 rounded-md">
+            <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-primary text-foreground font-bold text-sm select-none">
               {initial}
             </div>
             <div className="flex flex-col min-w-0 flex-1">

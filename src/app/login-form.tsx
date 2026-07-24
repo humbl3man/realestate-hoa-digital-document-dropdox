@@ -6,7 +6,7 @@ import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Loader2, Sparkles, AlertCircle } from "lucide-react";
+import { Loader2, Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
 import { appConfig } from "@/config";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/logo";
@@ -88,12 +88,19 @@ export function LoginForm() {
 
       <div className="w-full">
         {sent ? (
-          <div>
-            <p className="text-sm text-foreground-muted">
-              Check your email! We sent a secure sign-in link to{" "}
-              <span className="font-bold">{email}</span>. Click the link to log
-              in.
-            </p>
+          <div
+            role="status"
+            className="rounded-lg border border-success/30 bg-success/8 p-4 flex items-start gap-3"
+          >
+            <CheckCircle2 className="w-5 h-5 text-success shrink-0 mt-0.5" />
+            <div className="text-sm">
+              <p className="font-semibold text-success mb-0.5">Check your inbox</p>
+              <p className="text-muted-foreground">
+                We sent a secure sign-in link to{" "}
+                <span className="font-medium text-foreground">{email}</span>.
+                Click the link to sign in.
+              </p>
+            </div>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
@@ -126,7 +133,7 @@ export function LoginForm() {
               type="submit"
               className={cn(
                 buttonVariants({
-                  variant: "secondary",
+                  variant: "default",
                 }),
                 "w-full",
               )}

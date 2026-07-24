@@ -4,20 +4,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "group/button cursor-pointer inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-bold whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
+  "group/button cursor-pointer inline-flex shrink-0 items-center justify-center rounded-sm bg-clip-padding text-sm font-bold whitespace-nowrap transition-all duration-150 outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4",
   {
     variants: {
       variant: {
-        default: "bg-primary text-foreground hover:bg-primary/90",
+        // Shadow: darker amber to stay in the yellow family
+        default:
+          "bg-primary text-foreground shadow-[4px_4px_0px_0px_#b37e00] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#b37e00] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
+        // Shadow: same navy at lower opacity for a subtle lift
         secondary:
-          "bg-secondary text-secondary-foreground hover:bg-secondary/90 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "bg-secondary text-secondary-foreground shadow-[4px_4px_0px_0px_rgba(2,48,71,0.5)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(2,48,71,0.5)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
-          "bg-transparent hover:bg-secondary/5  aria-expanded:bg-secondary/5",
+          "bg-transparent hover:bg-secondary/5 active:scale-[0.98] aria-expanded:bg-secondary/5",
+        // Shadow: darker red in the red family
         destructive:
-          "bg-destructive/10 text-destructive hover:bg-destructive/20 focus-visible:border-destructive/40 focus-visible:ring-destructive/20",
-        link: "text-primary underline-offset-4 hover:underline",
+          "bg-destructive text-white shadow-[4px_4px_0px_0px_#991b1b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#991b1b] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none focus-visible:ring-destructive/20",
+        link: "text-primary underline-offset-4 hover:underline active:scale-[0.98]",
+        // Shadow: darker teal in the cyan family
         accent:
-          "bg-accent text-accent-foreground hover:bg-accent/90 aria-expanded:bg-accent aria-expanded:text-accent-foreground",
+          "bg-accent text-accent-foreground shadow-[4px_4px_0px_0px_#155e75] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#155e75] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none aria-expanded:bg-accent aria-expanded:text-accent-foreground",
       },
       size: {
         default:

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   deleteDocumentAction,
@@ -42,10 +42,10 @@ import {
   Upload,
   FileText,
   Trash2,
-  ArrowLeft,
-  Save,
   ExternalLink,
   AlertTriangle,
+  ChevronRight,
+  Save,
 } from "lucide-react";
 import Link from "next/link";
 import { FormError } from "@/components/ui/form-error";
@@ -228,26 +228,29 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
   return (
     <div className="space-y-8 animate-in fade-in duration-300">
-      {/* Back button */}
+      {/* Header row: breadcrumb + view public link */}
       <div className="flex items-center justify-between">
-        <Link
-          href="/dashboard"
-          className={buttonVariants({
-            variant: "ghost",
-          })}
-        >
-          <ArrowLeft className="h-4 w-4" />
-          Back to Dashboard
-        </Link>
+        <nav aria-label="Breadcrumb" className="flex items-center gap-1.5 text-sm text-muted-foreground">
+          <Link
+            href="/dashboard"
+            className="hover:text-foreground transition-colors"
+          >
+            Portals
+          </Link>
+          <ChevronRight className="w-3.5 h-3.5" />
+          <span className="text-foreground font-medium truncate max-w-[200px]">
+            {portal.name}
+          </span>
+        </nav>
         <Link
           href={publicPortalUrl}
           target="_blank"
           className={buttonVariants({
-            variant: "accent",
+            variant: "ghost",
           })}
         >
           View Public Page
-          <ExternalLink width={30} height={30} />
+          <ExternalLink className="w-4 h-4" />
         </Link>
       </div>
 
@@ -355,41 +358,32 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
             </CardHeader>
             <CardContent className="p-0 border-t border-border">
               {documents.length === 0 ? (
-                <div className="text-center py-12 flex flex-col items-center">
-                  <FileText className="w-12 h-12 text-secondary mb-3" />
-                  <h3 className="font-medium text-lg text-foreground">
+                <div className="text-center py-14 px-6 flex flex-col items-center gap-3">
+                  <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-border bg-muted/40">
+                    <FileText className="w-6 h-6 text-muted-foreground" />
+                  </div>
+                  <h3 className="font-semibold text-base text-foreground">
                     No documents yet
                   </h3>
-                  <p className="text-sm text-muted-foreground mt-1 max-w-sm">
-                    Upload your first PDF document above. These files will be
-                    zipped and emailed to buyers upon successful purchase.
+                  <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+                    Upload your first PDF document using the uploader above.
+                    Buyers will receive all files as a zip archive.
                   </p>
                 </div>
               ) : (
                 <Table>
-                  <TableHeader className="bg-muted/30">
-                    <TableRow className="border-b border-border hover:bg-transparent">
-                      <TableHead className="text-muted-foreground font-medium py-3 pl-6">
-                        Filename
-                      </TableHead>
-                      <TableHead className="text-muted-foreground font-medium">
-                        Size
-                      </TableHead>
-                      <TableHead className="text-muted-foreground font-medium">
-                        Added
-                      </TableHead>
-                      <TableHead className="text-muted-foreground font-medium text-right pr-6">
-                        Action
-                      </TableHead>
+                  <TableHeader>
+                    <TableRow className="hover:bg-transparent">
+                      <TableHead className="pl-6">Filename</TableHead>
+                      <TableHead>Size</TableHead>
+                      <TableHead>Added</TableHead>
+                      <TableHead className="text-right pr-6">Action</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
                     {documents.map((doc) => (
-                      <TableRow
-                        key={doc.id}
-                        className="border-b border-border hover:bg-muted/30"
-                      >
-                        <TableCell className="font-medium text-foreground py-3 pl-6 flex items-center gap-2">
+                      <TableRow key={doc.id}>
+                        <TableCell className="font-semibold text-foreground pl-6 flex items-center gap-2">
                           <FileText className="w-4 h-4 text-muted-foreground shrink-0" />
                           <span
                             className="truncate max-w-[240px] sm:max-w-xs"
@@ -398,10 +392,10 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                             {doc.fileName}
                           </span>
                         </TableCell>
-                        <TableCell className="text-muted-foreground text-sm">
+                        <TableCell className="text-muted-foreground">
                           {formatBytes(doc.fileSize)}
                         </TableCell>
-                        <TableCell className="text-muted-foreground text-sm">
+                        <TableCell className="text-muted-foreground">
                           {new Date(doc.createdAt).toLocaleDateString()}
                         </TableCell>
                         <TableCell className="text-right pr-6">
@@ -464,8 +458,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   >
                     Public Slug
                   </Label>
-                  <div className="flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm">
+                  <div className="flex">
+                    <span className="inline-flex h-8 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
                       /p/
                     </span>
                     <Input
@@ -517,8 +511,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   >
                     Price (USD)
                   </Label>
-                  <div className="flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm">
+                  <div className="flex">
+                    <span className="inline-flex h-8 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
                       $
                     </span>
                     <Input
@@ -544,7 +538,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
                 <Button
                   type="submit"
-                  variant="secondary"
+                  variant="accent"
                   className="w-full mt-2"
                   disabled={savingSettings}
                 >
@@ -566,8 +560,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   render={
                     <Button
                       type="button"
-                      variant="destructive"
-                      className="w-full mt-4"
+                      variant="ghost"
+                      className="w-full mt-4 text-destructive hover:bg-destructive/10"
                       disabled={deletingPortal}
                     />
                   }
@@ -586,12 +580,19 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 </DialogTrigger>
                 <DialogContent>
                   <DialogHeader>
-                    <DialogTitle>Delete Portal</DialogTitle>
-                    <DialogDescription>
-                      Are you sure you want to delete this portal? This action
-                      cannot be undone and all associated documents will be
-                      permanently removed.
-                    </DialogDescription>
+                    <div className="flex items-start gap-4">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-destructive/10">
+                        <AlertTriangle className="h-5 w-5 text-destructive" />
+                      </div>
+                      <div>
+                        <DialogTitle>Delete Portal</DialogTitle>
+                        <DialogDescription>
+                          Are you sure you want to delete this portal? This action
+                          cannot be undone and all associated documents will be
+                          permanently removed.
+                        </DialogDescription>
+                      </div>
+                    </div>
                   </DialogHeader>
                   <DialogFooter>
                     <DialogClose render={<Button variant="ghost" />}>

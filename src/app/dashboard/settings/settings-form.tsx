@@ -1,85 +1,23 @@
 "use client";
 
-import { useState } from "react";
-import { Button, buttonVariants } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { updateProfile } from "./actions";
+import { buttonVariants } from "@/components/ui/button";
 import { appConfig } from "@/config";
-import { toast } from "sonner";
-import { Loader2, CheckCircle2, ExternalLink, Zap, Unplug } from "lucide-react";
+import { ExternalLink, Unplug } from "lucide-react";
 import Link from "next/link";
-import { authClient } from "@/lib/auth-client";
+
+import { StripeConnectButton } from "@/components/stripe-connect-button";
 
 interface SettingsFormProps {
-  initialName: string;
   stripeAccountId: string | null;
   stripeAccountEmail: string | null;
 }
 
-import { StripeConnectButton } from "@/components/stripe-connect-button";
-
 export function SettingsForm({
-  initialName,
   stripeAccountId,
   stripeAccountEmail,
 }: SettingsFormProps) {
-  const [isPending, setIsPending] = useState(false);
-
-  async function handleSubmit(formData: FormData) {
-    setIsPending(true);
-    const result = await updateProfile(formData);
-
-    if (result.error) {
-      setIsPending(false);
-      toast.error("Error", {
-        description: result.error,
-      });
-    } else {
-      // Sync the updated name to the client-side session cache
-      // so the sidebar and other components react instantly
-      await authClient.updateUser({
-        name: formData.get("name") as string,
-      });
-      setIsPending(false);
-
-      toast.success("Success", {
-        description: "Your profile has been updated.",
-      });
-    }
-  }
-
   return (
     <div className="space-y-8 max-w-md">
-      {/* Profile Information */}
-      <div>
-        <div className="mb-6">
-          <h2 className="text-lg font-medium">Profile Information</h2>
-          <p className="text-sm text-muted-foreground">
-            Update your personal account details.
-          </p>
-        </div>
-        <form action={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="name">Full Name</Label>
-            <Input
-              id="name"
-              name="name"
-              defaultValue={initialName}
-              placeholder="Jane Doe"
-              required
-            />
-          </div>
-          <Button variant="secondary" type="submit" disabled={isPending}>
-            {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-            Save Changes
-          </Button>
-        </form>
-      </div>
-
-      {/* Divider */}
-      <div className="border-t border-border" />
-
       {/* Payouts / Stripe Connect */}
       <div>
         <div className="mb-6">
@@ -88,7 +26,7 @@ export function SettingsForm({
             {!stripeAccountId && (
               <>
                 Connect your Stripe account to receive payments from document
-                sales.
+                sales.{" "}
               </>
             )}
             The platform retains a {appConfig.platformFeePercentage}% fee on

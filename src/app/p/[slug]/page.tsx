@@ -115,25 +115,33 @@ export default async function PublicPortalPage({
                 </p>
               ) : (
                 <div className="space-y-3">
-                  {docs.map((doc) => (
-                    <div
-                      key={doc.id}
-                      className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100"
-                    >
-                      <div className="flex items-center gap-3 min-w-0 pr-4">
-                        <div className="bg-white p-2 rounded-lg shadow-sm">
-                          <FileText className="w-4 h-4 text-emerald-600 shrink-0" />
+                  <div
+                    className={
+                      docs.length > 5
+                        ? "space-y-3 max-h-[272px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent"
+                        : "space-y-3"
+                    }
+                  >
+                    {docs.map((doc) => (
+                      <div
+                        key={doc.id}
+                        className="flex items-center justify-between p-3 rounded-xl bg-slate-50 border border-slate-100"
+                      >
+                        <div className="flex items-center gap-3 min-w-0 pr-4">
+                          <div className="bg-white p-2 rounded-lg shadow-sm">
+                            <FileText className="w-4 h-4 text-emerald-600 shrink-0" />
+                          </div>
+                          <span
+                            className="text-slate-700 text-sm font-medium truncate"
+                            title={doc.fileName}
+                          >
+                            {doc.fileName}
+                          </span>
                         </div>
-                        <span
-                          className="text-slate-700 text-sm font-medium truncate"
-                          title={doc.fileName}
-                        >
-                          {doc.fileName}
-                        </span>
+                        <Lock className="w-4 h-4 text-slate-400 shrink-0" />
                       </div>
-                      <Lock className="w-4 h-4 text-slate-400 shrink-0" />
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                   <p className="text-xs text-center text-slate-500 mt-3">
                     Files unlock immediately after purchase.
                   </p>
