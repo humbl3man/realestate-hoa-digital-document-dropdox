@@ -27,12 +27,11 @@ export async function GET(req: NextRequest) {
 
     // If no connected account yet, create one
     if (!stripeAccountId) {
-      // Use Accounts v1 API with controller properties as recommended for migrating away from legacy `type: "express"`
       const account = await stripe.accounts.create({
-        controller: {
-          fees: { payer: "application" },
-          losses: { payments: "application" },
-          stripe_dashboard: { type: "express" },
+        type: "standard",
+        business_profile: {
+          url: "https://tetherdocs.app",
+          product_description: "Property management and digital document portal services",
         },
       });
       stripeAccountId = account.id;
