@@ -47,22 +47,11 @@ export default async function LandingPage() {
             <>
               <Link
                 href="/login"
-                className={buttonVariants({
+                className={cn(buttonVariants({
                   variant: "accent",
-                })}
+                }), 'group flex items-center gap-2 px-6 transition-all duration-200')}
               >
-                Create Account
-              </Link>
-              <Link
-                href="/login"
-                className={cn(
-                  buttonVariants({
-                    variant: "ghost",
-                  }),
-                  "hidden sm:flex",
-                )}
-              >
-                Login
+                Get Started <ArrowRight width={20} height={20} className="group-hover:translate-x-1 transition-all duration-200" />
               </Link>
             </>
           )}
@@ -91,11 +80,11 @@ export default async function LandingPage() {
                 variant: "default",
                 size: "xl",
               }),
-              "h-14 text-lg",
+              "h-14 text-lg group flex items-center gap-2 px-6 transition-all duration-200",
             )}
           >
             Create a free account
-            <ArrowRight className="ml-2 w-5 h-5" />
+            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-all duration-200" />
           </Link>
         </div>
 
