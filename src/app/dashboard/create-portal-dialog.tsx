@@ -19,6 +19,7 @@ import {
 } from "@/components/ui/dialog";
 import { Loader2, Plus } from "lucide-react";
 import { FormError } from "@/components/ui/form-error";
+import { toast } from "sonner";
 
 export function CreatePortalDialog() {
   const [open, setOpen] = useState(false);
@@ -72,12 +73,21 @@ export function CreatePortalDialog() {
         description: description || undefined,
         priceInCents: Math.round(parsedPrice * 100),
       });
+
+      if (result?.error) {
+        setError(result.error);
+        return;
+      }
+
       setName("");
       setSlug("");
       setDescription("");
       setPrice("");
       setOpen(false);
-      router.push(`/dashboard/portals/${result.id}`);
+      toast.success("Portal created successfully!");
+      if (result?.id) {
+        router.push(`/dashboard/portals/${result.id}`);
+      }
     } catch (err: any) {
       setError(err?.message || "Something went wrong.");
     } finally {
