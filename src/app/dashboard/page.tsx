@@ -1,13 +1,14 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/db";
 import { portals, documents, user } from "@/db/schema";
-import { eq, inArray } from "drizzle-orm";
+import { eq, inArray, desc } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { stripe } from "@/lib/stripe";
 import Link from "next/link";
 import { CreatePortalDialog } from "./create-portal-dialog";
 import { deletePortal } from "./actions";
+import { PortalList } from "./portal-list";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -39,7 +40,12 @@ import { cn } from "@/lib/utils";
 
 import { StripeConnectButton } from "@/components/stripe-connect-button";
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ limit?: string }>;
+}) {
+  const { limit: limitParam } = await searchParams;
   const session = await auth.api.getSession({
     headers: await headers(),
   });
@@ -48,10 +54,16 @@ export default async function DashboardPage() {
     redirect("/");
   }
 
-  const userPortals = await db
+  const limit = limitParam ? parseInt(limitParam, 10) : 10;
+  const userPortalsResult = await db
     .select()
     .from(portals)
-    .where(eq(portals.userId, session.user.id));
+    .where(eq(portals.userId, session.user.id))
+    .orderBy(desc(portals.createdAt))
+    .limit(limit + 1);
+
+  const hasMore = userPortalsResult.length > limit;
+  const userPortals = userPortalsResult.slice(0, limit);
 
   // Check if user has FULLY connected their Stripe account (details submitted)
   const [dbUser] = await db
@@ -133,114 +145,11 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="bg-card border border-border rounded-xl overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent">
-                <TableHead>Portal Name</TableHead>
-                <TableHead>Public URL</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Files</TableHead>
-                <TableHead>Created At</TableHead>
-                <TableHead className="text-right"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {userPortals.map((portal) => {
-                const fileCount = docCounts[portal.id] || 0;
-                const publicUrl = `/p/${portal.slug}`;
-                return (
-                  <TableRow key={portal.id}>
-                    <TableCell className="font-semibold text-foreground">
-                      <Link
-                        href={`/dashboard/portals/${portal.id}`}
-                        className="hover:underline underline-offset-2"
-                      >
-                        {portal.name}
-                      </Link>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      <Link
-                        href={publicUrl}
-                        target="_blank"
-                        className="hover:text-accent flex items-center gap-1.5 transition-colors"
-                      >
-                        {publicUrl}
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </Link>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      ${(portal.priceInCents / 100).toFixed(2)}
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className={cn(
-                          "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset",
-                          fileCount === 0
-                            ? "bg-muted text-muted-foreground ring-border"
-                            : "bg-success/10 text-success ring-success/20",
-                        )}
-                      >
-                        {fileCount} {fileCount === 1 ? "file" : "files"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {portal.createdAt.toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <Dialog>
-                          <DialogTrigger
-                            render={
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                aria-label={`Delete portal "${portal.name}"`}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            }
-                          />
-                          <DialogContent>
-                            <DialogHeader>
-                              <div className="flex items-start gap-4">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-destructive/10">
-                                  <AlertTriangle className="h-5 w-5 text-destructive" />
-                                </div>
-                                <div>
-                                  <DialogTitle>Delete Portal</DialogTitle>
-                                  <DialogDescription>
-                                    Are you sure you want to delete this portal?
-                                    This action cannot be undone.
-                                  </DialogDescription>
-                                </div>
-                              </div>
-                            </DialogHeader>
-                            <DialogFooter>
-                              <DialogClose render={<Button variant="ghost" />}>
-                                Cancel
-                              </DialogClose>
-                              <form
-                                action={async () => {
-                                  "use server";
-                                  await deletePortal(portal.id);
-                                }}
-                              >
-                                <Button type="submit" variant="destructive">
-                                  Delete
-                                </Button>
-                              </form>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
+        <PortalList
+          initialPortals={userPortals}
+          initialDocCounts={docCounts}
+          initialHasMore={hasMore}
+        />
       )}
     </div>
   );

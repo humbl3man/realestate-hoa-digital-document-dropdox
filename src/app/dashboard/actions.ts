@@ -3,7 +3,7 @@
 import { db } from "@/db";
 import { portals, documents, user } from "@/db/schema";
 import { auth } from "@/lib/auth";
-import { eq } from "drizzle-orm";
+import { eq, desc, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { randomUUID } from "crypto";
@@ -183,4 +183,45 @@ export async function updatePortal(
   revalidatePath(`/dashboard/portals/${portalId}`);
   revalidatePath("/dashboard");
   return { success: true };
+}
+
+export async function loadMorePortals(offset: number, limit: number = 10) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (!session) {
+    throw new Error("Unauthorized");
+  }
+
+  // Fetch limit + 1 to check if there are more
+  const userPortals = await db
+    .select()
+    .from(portals)
+    .where(eq(portals.userId, session.user.id))
+    .orderBy(desc(portals.createdAt))
+    .offset(offset)
+    .limit(limit + 1);
+
+  const hasMore = userPortals.length > limit;
+  const returnedPortals = userPortals.slice(0, limit);
+
+  const docCounts: Record<string, number> = {};
+  if (returnedPortals.length > 0) {
+    const portalIds = returnedPortals.map((p) => p.id);
+    const docs = await db
+      .select({ id: documents.id, portalId: documents.portalId })
+      .from(documents)
+      .where(inArray(documents.portalId, portalIds));
+
+    docs.forEach((doc) => {
+      docCounts[doc.portalId] = (docCounts[doc.portalId] || 0) + 1;
+    });
+  }
+
+  return {
+    portals: returnedPortals,
+    docCounts,
+    hasMore,
+  };
 }
