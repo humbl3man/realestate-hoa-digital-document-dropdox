@@ -16,15 +16,15 @@ export async function createPortal(formData: { name: string; slug: string; price
   });
 
   if (!session) {
-    throw new Error("Unauthorized");
+    return { error: "Unauthorized" };
   }
 
   if (!formData.name || !formData.slug || formData.priceInCents <= 0) {
-    throw new Error("Invalid inputs");
+    return { error: "Invalid inputs" };
   }
 
   if (formData.description && formData.description.length > 100) {
-    throw new Error("Description must be 100 characters or less.");
+    return { error: "Description must be 100 characters or less." };
   }
 
   // Server-side guard: Stripe account must be connected AND fully onboarded before creating portals
@@ -35,16 +35,16 @@ export async function createPortal(formData: { name: string; slug: string; price
     .limit(1);
 
   if (!dbUser?.stripeAccountId) {
-    throw new Error(
-      "You must connect a Stripe account before creating portals. Go to Settings → Payouts to get started."
-    );
+    return {
+      error: "You must connect a Stripe account before creating portals. Go to Settings → Payouts to get started."
+    };
   }
   
   const account = await stripe.accounts.retrieve(dbUser.stripeAccountId);
   if (!account.details_submitted) {
-    throw new Error(
-      "Your Stripe account setup is incomplete. Go to Settings → Payouts to finish onboarding before creating portals."
-    );
+    return {
+      error: "Your Stripe account setup is incomplete. Go to Settings → Payouts to finish onboarding before creating portals."
+    };
   }
 
   const cleanSlug = formData.slug
@@ -60,7 +60,7 @@ export async function createPortal(formData: { name: string; slug: string; price
     .limit(1);
 
   if (existing.length > 0) {
-    throw new Error("Slug is already taken. Please choose another one.");
+    return { error: "Slug is already taken. Please choose another one." };
   }
 
   const newId = randomUUID();
@@ -141,16 +141,16 @@ export async function updatePortal(
   });
 
   if (!session) {
-    throw new Error("Unauthorized");
+    return { error: "Unauthorized" };
   }
 
   const [portal] = await db.select().from(portals).where(eq(portals.id, portalId)).limit(1);
   if (!portal || portal.userId !== session.user.id) {
-    throw new Error("Unauthorized");
+    return { error: "Unauthorized" };
   }
 
   if (formData.description && formData.description.length > 100) {
-    throw new Error("Description must be 100 characters or less.");
+    return { error: "Description must be 100 characters or less." };
   }
 
   const cleanSlug = formData.slug
@@ -166,7 +166,7 @@ export async function updatePortal(
       .limit(1);
 
     if (existing.length > 0) {
-      throw new Error("Slug is already taken. Please choose another one.");
+      return { error: "Slug is already taken. Please choose another one." };
     }
   }
 
@@ -182,4 +182,5 @@ export async function updatePortal(
 
   revalidatePath(`/dashboard/portals/${portalId}`);
   revalidatePath("/dashboard");
+  return { success: true };
 }

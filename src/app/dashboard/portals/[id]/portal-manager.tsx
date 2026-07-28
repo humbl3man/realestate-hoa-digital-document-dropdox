@@ -112,12 +112,19 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     }
 
     try {
-      await updatePortal(portal.id, {
+      const res = await updatePortal(portal.id, {
         name,
         slug: slug.toLowerCase().replace(/[^a-z0-9-_]/g, ""),
         description: description || undefined,
         priceInCents: Math.round(parsedPrice * 100),
       });
+
+      if (res?.error) {
+        setSettingsError(res.error);
+        toast.error(res.error);
+        return;
+      }
+
       toast.success("Settings saved successfully!");
       router.refresh();
     } catch (err: any) {
