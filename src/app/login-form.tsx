@@ -74,7 +74,7 @@ export function LoginForm() {
 
   return (
     <div className="w-full max-w-sm mx-auto">
-      <div className="flex flex-col items-start space-y-6 mb-8 w-full">
+      <div className="flex flex-col items-start space-y-6 mb-5 w-full">
         {/* Logo Icon */}
         <Logo width={60} height={60} />
 
@@ -83,6 +83,10 @@ export function LoginForm() {
           <h2 className="text-2xl font-bold tracking-tight text-foreground">
             Sign in to {appConfig.name}
           </h2>
+          <p className="text-sm text-muted-foreground mt-2">
+            If you don&apos;t have an account, one will be automatically
+            created for you.
+          </p>
         </div>
       </div>
 
@@ -151,10 +155,6 @@ export function LoginForm() {
                 </>
               )}
             </Button>
-            <p className="text-xs text-muted-foreground mt-4">
-              If you don&apos;t have an account, one will be automatically
-              created for you.
-            </p>
           </form>
         )}
       </div>
