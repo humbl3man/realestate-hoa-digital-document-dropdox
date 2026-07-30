@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -10,10 +10,21 @@ import { Loader2, Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
 import { appConfig } from "@/config";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/logo";
+import { AnimatedHeroBackground } from "@/components/ui/animated-hero-background";
+import { toast } from "sonner";
 
 export function LoginForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
   const urlError = searchParams.get("error");
+  const loggedOut = searchParams.get("loggedOut");
+
+  useEffect(() => {
+    if (loggedOut === "true") {
+      toast.success("Signed out successfully");
+      router.replace("/login");
+    }
+  }, [loggedOut, router]);
 
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
@@ -73,8 +84,10 @@ export function LoginForm() {
   };
 
   return (
-    <div className="w-full max-w-sm mx-auto">
-      <div className="flex flex-col items-start space-y-6 mb-5 w-full">
+    <>
+      <AnimatedHeroBackground alignCenter={true} />
+      <div className="relative z-10 w-full max-w-sm mx-auto bg-background/30 backdrop-blur-xl rounded-2xl">
+        <div className="flex flex-col items-start space-y-6 mb-5 w-full">
         {/* Logo Icon */}
         <Logo width={60} height={60} />
 
@@ -158,6 +171,7 @@ export function LoginForm() {
           </form>
         )}
       </div>
-    </div>
+      </div>
+    </>
   );
 }

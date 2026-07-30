@@ -4,7 +4,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Shield, CircleDollarSign, FolderOpen, ArrowRight } from "lucide-react";
+import { Shield, CircleDollarSign, FolderOpen, ArrowRight, Users } from "lucide-react";
+import { AnimatedHeroBackground } from "@/components/ui/animated-hero-background";
 import { appConfig } from "@/config";
 import { cn } from "@/lib/utils";
 
@@ -59,6 +60,7 @@ export default async function LandingPage() {
       </header>
 
       {/* Main Content */}
+      <AnimatedHeroBackground />
       <main className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-20 pb-32 flex flex-col items-center text-center">
         {/* Hero Typography */}
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent pb-1 bg-clip-text bg-linear-to-br from-foreground via-foreground to-muted-foreground max-w-4xl mb-8">
@@ -89,48 +91,69 @@ export default async function LandingPage() {
         </div>
 
         {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full mt-14 sm:mt-32">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 w-full max-w-5xl mt-24 sm:mt-32 text-left">
           {/* Feature 1 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
-            <div className="w-12 h-12 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mb-6">
+          <div className="flex gap-4 md:gap-6 items-start">
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center mt-1">
               <Shield size={24} />
             </div>
-            <h2 className="text-xl font-semibold text-card-foreground mb-3">
-              Bank-Grade Security
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              Protect sensitive information. All documents are encrypted in
-              transit and at rest.
-            </p>
+            <div>
+              <h2 className="text-lg font-bold text-foreground mb-2">
+                Bank-Grade Security
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Protect sensitive information. All documents are encrypted in
+                transit and at rest.
+              </p>
+            </div>
           </div>
 
           {/* Feature 2 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
-            <div className="w-12 h-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center mb-6">
+          <div className="flex gap-4 md:gap-6 items-start">
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-purple-600 text-white flex items-center justify-center mt-1">
               <FolderOpen size={24} />
             </div>
-            <h2 className="text-xl font-semibold text-card-foreground mb-3">
-              Perfect Organization
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              Say goodbye to lost email attachments. Everything is automatically
-              centralized, searchable, and securely organized.
-            </p>
+            <div>
+              <h2 className="text-lg font-bold text-foreground mb-2">
+                Perfect Organization
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Say goodbye to lost email attachments. Everything is automatically
+                centralized, searchable, and securely organized.
+              </p>
+            </div>
           </div>
 
           {/* Feature 3 */}
-          <div className="flex flex-col items-center md:items-start text-center md:text-left p-6 rounded-3xl bg-card border border-border">
-            <div className="w-12 h-12 rounded-2xl bg-primary/20 text-foreground flex items-center justify-center mb-6">
+          <div className="flex gap-4 md:gap-6 items-start">
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center mt-1">
               <CircleDollarSign size={24} />
             </div>
-            <h2 className="text-xl font-semibold text-card-foreground mb-3">
-              Monetize Downloads
-            </h2>
-            <p className="text-muted-foreground leading-relaxed">
-              Easily charge fees for CC&amp;Rs, resale certificates, and other
-              records. Payments process securely via Stripe before the download
-              unlocks.
-            </p>
+            <div>
+              <h2 className="text-lg font-bold text-foreground mb-2">
+                Monetize Downloads
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Easily charge fees for CC&amp;Rs, resale certificates, and other
+                records. Payments process securely via Stripe before the download
+                unlocks.
+              </p>
+            </div>
+          </div>
+
+          {/* Feature 4 */}
+          <div className="flex gap-4 md:gap-6 items-start">
+            <div className="shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center mt-1">
+              <Users size={24} />
+            </div>
+            <div>
+              <h2 className="text-lg font-bold text-foreground mb-2">
+                Client Portals
+              </h2>
+              <p className="text-muted-foreground leading-relaxed">
+                Provide a professional experience. Clients get a secure link to access their requested documents and payment history in one place.
+              </p>
+            </div>
           </div>
         </div>
       </main>
