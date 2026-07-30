@@ -95,9 +95,9 @@ export default async function LandingPage() {
             <div className="w-12 h-12 rounded-2xl bg-accent/10 text-accent flex items-center justify-center mb-6">
               <Shield size={24} />
             </div>
-            <h3 className="text-xl font-semibold text-card-foreground mb-3">
+            <h2 className="text-xl font-semibold text-card-foreground mb-3">
               Bank-Grade Security
-            </h3>
+            </h2>
             <p className="text-muted-foreground leading-relaxed">
               Protect sensitive information. All documents are encrypted in
               transit and at rest.
@@ -109,9 +109,9 @@ export default async function LandingPage() {
             <div className="w-12 h-12 rounded-2xl bg-secondary/10 text-secondary flex items-center justify-center mb-6">
               <FolderOpen size={24} />
             </div>
-            <h3 className="text-xl font-semibold text-card-foreground mb-3">
+            <h2 className="text-xl font-semibold text-card-foreground mb-3">
               Perfect Organization
-            </h3>
+            </h2>
             <p className="text-muted-foreground leading-relaxed">
               Say goodbye to lost email attachments. Everything is automatically
               centralized, searchable, and securely organized.
@@ -123,9 +123,9 @@ export default async function LandingPage() {
             <div className="w-12 h-12 rounded-2xl bg-primary/20 text-foreground flex items-center justify-center mb-6">
               <CircleDollarSign size={24} />
             </div>
-            <h3 className="text-xl font-semibold text-card-foreground mb-3">
+            <h2 className="text-xl font-semibold text-card-foreground mb-3">
               Monetize Downloads
-            </h3>
+            </h2>
             <p className="text-muted-foreground leading-relaxed">
               Easily charge fees for CC&amp;Rs, resale certificates, and other
               records. Payments process securely via Stripe before the download
