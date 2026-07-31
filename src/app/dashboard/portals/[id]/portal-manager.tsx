@@ -85,6 +85,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deletingPortal, setDeletingPortal] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [settingsError, setSettingsError] = useState("");
   const [uploadError, setUploadError] = useState("");
@@ -562,7 +563,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   )}
                 </Button>
               </form>
-              <Dialog>
+              <Dialog open={deleteDialogOpen} onOpenChange={deletingPortal ? undefined : setDeleteDialogOpen}>
                 <DialogTrigger
                   render={
                     <Button
@@ -602,9 +603,9 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     </div>
                   </DialogHeader>
                   <DialogFooter>
-                    <DialogClose render={<Button variant="ghost" />}>
+                    <Button variant="ghost" onClick={() => setDeleteDialogOpen(false)} disabled={deletingPortal}>
                       Cancel
-                    </DialogClose>
+                    </Button>
                     <Button
                       variant="destructive"
                       onClick={handleDeletePortal}
