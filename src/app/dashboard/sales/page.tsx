@@ -113,7 +113,7 @@ export default async function SalesPage() {
       ) : (
         <div className="rounded-xl border border-border bg-card overflow-hidden">
           {/* Table header section */}
-          <div className="flex items-start justify-between px-6 py-5 border-b border-border">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 px-6 py-5 border-b border-border">
             <div>
               <h2 className="text-base font-semibold text-foreground">Transactions</h2>
               <p className="text-sm text-muted-foreground mt-0.5">

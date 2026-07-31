@@ -1,3 +1,4 @@
+import { Logo } from "@/components/ui/logo";
 import { Sidebar } from "@/components/layout/Sidebar";
 import { MobileNav } from "@/components/layout/MobileNav";
 import { appConfig } from "@/config";
@@ -16,6 +17,7 @@ export default function DashboardLayout({
         <div className="md:hidden flex items-center justify-between p-4 border-b border-border sticky top-0 bg-background z-10">
           <MobileNav />
           <div className="flex items-center gap-2">
+            <Logo width={28} height={28} />
             <span className="font-heading font-semibold text-lg tracking-tight truncate max-w-[200px]">
               {appConfig.name || "Untitled"}
             </span>
