@@ -6,6 +6,7 @@ import { authClient } from '@/lib/auth-client';
 // Mock next/navigation
 vi.mock('next/navigation', () => ({
   useSearchParams: () => new URLSearchParams(),
+  useRouter: () => ({ push: vi.fn(), replace: vi.fn(), prefetch: vi.fn() }),
 }));
 
 // Mock authClient
