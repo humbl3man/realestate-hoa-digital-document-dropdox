@@ -17,7 +17,7 @@ export function SettingsForm({
   stripeAccountEmail,
 }: SettingsFormProps) {
   return (
-    <div className="space-y-8 max-w-md">
+    <div className="space-y-8 max-w-3xl">
       {/* Payouts / Stripe Connect */}
       <div>
         <div className="mb-6">
