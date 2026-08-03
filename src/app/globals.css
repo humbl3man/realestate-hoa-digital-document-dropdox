@@ -53,17 +53,17 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #023047;
+  --foreground: #071e3d;
   --card: #ffffff;
-  --card-foreground: #023047;
+  --card-foreground: #071e3d;
   --popover: #ffffff;
-  --popover-foreground: #023047;
+  --popover-foreground: #071e3d;
   --primary: #ffb703;
-  --primary-foreground: #023047;
-  --secondary: #023047;
+  --primary-foreground: #071e3d;
+  --secondary: #071e3d;
   --secondary-foreground: #e2f2fa;
   --muted: #e5e5e5;
-  --muted-foreground: #023047;
+  --muted-foreground: #071e3d;
   --accent: #219ebc;
   --accent-foreground: #fff;
   --destructive: #d92d20;
