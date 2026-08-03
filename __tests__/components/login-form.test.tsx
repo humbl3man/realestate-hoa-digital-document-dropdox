@@ -9,6 +9,12 @@ vi.mock('next/navigation', () => ({
   useRouter: () => ({ push: vi.fn(), replace: vi.fn(), prefetch: vi.fn() }),
 }));
 
+// Mock next-view-transitions
+vi.mock('next-view-transitions', () => ({
+  useTransitionRouter: () => ({ push: vi.fn(), replace: vi.fn(), prefetch: vi.fn() }),
+  Link: 'a',
+}));
+
 // Mock authClient
 vi.mock('@/lib/auth-client', () => ({
   authClient: {
