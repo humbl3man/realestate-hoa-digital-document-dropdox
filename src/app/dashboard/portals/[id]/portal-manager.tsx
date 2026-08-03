@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useTransition } from "react";
+import { useTransitionRouter as useRouter } from "next-view-transitions";
 import {
   deleteDocumentAction,
   updatePortal,
@@ -47,7 +47,7 @@ import {
   ChevronRight,
   Save,
 } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { FormError } from "@/components/ui/form-error";
 import { toast } from "sonner";
 
@@ -85,11 +85,13 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
   const [deletingPortal, setDeletingPortal] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 
   const [settingsError, setSettingsError] = useState("");
   const [uploadError, setUploadError] = useState("");
 
   const [isDragOver, setIsDragOver] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
   const router = useRouter();
 
@@ -135,7 +137,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     }
   };
 
-  const uploadFiles = async (files: File[]) => {
+  const uploadFiles = (files: File[]) => {
     const validFiles = files.filter(
       (f) => f.type === "application/pdf" || f.name.endsWith(".pdf"),
     );
@@ -148,29 +150,31 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     setUploading(true);
     setUploadError("");
 
-    const formData = new FormData();
-    for (const file of validFiles) {
-      formData.append("file", file);
-    }
-    formData.append("portalId", portal.id);
+    startTransition(async () => {
+      try {
+        const formData = new FormData();
+        for (const file of validFiles) {
+          formData.append("file", file);
+        }
+        formData.append("portalId", portal.id);
 
-    try {
-      const res = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
+        const res = await fetch("/api/upload", {
+          method: "POST",
+          body: formData,
+        });
 
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || "Failed to upload files.");
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.error || "Failed to upload files.");
+        }
+
+        router.refresh();
+      } catch (err: any) {
+        setUploadError(err?.message || "File upload failed.");
+      } finally {
+        setUploading(false);
       }
-
-      router.refresh();
-    } catch (err: any) {
-      setUploadError(err?.message || "File upload failed.");
-    } finally {
-      setUploading(false);
-    }
+    });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -198,28 +202,32 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     }
   };
 
-  const handleDeleteDoc = async (docId: string) => {
+  const handleDeleteDoc = (docId: string) => {
     setDeletingId(docId);
-    try {
-      await deleteDocumentAction(docId, portal.id);
-      router.refresh();
-    } catch (err: any) {
-      alert(err?.message || "Failed to delete document.");
-    } finally {
-      setDeletingId(null);
-    }
+    startTransition(async () => {
+      try {
+        await deleteDocumentAction(docId, portal.id);
+        router.refresh();
+      } catch (err: any) {
+        alert(err?.message || "Failed to delete document.");
+      } finally {
+        setDeletingId(null);
+      }
+    });
   };
 
-  const handleDeletePortal = async () => {
+  const handleDeletePortal = () => {
     setDeletingPortal(true);
-    try {
-      await deletePortal(portal.id);
-      toast.success("Portal deleted successfully!");
-      router.push("/dashboard");
-    } catch (err: any) {
-      toast.error(err?.message || "Failed to delete portal.");
-      setDeletingPortal(false);
-    }
+    startTransition(async () => {
+      try {
+        await deletePortal(portal.id);
+        toast.success("Portal deleted successfully!");
+        router.push("/dashboard");
+      } catch (err: any) {
+        toast.error(err?.message || "Failed to delete portal.");
+        setDeletingPortal(false);
+      }
+    });
   };
 
   const formatBytes = (bytes: number, decimals = 2) => {
@@ -262,7 +270,10 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
       </div>
 
       <div>
-        <h1 className="text-3xl font-extrabold tracking-tight">
+        <h1 
+          className="text-3xl font-extrabold tracking-tight w-fit inline-block"
+          style={{ viewTransitionName: `portal-name-${portal.id}` } as React.CSSProperties}
+        >
           {portal.name}
         </h1>
         <p className="text-muted-foreground mt-1">
@@ -545,7 +556,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
                 <Button
                   type="submit"
-                  variant="accent"
+                  variant="secondary"
                   className="w-full mt-2"
                   disabled={savingSettings}
                 >
@@ -562,7 +573,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   )}
                 </Button>
               </form>
-              <Dialog>
+              <Dialog open={deleteDialogOpen} onOpenChange={deletingPortal ? undefined : setDeleteDialogOpen}>
                 <DialogTrigger
                   render={
                     <Button
@@ -602,9 +613,9 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     </div>
                   </DialogHeader>
                   <DialogFooter>
-                    <DialogClose render={<Button variant="ghost" />}>
+                    <Button variant="ghost" onClick={() => setDeleteDialogOpen(false)} disabled={deletingPortal}>
                       Cancel
-                    </DialogClose>
+                    </Button>
                     <Button
                       variant="destructive"
                       onClick={handleDeletePortal}

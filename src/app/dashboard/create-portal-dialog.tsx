@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useTransitionRouter as useRouter } from "next-view-transitions";;
 import { createPortal } from "./actions";
 import { appConfig } from "@/config";
 import { Button } from "@/components/ui/button";

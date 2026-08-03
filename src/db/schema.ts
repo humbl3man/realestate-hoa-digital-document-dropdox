@@ -33,6 +33,7 @@ export const downloadSessions = sqliteTable("download_sessions", {
     .notNull()
     .references(() => portals.id, { onDelete: "cascade" }),
   email: text("email").notNull(),
+  amountInCents: integer("amount_in_cents"), // The actual amount paid in this transaction
   expiresAt: integer("expires_at", { mode: "timestamp" }).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
 });

@@ -5,10 +5,9 @@ import { eq, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { stripe } from "@/lib/stripe";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { CreatePortalDialog } from "./create-portal-dialog";
-import { deletePortal } from "./actions";
-import { Button } from "@/components/ui/button";
+import { DeletePortalDialog } from "./delete-portal-dialog";
 import {
   Card,
   CardContent,
@@ -24,19 +23,8 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-  DialogClose,
-} from "@/components/ui/dialog";
-import { ExternalLink, FolderKanban, Trash2, Unplug, AlertTriangle } from "lucide-react";
+import { ExternalLink, FolderKanban, Unplug } from "lucide-react";
 import { cn } from "@/lib/utils";
-
 import { StripeConnectButton } from "@/components/stripe-connect-button";
 
 export default async function DashboardPage() {
@@ -154,7 +142,8 @@ export default async function DashboardPage() {
                     <TableCell className="font-semibold text-foreground">
                       <Link
                         href={`/dashboard/portals/${portal.id}`}
-                        className="hover:underline underline-offset-2"
+                        className="hover:underline underline-offset-2 inline-block w-fit"
+                        style={{ viewTransitionName: `portal-name-${portal.id}` } as React.CSSProperties}
                       >
                         {portal.name}
                       </Link>
@@ -189,50 +178,7 @@ export default async function DashboardPage() {
                     </TableCell>
                     <TableCell className="text-right">
                       <div className="flex items-center justify-end gap-2">
-                        <Dialog>
-                          <DialogTrigger
-                            render={
-                              <Button
-                                variant="ghost"
-                                size="icon"
-                                aria-label={`Delete portal "${portal.name}"`}
-                              >
-                                <Trash2 className="w-4 h-4" />
-                              </Button>
-                            }
-                          />
-                          <DialogContent>
-                            <DialogHeader>
-                              <div className="flex items-start gap-4">
-                                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-destructive/10">
-                                  <AlertTriangle className="h-5 w-5 text-destructive" />
-                                </div>
-                                <div>
-                                  <DialogTitle>Delete Portal</DialogTitle>
-                                  <DialogDescription>
-                                    Are you sure you want to delete this portal?
-                                    This action cannot be undone.
-                                  </DialogDescription>
-                                </div>
-                              </div>
-                            </DialogHeader>
-                            <DialogFooter>
-                              <DialogClose render={<Button variant="ghost" />}>
-                                Cancel
-                              </DialogClose>
-                              <form
-                                action={async () => {
-                                  "use server";
-                                  await deletePortal(portal.id);
-                                }}
-                              >
-                                <Button type="submit" variant="destructive">
-                                  Delete
-                                </Button>
-                              </form>
-                            </DialogFooter>
-                          </DialogContent>
-                        </Dialog>
+                        <DeletePortalDialog portalId={portal.id} portalName={portal.name} />
                       </div>
                     </TableCell>
                   </TableRow>

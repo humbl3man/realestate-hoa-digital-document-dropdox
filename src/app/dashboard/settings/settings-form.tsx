@@ -3,7 +3,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import { appConfig } from "@/config";
 import { ExternalLink, Unplug } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 import { StripeConnectButton } from "@/components/stripe-connect-button";
 
@@ -17,7 +17,7 @@ export function SettingsForm({
   stripeAccountEmail,
 }: SettingsFormProps) {
   return (
-    <div className="space-y-8 max-w-md">
+    <div className="space-y-8 max-w-3xl">
       {/* Payouts / Stripe Connect */}
       <div>
         <div className="mb-6">

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { Logo } from "@/components/ui/logo";
 import { usePathname } from "next/navigation";
 import { Menu, FileText, LogOut } from "lucide-react";

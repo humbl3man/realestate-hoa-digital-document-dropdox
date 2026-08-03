@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { appConfig } from "@/config";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ExternalLink, DollarSign, PlusCircle, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import {
   Table,
   TableBody,
@@ -64,7 +64,8 @@ export default async function SalesPage() {
       buyerEmail: downloadSessions.email,
       date: downloadSessions.createdAt,
       portalName: portals.name,
-      grossAmount: portals.priceInCents,
+      amountInCents: downloadSessions.amountInCents,
+      portalPrice: portals.priceInCents,
     })
     .from(downloadSessions)
     .innerJoin(portals, eq(downloadSessions.portalId, portals.id))
@@ -73,9 +74,9 @@ export default async function SalesPage() {
 
   const feePercentage = appConfig.platformFeePercentage;
 
-  const totalGross = sales.reduce((acc, sale) => acc + sale.grossAmount, 0);
+  const totalGross = sales.reduce((acc, sale) => acc + (sale.amountInCents ?? sale.portalPrice), 0);
   const totalFees = sales.reduce(
-    (acc, sale) => acc + Math.round(sale.grossAmount * (feePercentage / 100)),
+    (acc, sale) => acc + Math.round((sale.amountInCents ?? sale.portalPrice) * (feePercentage / 100)),
     0,
   );
   const totalNet = totalGross - totalFees;
@@ -113,7 +114,7 @@ export default async function SalesPage() {
       ) : (
         <div className="rounded-xl border border-border bg-card overflow-hidden">
           {/* Table header section */}
-          <div className="flex items-start justify-between px-6 py-5 border-b border-border">
+          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-4 px-6 py-5 border-b border-border">
             <div>
               <h2 className="text-base font-semibold text-foreground">Transactions</h2>
               <p className="text-sm text-muted-foreground mt-0.5">
@@ -144,10 +145,11 @@ export default async function SalesPage() {
             <TableBody>
               {sales.map((sale) => {
                 const feePercentage = appConfig.platformFeePercentage;
+                const grossAmount = sale.amountInCents ?? sale.portalPrice;
                 const platformFee = Math.round(
-                  sale.grossAmount * (feePercentage / 100),
+                  grossAmount * (feePercentage / 100),
                 );
-                const netEarned = sale.grossAmount - platformFee;
+                const netEarned = grossAmount - platformFee;
 
                 return (
                   <TableRow key={sale.id}>
@@ -161,7 +163,7 @@ export default async function SalesPage() {
                       {sale.buyerEmail}
                     </TableCell>
                     <TableCell className="text-right text-foreground">
-                      {formatCurrency(sale.grossAmount)}
+                      {formatCurrency(grossAmount)}
                     </TableCell>
                     <TableCell className="text-right text-muted-foreground">
                       -{formatCurrency(platformFee)}
