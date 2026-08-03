@@ -60,6 +60,7 @@ export async function POST(req: NextRequest) {
         id: token,
         portalId: portalId,
         email: email,
+        amountInCents: session.amount_total,
         expiresAt: expiresAt,
         createdAt: new Date(),
       });

@@ -1,0 +1,1 @@
+ALTER TABLE `download_sessions` ADD `amount_in_cents` integer;
