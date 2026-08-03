@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { appConfig } from "@/config";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { ExternalLink, DollarSign, PlusCircle, ArrowLeft } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import {
   Table,
   TableBody,

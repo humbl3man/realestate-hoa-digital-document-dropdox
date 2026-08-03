@@ -5,7 +5,7 @@ import { eq, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { stripe } from "@/lib/stripe";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 import { CreatePortalDialog } from "./create-portal-dialog";
 import { DeletePortalDialog } from "./delete-portal-dialog";
 import {
@@ -142,7 +142,8 @@ export default async function DashboardPage() {
                     <TableCell className="font-semibold text-foreground">
                       <Link
                         href={`/dashboard/portals/${portal.id}`}
-                        className="hover:underline underline-offset-2"
+                        className="hover:underline underline-offset-2 inline-block w-fit"
+                        style={{ viewTransitionName: `portal-name-${portal.id}` } as React.CSSProperties}
                       >
                         {portal.name}
                       </Link>

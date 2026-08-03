@@ -3,7 +3,7 @@
 import { buttonVariants } from "@/components/ui/button";
 import { appConfig } from "@/config";
 import { ExternalLink, Unplug } from "lucide-react";
-import Link from "next/link";
+import { Link } from "next-view-transitions";
 
 import { StripeConnectButton } from "@/components/stripe-connect-button";
 

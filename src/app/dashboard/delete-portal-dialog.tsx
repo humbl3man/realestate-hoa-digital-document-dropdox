@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -23,23 +23,22 @@ export function DeletePortalDialog({
   portalName: string;
 }) {
   const [open, setOpen] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [isPending, startTransition] = useTransition();
 
-  const handleDelete = async () => {
-    setLoading(true);
-    try {
-      await deletePortal(portalId);
-      toast.success("Portal deleted successfully!");
-      setOpen(false);
-    } catch (err: any) {
-      toast.error(err?.message || "Failed to delete portal.");
-    } finally {
-      setLoading(false);
-    }
+  const handleDelete = () => {
+    startTransition(async () => {
+      try {
+        await deletePortal(portalId);
+        toast.success("Portal deleted successfully!");
+        setOpen(false);
+      } catch (err: any) {
+        toast.error(err?.message || "Failed to delete portal.");
+      }
+    });
   };
 
   return (
-    <Dialog open={open} onOpenChange={loading ? undefined : setOpen}>
+    <Dialog open={open} onOpenChange={isPending ? undefined : setOpen}>
       <DialogTrigger
         render={
           <Button
@@ -70,7 +69,7 @@ export function DeletePortalDialog({
           <Button
             variant="ghost"
             onClick={() => setOpen(false)}
-            disabled={loading}
+            disabled={isPending}
           >
             Cancel
           </Button>
@@ -78,9 +77,9 @@ export function DeletePortalDialog({
             variant="destructive"
             className="w-full sm:w-auto"
             onClick={handleDelete}
-            disabled={loading}
+            disabled={isPending}
           >
-            {loading ? (
+            {isPending ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 Deleting...

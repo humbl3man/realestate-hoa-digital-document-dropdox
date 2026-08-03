@@ -8,21 +8,17 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        // Shadow: darker amber to stay in the yellow family
         default:
-          "bg-primary text-foreground shadow-[4px_4px_0px_0px_#b37e00] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#b37e00] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none",
-        // Shadow: same navy at lower opacity for a subtle lift
+          "bg-primary text-foreground hover:opacity-90",
         secondary:
-          "bg-secondary text-secondary-foreground shadow-[4px_4px_0px_0px_rgba(2,48,71,0.5)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(2,48,71,0.5)] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
+          "bg-secondary text-secondary-foreground hover:opacity-90 aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:
-          "bg-transparent hover:bg-secondary/5 active:scale-[0.98] aria-expanded:bg-secondary/5",
-        // Shadow: darker red in the red family
+          "bg-transparent hover:bg-secondary/5 aria-expanded:bg-secondary/5",
         destructive:
-          "bg-destructive text-white shadow-[4px_4px_0px_0px_#991b1b] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#991b1b] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none focus-visible:ring-destructive/20",
-        link: "text-primary underline-offset-4 hover:underline active:scale-[0.98]",
-        // Shadow: darker teal in the cyan family
+          "bg-destructive text-white hover:opacity-90 focus-visible:ring-destructive/20",
+        link: "text-primary underline-offset-4 hover:underline",
         accent:
-          "bg-accent text-accent-foreground shadow-[4px_4px_0px_0px_#155e75] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#155e75] active:translate-x-[4px] active:translate-y-[4px] active:shadow-none aria-expanded:bg-accent aria-expanded:text-accent-foreground",
+          "bg-accent text-accent-foreground hover:opacity-90 aria-expanded:bg-accent aria-expanded:text-accent-foreground",
       },
       size: {
         default:
