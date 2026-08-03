@@ -556,7 +556,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
                 <Button
                   type="submit"
-                  variant="accent"
+                  variant="secondary"
                   className="w-full mt-2"
                   disabled={savingSettings}
                 >
