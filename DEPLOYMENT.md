@@ -46,7 +46,18 @@ _Commit this new `.sql` file to your git repository._
 
 You can apply migrations from your local machine to the production Turso database using Drizzle Kit.
 
-In your PowerShell terminal, temporarily set your production database credentials and run the migration command:
+In your terminal, temporarily set your production database credentials and run the migration command:
+
+**For macOS/Linux (Bash/Zsh):**
+
+```bash
+export DATABASE_URL="libsql://your-database-url.turso.io"
+export DATABASE_AUTH_TOKEN="your-production-auth-token-here"
+
+npx drizzle-kit migrate
+```
+
+**For Windows (PowerShell):**
 
 ```powershell
 $env:DATABASE_URL="libsql://your-database-url.turso.io"
