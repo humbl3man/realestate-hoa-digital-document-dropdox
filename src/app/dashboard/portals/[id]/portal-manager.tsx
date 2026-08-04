@@ -38,6 +38,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import {
+  Attachment,
+  AttachmentGroup,
+  AttachmentMedia,
+  AttachmentContent,
+  AttachmentTitle,
+  AttachmentDescription,
+  AttachmentActions,
+  AttachmentAction,
+} from "@/components/ui/attachment";
+import {
   Loader2,
   Upload,
   FileText,
@@ -364,7 +374,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
           </Card>
 
           {/* Documents Table */}
-          <Card className="bg-card border-border">
+          <Card className="bg-card border-border pb-0">
             <CardHeader>
               <CardTitle className="text-card-foreground text-lg">
                 Documents in Bundle ({documents.length})
@@ -376,7 +386,12 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
             </CardHeader>
             <CardContent className="p-0 border-t border-border">
               {documents.length === 0 ? (
-                <div className="text-center py-14 px-6 flex flex-col items-center gap-3">
+                <div className="text-center py-14 px-6 flex flex-col items-center gap-3 relative">
+                  {isPending && (
+                    <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-b-xl">
+                      <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                    </div>
+                  )}
                   <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full border-2 border-dashed border-border bg-muted/40">
                     <FileText className="w-6 h-6 text-muted-foreground" />
                   </div>
@@ -389,37 +404,29 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   </p>
                 </div>
               ) : (
-                <Table>
-                  <TableHeader>
-                    <TableRow className="hover:bg-transparent">
-                      <TableHead className="pl-6">Filename</TableHead>
-                      <TableHead>Size</TableHead>
-                      <TableHead>Added</TableHead>
-                      <TableHead className="text-right pr-6">Action</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                <div className="p-4 bg-secondary/2 relative">
+                  {isPending && (
+                    <div className="absolute inset-0 bg-background/50 backdrop-blur-sm flex items-center justify-center z-10 rounded-b-xl">
+                      <Loader2 className="w-8 h-8 animate-spin text-primary" />
+                    </div>
+                  )}
+                  <AttachmentGroup className="flex-col gap-3 w-full overflow-visible px-0">
                     {documents.map((doc) => (
-                      <TableRow key={doc.id}>
-                        <TableCell className="font-semibold text-foreground pl-6 flex items-center gap-2">
-                          <FileText className="w-4 h-4 text-muted-foreground shrink-0" />
-                          <span
-                            className="truncate max-w-[240px] sm:max-w-xs"
-                            title={doc.fileName}
-                          >
-                            {doc.fileName}
-                          </span>
-                        </TableCell>
-                        <TableCell className="text-muted-foreground">
-                          {formatBytes(doc.fileSize)}
-                        </TableCell>
-                        <TableCell className="text-muted-foreground">
-                          {new Date(doc.createdAt).toLocaleDateString()}
-                        </TableCell>
-                        <TableCell className="text-right pr-6">
-                          <Button
+                      <Attachment key={doc.id} size="default" orientation="horizontal" className="w-full">
+                        <AttachmentMedia variant="icon">
+                          <FileText className="w-5 h-5 text-muted-foreground" />
+                        </AttachmentMedia>
+                        <AttachmentContent>
+                          <AttachmentTitle>{doc.fileName}</AttachmentTitle>
+                          <AttachmentDescription>
+                            {formatBytes(doc.fileSize)} • {new Date(doc.createdAt).toLocaleDateString()}
+                          </AttachmentDescription>
+                        </AttachmentContent>
+                        <AttachmentActions>
+                          <AttachmentAction
                             variant="ghost"
                             size="icon"
+                            className="h-8 w-8 text-muted-foreground hover:text-destructive"
                             disabled={deletingId === doc.id}
                             onClick={() => handleDeleteDoc(doc.id)}
                             aria-label={`Delete ${doc.fileName}`}
@@ -429,12 +436,12 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                             ) : (
                               <Trash2 className="w-4 h-4" />
                             )}
-                          </Button>
-                        </TableCell>
-                      </TableRow>
+                          </AttachmentAction>
+                        </AttachmentActions>
+                      </Attachment>
                     ))}
-                  </TableBody>
-                </Table>
+                  </AttachmentGroup>
+                </div>
               )}
             </CardContent>
           </Card>
