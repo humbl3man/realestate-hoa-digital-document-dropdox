@@ -71,7 +71,7 @@ describe('LoginForm', () => {
     expect(authClient.signIn.magicLink).toHaveBeenCalledWith({
       email: 'test@example.com',
       callbackURL: '/dashboard',
-      errorCallbackURL: '/',
+      errorCallbackURL: '/login',
     });
   });
 
