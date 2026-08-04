@@ -4,7 +4,7 @@ import { redirect } from "next/navigation";
 import { Link } from "next-view-transitions";
 import { Logo } from "@/components/ui/logo";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Shield, CircleDollarSign, FolderOpen, ArrowRight, Users } from "lucide-react";
+import { Shield, CircleDollarSign, FolderOpen, ArrowRight, Users, LogIn } from "lucide-react";
 import { AnimatedHeroBackground } from "@/components/ui/animated-hero-background";
 import { appConfig } from "@/config";
 import { cn } from "@/lib/utils";
@@ -22,8 +22,7 @@ export default async function LandingPage() {
     <div className="min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
       {/* Background gradients */}
       <div className="fixed inset-0 pointer-events-none">
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,var(--border)_1px,transparent_1px),linear-gradient(to_bottom,var(--border)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_80%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-50" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-primary/10 rounded-full blur-[120px] opacity-70" />
+        <div className="absolute top-[10dvh] left-1/2 -translate-x-1/2 w-[90dvw] h-[30dvh] bg-primary/30 rounded-sm blur-[1000px] opacity-70" />
       </div>
 
       {/* Header */}
@@ -49,10 +48,11 @@ export default async function LandingPage() {
               <Link
                 href="/login"
                 className={cn(buttonVariants({
-                  variant: "accent",
-                }), 'group flex items-center gap-2 px-6 transition-all duration-200')}
+                  variant: "outline",
+                }), 'flex items-center gap-2')}
               >
-                Get Started <ArrowRight width={20} height={20} className="group-hover:translate-x-1 transition-all duration-200" />
+                Login
+                <LogIn className="w-4 h-4" />
               </Link>
             </>
           )}
