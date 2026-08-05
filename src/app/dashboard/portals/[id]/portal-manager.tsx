@@ -102,8 +102,8 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
     setSettingsError("");
 
     const parsedPrice = parseFloat(price);
-    if (isNaN(parsedPrice) || parsedPrice < 0.50) {
-      setSettingsError("Please enter a valid price of at least $0.50.");
+    if (isNaN(parsedPrice) || parsedPrice < 5.00) {
+      setSettingsError("Please enter a valid price of at least $5.00.");
       setSavingSettings(false);
       return;
     }
@@ -535,7 +535,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                       id="price"
                       type="number"
                       step="0.01"
-                      min="0.50"
+                      min="5.00"
                       value={price}
                       placeholder="100.00"
                       onChange={(e) => setPrice(e.target.value)}
