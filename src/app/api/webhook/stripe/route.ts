@@ -70,10 +70,12 @@ export async function POST(req: NextRequest) {
       const downloadLink = `${appUrl}/download/${token}`;
       const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
 
-      console.log(`\n=========================================`);
-      console.log(`📦 PURCHASE SUCCESSFUL FOR: ${email}`);
-      console.log(`👉 DOWNLOAD LINK: ${downloadLink}`);
-      console.log(`=========================================\n`);
+      if (process.env.NODE_ENV === "development") {
+        console.log(`\n=========================================`);
+        console.log(`📦 PURCHASE SUCCESSFUL FOR: \${email}`);
+        console.log(`👉 DOWNLOAD LINK: \${downloadLink}`);
+        console.log(`=========================================\n`);
+      }
 
       try {
         await resend.emails.send({
