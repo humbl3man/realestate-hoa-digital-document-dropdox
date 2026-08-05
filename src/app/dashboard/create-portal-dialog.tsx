@@ -53,8 +53,8 @@ export function CreatePortalDialog() {
     if (!name || !slug || !price) return;
 
     const parsedPrice = parseFloat(price);
-    if (isNaN(parsedPrice) || parsedPrice <= 0) {
-      setError("Please enter a valid price greater than $0.");
+    if (isNaN(parsedPrice) || parsedPrice < 5.00) {
+      setError("Please enter a valid price of at least $5.00.");
       return;
     }
 
@@ -193,7 +193,7 @@ export function CreatePortalDialog() {
                 id="price"
                 type="number"
                 step="0.01"
-                min="0.01"
+                min="5.00"
                 placeholder="100.00"
                 value={price}
                 onChange={(e) => setPrice(e.target.value)}

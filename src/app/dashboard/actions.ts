@@ -19,8 +19,8 @@ export async function createPortal(formData: { name: string; slug: string; price
     return { error: "Unauthorized" };
   }
 
-  if (!formData.name || !formData.slug || formData.priceInCents <= 0) {
-    return { error: "Invalid inputs" };
+  if (!formData.name || !formData.slug || formData.priceInCents < 500) {
+    return { error: "Invalid inputs or price is too low (minimum $5.00)" };
   }
 
   if (formData.description && formData.description.length > 100) {
@@ -151,6 +151,10 @@ export async function updatePortal(
 
   if (formData.description && formData.description.length > 100) {
     return { error: "Description must be 100 characters or less." };
+  }
+
+  if (formData.priceInCents < 500) {
+    return { error: "Price must be at least $5.00." };
   }
 
   const cleanSlug = formData.slug
