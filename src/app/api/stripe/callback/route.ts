@@ -33,16 +33,12 @@ export async function GET(req: NextRequest) {
       return NextResponse.redirect(
         new URL("/dashboard/settings?stripe=connected", appUrl)
       );
+    } else {
+      // Account exists but onboarding not complete — redirect back to settings
+      return NextResponse.redirect(
+        new URL("/dashboard/settings?stripe=incomplete", appUrl)
+      );
     }
-
-    // Account exists but onboarding not complete — generate a new link
-    const accountLink = await stripe.accountLinks.create({
-      account: stripeAccountId,
-      refresh_url: `${appUrl}/api/stripe/connect`,
-      return_url: `${appUrl}/api/stripe/callback`,
-      type: "account_onboarding",
-    });
-    return NextResponse.redirect(accountLink.url);
   }
 
   // No account at all — redirect to settings
