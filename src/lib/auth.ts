@@ -20,18 +20,12 @@ export const auth = betterAuth({
         // Log the link to the terminal in development so you can log in locally without checking email
         if (process.env.NODE_ENV === "development") {
           console.log(`\n=========================================`);
-          console.log(`🔑 MAGIC LINK FOR \${email}:`);
-          console.log(`👉 \${url}`);
+          console.log(`🔑 MAGIC LINK FOR ${email}:`);
+          console.log(`👉 ${url}`);
           console.log(`=========================================\n`);
         }
 
-        try {
-          await resend.emails.send({
-            from: fromEmail,
-            to: email,
-            subject: `Sign in to your ${appConfig.name} Dashboard`,
-            html: `
-              <!DOCTYPE html>
+        const html = `<!DOCTYPE html>
               <html>
               <head>
                 <style>
@@ -47,7 +41,7 @@ export const auth = betterAuth({
                 <div class="text-primary" style="font-family: 'SF Pro Text', 'Inter', -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #111827;">
                   <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px;">
                     <img src="https://tetherdocs.app/logo.png" alt="Tether Docs Logo" width="32" height="32" style="border-radius: 8px;" />
-                    <span class="text-primary" style="font-weight: 600; font-size: 18px; color: #111827;">\${appConfig.name}</span>
+                    <span class="text-primary" style="font-weight: 600; font-size: 18px; color: #111827;">TetherDocs</span>
                   </div>
                   
                   <div class="card-bg" style="background-color: #f9fafb; padding: 24px; border-radius: 12px; border: 1px solid #e5e7eb;">
@@ -58,12 +52,13 @@ export const auth = betterAuth({
                     </p>
                     
                     <a 
-                      href="\${url}" 
+                      href="${url}" 
+                      target="_blank"
                       style="
                         display: inline-block; 
                         padding: 12px 24px; 
-                        background-color: #1e3a8a; 
-                        color: #ffffff; 
+                        background-color: #ffb703; 
+                        color: #111; 
                         text-decoration: none; 
                         border-radius: 8px; 
                         font-weight: 600; 
@@ -83,8 +78,14 @@ export const auth = betterAuth({
                   </p>
                 </div>
               </body>
-              </html>
-            `,
+              </html>`;
+
+        try {
+          await resend.emails.send({
+            from: fromEmail,
+            to: email,
+            subject: `Sign in to TetherDocs`,
+            html,
           });
         } catch (err) {
           console.error("Failed to send email via Resend:", err);
