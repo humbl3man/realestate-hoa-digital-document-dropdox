@@ -26,11 +26,6 @@ export function AnimatedHeroBackground({ alignCenter = false }: { alignCenter?: 
         {/* Ambient Background Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] transform-gpu will-change-transform" />
         
-        {/* Central Database / Secure Vault - Very transparent behind text */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0 opacity-20 flex flex-col items-center justify-center p-8 rounded-3xl">
-          <FileText className="w-32 h-32 text-primary" strokeWidth={1} />
-        </div>
-        
         {/* Floating Document 1 (Uploading) */}
         <div className="absolute top-[20%] left-[10%] sm:left-[20%] -translate-x-1/2 -translate-y-1/2 z-0 rotate-[-12deg] opacity-30 transform-gpu will-change-transform">
           <div className="flex flex-col items-center gap-2">
