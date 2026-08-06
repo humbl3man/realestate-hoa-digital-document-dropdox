@@ -14,6 +14,8 @@ export const portals = sqliteTable("portals", {
   priceInCents: integer("price_in_cents").notNull(),
   isActive: integer("is_active", { mode: "boolean" }).default(true).notNull(),
   createdAt: integer("created_at", { mode: "timestamp" }).notNull(),
+  updatedAt: integer("updated_at", { mode: "timestamp" })
+    .$onUpdate(() => /* @__PURE__ */ new Date()),
 });
 
 export const documents = sqliteTable("documents", {

@@ -5,9 +5,9 @@ import { eq, inArray } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { stripe } from "@/lib/stripe";
-import { Link } from "next-view-transitions";
 import { CreatePortalDialog } from "./create-portal-dialog";
-import { DeletePortalDialog } from "./delete-portal-dialog";
+import { PortalsDataTable } from "./portals-data-table";
+import { columns, type PortalData } from "./columns";
 import {
   Card,
   CardContent,
@@ -15,16 +15,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { ExternalLink, FolderKanban, Unplug } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { FolderKanban, Unplug } from "lucide-react";
 import { StripeConnectButton } from "@/components/stripe-connect-button";
 
 export default async function DashboardPage() {
@@ -121,72 +112,18 @@ export default async function DashboardPage() {
           </CardContent>
         </Card>
       ) : (
-        <div className="bg-card border border-border rounded-xl overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent">
-                <TableHead>Portal Name</TableHead>
-                <TableHead>Public URL</TableHead>
-                <TableHead>Price</TableHead>
-                <TableHead>Files</TableHead>
-                <TableHead>Created At</TableHead>
-                <TableHead className="text-right"></TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {userPortals.map((portal) => {
-                const fileCount = docCounts[portal.id] || 0;
-                const publicUrl = `/p/${portal.slug}`;
-                return (
-                  <TableRow key={portal.id}>
-                    <TableCell className="font-semibold text-foreground">
-                      <Link
-                        href={`/dashboard/portals/${portal.id}`}
-                        className="hover:underline underline-offset-2 inline-block w-fit"
-                        style={{ viewTransitionName: `portal-name-${portal.id}` } as React.CSSProperties}
-                      >
-                        {portal.name}
-                      </Link>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      <Link
-                        href={publicUrl}
-                        target="_blank"
-                        className="hover:text-accent flex items-center gap-1.5 transition-colors"
-                      >
-                        {publicUrl}
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </Link>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      ${(portal.priceInCents / 100).toFixed(2)}
-                    </TableCell>
-                    <TableCell>
-                      <span
-                        className={cn(
-                          "inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ring-1 ring-inset",
-                          fileCount === 0
-                            ? "bg-muted text-muted-foreground ring-border"
-                            : "bg-success/10 text-success ring-success/20",
-                        )}
-                      >
-                        {fileCount} {fileCount === 1 ? "file" : "files"}
-                      </span>
-                    </TableCell>
-                    <TableCell className="text-muted-foreground">
-                      {portal.createdAt.toLocaleDateString()}
-                    </TableCell>
-                    <TableCell className="text-right">
-                      <div className="flex items-center justify-end gap-2">
-                        <DeletePortalDialog portalId={portal.id} portalName={portal.name} />
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
-          </Table>
-        </div>
+        <PortalsDataTable
+          columns={columns}
+          data={userPortals.map((portal): PortalData => ({
+            id: portal.id,
+            name: portal.name,
+            slug: portal.slug,
+            priceInCents: portal.priceInCents,
+            fileCount: docCounts[portal.id] || 0,
+            createdAt: portal.createdAt,
+            updatedAt: portal.updatedAt || null,
+          }))}
+        />
       )}
     </div>
   );
