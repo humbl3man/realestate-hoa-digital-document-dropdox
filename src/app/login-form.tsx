@@ -7,11 +7,11 @@ import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { Loader2, Sparkles, AlertCircle, CheckCircle2 } from "lucide-react";
 import { appConfig } from "@/config";
 import { cn } from "@/lib/utils";
 import { Logo } from "@/components/ui/logo";
-import { AnimatedHeroBackground } from "@/components/ui/animated-hero-background";
 import { toast } from "sonner";
 
 export function LoginForm() {
@@ -105,20 +105,15 @@ export function LoginForm() {
 
       <div className="w-full">
         {sent ? (
-          <div
-            role="status"
-            className="rounded-lg border border-success/30 bg-success/8 p-4 flex items-start gap-3"
-          >
-            <CheckCircle2 className="w-5 h-5 text-success shrink-0 mt-0.5" />
-            <div className="text-sm">
-              <p className="font-semibold text-success mb-0.5">Check your inbox</p>
-              <p className="text-muted-foreground">
-                We sent a secure sign-in link to{" "}
-                <span className="font-medium text-foreground">{email}</span>.
-                Click the link to sign in.
-              </p>
-            </div>
-          </div>
+          <Alert className="border-success/80 bg-success/5 text-success">
+            <CheckCircle2 />
+            <AlertTitle className="font-semibold text-base text-success">Check your inbox</AlertTitle>
+            <AlertDescription>
+              We sent a secure sign-in link to{" "}
+              <span className="font-semibold">{email}</span>.
+              Click the link to sign in.
+            </AlertDescription>
+          </Alert>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-6" noValidate>
             <div className="space-y-2">
