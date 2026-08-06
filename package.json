@@ -57,7 +57,7 @@
     "@types/react-dom": "^19",
     "@vitejs/plugin-react": "^4.3.2",
     "@vitest/coverage-v8": "^2.1.9",
-    "concurrently": "^8.2.2",
+    "concurrently": "^10.0.4",
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "16.2.9",
