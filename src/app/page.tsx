@@ -4,10 +4,11 @@ import { redirect } from "next/navigation";
 import { Link } from "next-view-transitions";
 import { Logo } from "@/components/ui/logo";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Shield, CircleDollarSign, FolderOpen, ArrowRight, Users, LogIn } from "lucide-react";
+import { Shield, CircleDollarSign, FolderOpen, ArrowRight, ArrowDown, Users, LogIn } from "lucide-react";
 import { AnimatedHeroBackground } from "@/components/ui/animated-hero-background";
 import { appConfig } from "@/config";
 import { cn } from "@/lib/utils";
+import { ScrollButton } from "@/components/scroll-button";
 import {
   Accordion,
   AccordionContent,
@@ -80,7 +81,7 @@ export default async function LandingPage() {
         </p>
 
         {/* CTA */}
-        <div className="flex flex-col gap-2">
+        <div className="flex flex-col sm:flex-row gap-4">
           <Link
             href="/login"
             className={cn(
@@ -88,89 +89,107 @@ export default async function LandingPage() {
                 variant: "default",
                 size: "xl",
               }),
-              "h-14 text-lg group flex items-center gap-2 px-6 transition-all duration-200",
+              "h-14 text-lg group flex items-center justify-center gap-2 px-6 transition-all duration-200",
             )}
           >
             Create a free account
             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-all duration-200" />
           </Link>
+          <ScrollButton
+            targetId="how-it-works"
+            className="h-14 text-lg group flex items-center justify-center gap-2 px-6 transition-all duration-200 bg-background/50 backdrop-blur-sm"
+          >
+            How it works
+            <ArrowDown className="ml-2 w-5 h-5 group-hover:translate-y-1 transition-all duration-200" />
+          </ScrollButton>
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 w-full max-w-5xl mt-24 sm:mt-32 text-left">
-          {/* Feature 1 */}
-          <div className="flex gap-4 md:gap-6 items-start">
-            <div className="shrink-0 w-12 h-12 rounded-xl bg-blue-600 text-white flex items-center justify-center mt-1">
-              <Shield size={24} />
-            </div>
-            <div>
-              <h2 className="text-lg font-bold text-foreground mb-2">
-                Bank-Grade Security
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Protect sensitive information. All documents are encrypted in
-                transit and at rest.
-              </p>
-            </div>
+        {/* Features Section */}
+        <section className="w-full max-w-5xl mt-24 sm:mt-32 flex flex-col items-center">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
+              Everything you need to manage documents
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              A complete platform to securely request, store, and monetize your digital real estate documents.
+            </p>
           </div>
 
-          {/* Feature 2 */}
-          <div className="flex gap-4 md:gap-6 items-start">
-            <div className="shrink-0 w-12 h-12 rounded-xl bg-purple-600 text-white flex items-center justify-center mt-1">
-              <FolderOpen size={24} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-12 w-full text-left">
+            {/* Feature 1 */}
+            <div className="flex gap-4 md:gap-6 items-start">
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-primary text-primary-foreground flex items-center justify-center mt-1">
+                <Shield size={24} />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-foreground mb-2">
+                  Bank-Grade Security
+                </h4>
+                <p className="text-muted-foreground leading-relaxed">
+                  Protect sensitive information. All documents are encrypted in
+                  transit and at rest.
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-foreground mb-2">
-                Perfect Organization
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Say goodbye to lost email attachments. Everything is automatically
-                centralized, searchable, and securely organized.
-              </p>
-            </div>
-          </div>
 
-          {/* Feature 3 */}
-          <div className="flex gap-4 md:gap-6 items-start">
-            <div className="shrink-0 w-12 h-12 rounded-xl bg-emerald-600 text-white flex items-center justify-center mt-1">
-              <CircleDollarSign size={24} />
+            {/* Feature 2 */}
+            <div className="flex gap-4 md:gap-6 items-start">
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-primary text-primary-foreground flex items-center justify-center mt-1">
+                <FolderOpen size={24} />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-foreground mb-2">
+                  Perfect Organization
+                </h4>
+                <p className="text-muted-foreground leading-relaxed">
+                  Say goodbye to lost email attachments. Everything is automatically
+                  centralized, searchable, and securely organized.
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-foreground mb-2">
-                Monetize Downloads
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Easily charge fees for CC&amp;Rs, resale certificates, and other
-                records. Payments process securely via Stripe before the download
-                unlocks.
-              </p>
-            </div>
-          </div>
 
-          {/* Feature 4 */}
-          <div className="flex gap-4 md:gap-6 items-start">
-            <div className="shrink-0 w-12 h-12 rounded-xl bg-orange-600 text-white flex items-center justify-center mt-1">
-              <Users size={24} />
+            {/* Feature 3 */}
+            <div className="flex gap-4 md:gap-6 items-start">
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-primary text-primary-foreground flex items-center justify-center mt-1">
+                <CircleDollarSign size={24} />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-foreground mb-2">
+                  Monetize Downloads
+                </h4>
+                <p className="text-muted-foreground leading-relaxed">
+                  Easily charge fees for CC&amp;Rs, resale certificates, and other
+                  records. Payments process securely via Stripe before the download
+                  unlocks.
+                </p>
+              </div>
             </div>
-            <div>
-              <h2 className="text-lg font-bold text-foreground mb-2">
-                Client Portals
-              </h2>
-              <p className="text-muted-foreground leading-relaxed">
-                Provide a professional experience. Clients get a secure link to access their requested documents and payment history in one place.
-              </p>
+
+            {/* Feature 4 */}
+            <div className="flex gap-4 md:gap-6 items-start">
+              <div className="shrink-0 w-12 h-12 rounded-xl bg-primary text-primary-foreground flex items-center justify-center mt-1">
+                <Users size={24} />
+              </div>
+              <div>
+                <h4 className="text-lg font-bold text-foreground mb-2">
+                  Client Portals
+                </h4>
+                <p className="text-muted-foreground leading-relaxed">
+                  Provide a professional experience. Clients get a secure link to access their requested documents and payment history in one place.
+                </p>
+              </div>
             </div>
           </div>
-        </div>
+        </section>
 
         {/* How it works? */}
-        <section className="w-full max-w-5xl mt-32 text-left">
+        <section id="how-it-works" className="w-full max-w-5xl mt-32 text-left scroll-mt-24">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
               From Setup to Paid in 4 Simple Steps
             </h2>
             <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
-              We handle the payment processing and secure file delivery so you don't have to.
+              We handle the payment processing and secure file delivery so you don&apos;t have to.
             </p>
           </div>
 
@@ -232,7 +251,7 @@ export default async function LandingPage() {
             </h2>
           </div>
 
-          <Accordion type="single" collapsible className="w-full">
+          <Accordion className="w-full">
             <AccordionItem value="item-1">
               <AccordionTrigger className="text-lg">What types of documents can I sell?</AccordionTrigger>
               <AccordionContent className="text-muted-foreground text-base leading-relaxed">
@@ -258,6 +277,31 @@ export default async function LandingPage() {
               </AccordionContent>
             </AccordionItem>
           </Accordion>
+        </section>
+
+        {/* CTA Callout */}
+        <section className="w-full max-w-5xl mx-auto mt-32 mb-16 text-center py-20 px-6">
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
+            Boost your productivity.<br />
+            Start using our app today.
+          </h2>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
+            Stop dealing with lost email attachments and manual invoicing. Automate document requests and charge for downloads seamlessly.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <Link
+              href="/login"
+              className={cn(
+                buttonVariants({
+                  variant: "default",
+                  size: "xl",
+                }),
+                "h-12 px-8 text-base font-semibold",
+              )}
+            >
+              Get started
+            </Link>
+          </div>
         </section>
       </main>
 
