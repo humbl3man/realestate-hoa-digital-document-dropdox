@@ -16,6 +16,17 @@ import { ViewTransitions } from "next-view-transitions";
 export const metadata: Metadata = {
   title: appConfig.name,
   description: "Securely purchase and download document bundles.",
+  openGraph: {
+    title: appConfig.name,
+    description: "Securely purchase and download document bundles.",
+    type: "website",
+    siteName: appConfig.name,
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: appConfig.name,
+    description: "Securely purchase and download document bundles.",
+  },
 };
 
 export default function RootLayout({

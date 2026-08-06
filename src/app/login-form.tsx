@@ -86,7 +86,6 @@ export function LoginForm() {
 
   return (
     <>
-      <AnimatedHeroBackground alignCenter={true} />
       <div className="relative z-10 w-full max-w-sm mx-auto bg-background/30 backdrop-blur-xl rounded-2xl">
         <div className="flex flex-col items-start space-y-6 mb-5 w-full">
         {/* Logo Icon */}
