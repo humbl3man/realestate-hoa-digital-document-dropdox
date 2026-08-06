@@ -280,7 +280,7 @@ export default async function LandingPage() {
         </section>
 
         {/* CTA Callout */}
-        <section className="w-full max-w-5xl mx-auto mt-32 mb-16 text-center py-20 px-6">
+        <section className="w-full max-w-5xl mx-auto mt-16 text-center py-20 px-6">
           <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-foreground mb-6">
             Boost your productivity.<br />
             Start using our app today.
