@@ -1,0 +1,1 @@
+ALTER TABLE `portals` ADD `updated_at` integer;
