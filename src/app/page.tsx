@@ -8,6 +8,12 @@ import { Shield, CircleDollarSign, FolderOpen, ArrowRight, Users, LogIn } from "
 import { AnimatedHeroBackground } from "@/components/ui/animated-hero-background";
 import { appConfig } from "@/config";
 import { cn } from "@/lib/utils";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 export default async function LandingPage() {
   const session = await auth.api.getSession({
@@ -156,6 +162,103 @@ export default async function LandingPage() {
             </div>
           </div>
         </div>
+
+        {/* How it works? */}
+        <section className="w-full max-w-5xl mt-32 text-left">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
+              From Setup to Paid in 4 Simple Steps
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-4xl mx-auto">
+              We handle the payment processing and secure file delivery so you don't have to.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+            {/* Step 1 */}
+            <div className="flex flex-col items-center text-center gap-4 relative">
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl z-10">
+                1
+              </div>
+              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-border -z-10" />
+              <h3 className="text-xl font-bold text-foreground">Create Account</h3>
+              <p className="text-muted-foreground text-sm">
+                Sign up in seconds and access your secure dashboard.
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="flex flex-col items-center text-center gap-4 relative">
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl z-10">
+                2
+              </div>
+              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-border -z-10" />
+              <h3 className="text-xl font-bold text-foreground">Connect Stripe</h3>
+              <p className="text-muted-foreground text-sm">
+                Link your bank account to securely collect payments.
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="flex flex-col items-center text-center gap-4 relative">
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl z-10">
+                3
+              </div>
+              <div className="hidden md:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-border -z-10" />
+              <h3 className="text-xl font-bold text-foreground">Share Portal</h3>
+              <p className="text-muted-foreground text-sm">
+                Upload documents, set a price, and generate a public link.
+              </p>
+            </div>
+
+            {/* Step 4 */}
+            <div className="flex flex-col items-center text-center gap-4">
+              <div className="w-16 h-16 rounded-full bg-primary text-primary-foreground flex items-center justify-center font-bold text-xl z-10">
+                4
+              </div>
+              <h3 className="text-xl font-bold text-foreground">Get Paid</h3>
+              <p className="text-muted-foreground text-sm">
+                Buyers purchase through your link and instantly receive the files.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* FAQ Section */}
+        <section className="w-full max-w-3xl mt-32 text-left">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold tracking-tight text-foreground mb-4">
+              Frequently Asked Questions
+            </h2>
+          </div>
+
+          <Accordion type="single" collapsible className="w-full">
+            <AccordionItem value="item-1">
+              <AccordionTrigger className="text-lg">What types of documents can I sell?</AccordionTrigger>
+              <AccordionContent className="text-muted-foreground text-base leading-relaxed">
+                You can sell any PDF document, such as HOA bylaws, CC&Rs, resale certificates, demand payoffs, and condo questionnaires.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-2">
+              <AccordionTrigger className="text-lg">How do I get paid?</AccordionTrigger>
+              <AccordionContent className="text-muted-foreground text-base leading-relaxed">
+                Payments are processed securely through Stripe. Funds are routed directly to your connected bank account, minus standard processing fees and our platform fee.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-3">
+              <AccordionTrigger className="text-lg">Are my documents secure?</AccordionTrigger>
+              <AccordionContent className="text-muted-foreground text-base leading-relaxed">
+                Yes. Your documents are stored securely and are only accessible to buyers after they complete a successful payment.
+              </AccordionContent>
+            </AccordionItem>
+            <AccordionItem value="item-4">
+              <AccordionTrigger className="text-lg">Is there a limit on file size?</AccordionTrigger>
+              <AccordionContent className="text-muted-foreground text-base leading-relaxed">
+                You can upload up to {appConfig.maxDocsPerPortal} PDFs per portal, with a maximum file size of {appConfig.maxUploadMb}MB per document.
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
+        </section>
       </main>
 
       {/* Footer */}
