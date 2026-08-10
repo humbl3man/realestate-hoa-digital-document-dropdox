@@ -4,6 +4,7 @@ import { portals, user } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { stripe } from "@/lib/stripe";
 import { PurchaseFlow } from "@/core/purchase";
+import { getAppUrl } from "@/lib/utils";
 
 export async function POST(req: NextRequest) {
   const body = await req.text();
@@ -85,7 +86,7 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+      const appUrl = getAppUrl();
       const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
       
       const result = await PurchaseFlow.fulfillOrder(portalId, email, session.amount_total, appUrl, emailFrom);
