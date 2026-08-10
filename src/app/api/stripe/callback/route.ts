@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.redirect(new URL("/login", req.url));
   }
 
-  const appUrl = getAppUrl();
+  const appUrl = getAppUrl(req);
 
   // Fetch the user's current connected account ID
   const [dbUser] = await db

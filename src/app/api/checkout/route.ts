@@ -4,7 +4,7 @@ import { getAppUrl } from "@/lib/utils";
 
 export async function POST(req: NextRequest) {
   try {
-    const appUrl = getAppUrl();
+    const appUrl = getAppUrl(req);
     const formData = await req.formData();
     const portalId = formData.get("portalId") as string | null;
 

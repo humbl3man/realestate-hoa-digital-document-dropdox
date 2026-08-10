@@ -37,7 +37,7 @@ export async function POST(req: NextRequest) {
     }
 
     try {
-      const appUrl = getAppUrl();
+      const appUrl = getAppUrl(req);
       const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
       
       const result = await PurchaseFlow.fulfillOrder(portalId, email, session.amount_total, appUrl, emailFrom);

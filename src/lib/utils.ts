@@ -22,21 +22,24 @@ export const formatDate = (date: Date) => {
   }).format(date);
 };
 
-export function getAppUrl() {
-  if (process.env.NEXT_PUBLIC_APP_URL) {
-    return process.env.NEXT_PUBLIC_APP_URL;
+// No import from next/server to avoid breaking client components
+
+export function getAppUrl(req?: Request) {
+  if (typeof window !== "undefined") {
+    return window.location.origin;
   }
-  if (process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_PROJECT_PRODUCTION_URL}`;
+  
+  if (req) {
+    const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
+    const protocol = req.headers.get("x-forwarded-proto") || "https";
+    if (host) {
+      return `${protocol}://${host}`;
+    }
   }
-  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
-    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
-  }
-  if (process.env.NEXT_PUBLIC_VERCEL_URL) {
-    return `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`;
-  }
+
   if (process.env.VERCEL_URL) {
     return `https://${process.env.VERCEL_URL}`;
   }
-  return "http://localhost:3000";
+
+  return process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
 }
