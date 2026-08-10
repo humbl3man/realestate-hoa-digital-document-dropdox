@@ -26,6 +26,9 @@ export default async function SalesPage() {
   if (!session) {
     redirect("/login");
   }
+  
+  // For now, hide the sales page and redirect authenticated users to dashboard
+  redirect("/dashboard");
 
   // Fetch the user to check Stripe connection
   const [dbUser] = await db

@@ -36,7 +36,10 @@ export function SettingsForm({
 
         {stripeAccountId ? (
           // Connected state
-          <>
+          <div className="rounded-xl bg-secondary/3 p-5 space-y-4">
+            <p className="text-sm text-muted-foreground leading-relaxed">
+              Your account is successfully connected to Stripe. You can review all your transactions, sales history, and manage payouts directly from your Stripe Dashboard.
+            </p>
             <Link
               href="/api/stripe/dashboard"
               target="_blank"
@@ -45,10 +48,10 @@ export function SettingsForm({
                 variant: "secondary",
               })}
             >
-              <ExternalLink className="w-4 h-4" />
+              <ExternalLink className="w-4 h-4 mr-2" />
               Open Stripe Dashboard
             </Link>
-          </>
+          </div>
         ) : (
           // Not connected state
           <div className="rounded-xl bg-secondary/3 p-5 space-y-4">
