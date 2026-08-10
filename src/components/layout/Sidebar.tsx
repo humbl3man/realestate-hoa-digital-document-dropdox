@@ -17,7 +17,7 @@ import { Button } from "../ui/button";
 
 export const navigation = [
   { name: "Portals", href: "/dashboard", icon: LayoutDashboard },
-  { name: "Sales", href: "/dashboard/sales", icon: CreditCard },
+  // { name: "Sales", href: "/dashboard/sales", icon: CreditCard },
   { name: "Settings", href: "/dashboard/settings", icon: Settings },
 ];
 

@@ -474,7 +474,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     Public Slug
                   </Label>
                   <div className="flex">
-                    <span className="inline-flex h-8 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
+                    <span className="inline-flex h-10 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
                       /p/
                     </span>
                     <Input
@@ -527,7 +527,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     Price (USD)
                   </Label>
                   <div className="flex">
-                    <span className="inline-flex h-8 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
+                    <span className="inline-flex h-10 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
                       $
                     </span>
                     <Input
