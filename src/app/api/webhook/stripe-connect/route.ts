@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
       console.warn(
         "STRIPE_CONNECT_WEBHOOK_SECRET is not set. Webhook signature verification skipped."
       );
-      event = JSON.parse(body);
+      event = JSON.parse(body.toString("utf8"));
     }
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
