@@ -77,10 +77,10 @@ export function AnimatedHeroBackground({ alignCenter = false }: { alignCenter?: 
         </div>
 
         {/* Data Transfer Lines */}
-        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30 z-0" xmlns="http://www.w3.org/2000/svg">
-          <path d="M 15% 30% Q 50% 10% 50% 50%" stroke="var(--primary)" strokeWidth="1" fill="none" strokeDasharray="4 4" />
-          <path d="M 85% 60% Q 80% 50% 50% 50%" stroke="var(--secondary)" strokeWidth="1" fill="none" strokeDasharray="4 4" />
-          <path d="M 30% 70% Q 40% 90% 50% 50%" stroke="var(--accent)" strokeWidth="1" fill="none" strokeDasharray="4 4" />
+        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30 z-0" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path d="M 15 30 Q 50 10 50 50" stroke="var(--primary)" strokeWidth="1" fill="none" strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
+          <path d="M 85 60 Q 80 50 50 50" stroke="var(--secondary)" strokeWidth="1" fill="none" strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
+          <path d="M 30 70 Q 40 90 50 50" stroke="var(--accent)" strokeWidth="1" fill="none" strokeDasharray="4 4" vectorEffect="non-scaling-stroke" />
         </svg>
       </div>
     </div>
