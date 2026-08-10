@@ -23,7 +23,7 @@
     "@libsql/client": "^0.17.4",
     "@sentry/nextjs": "^10.67.0",
     "@supabase/supabase-js": "^2.108.2",
-    "@tanstack/match-sorter-utils": "^9.0.0",
+    "@tanstack/match-sorter-utils": "^9.1.2",
     "@tanstack/react-table": "^8.21.3",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",

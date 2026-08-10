@@ -7,7 +7,8 @@ import { PurchaseFlow } from "@/core/purchase";
 import { getAppUrl } from "@/lib/utils";
 
 export async function POST(req: NextRequest) {
-  const body = await req.text();
+  const bodyBuffer = await req.arrayBuffer();
+  const body = Buffer.from(bodyBuffer);
   const signature = req.headers.get("stripe-signature") || "";
 
   let event;
@@ -87,7 +88,7 @@ export async function POST(req: NextRequest) {
 
     try {
       const appUrl = getAppUrl(req);
-      const emailFrom = process.env.EMAIL_FROM || "onboarding@resend.dev";
+      const emailFrom = process.env.EMAIL_FROM?.trim() || "onboarding@resend.dev";
       
       const result = await PurchaseFlow.fulfillOrder(portalId, email, session.amount_total, appUrl, emailFrom);
       
