@@ -30,8 +30,13 @@ export function getAppUrl(req?: Request) {
   }
   
   if (req) {
-    const host = req.headers.get("x-forwarded-host") || req.headers.get("host");
-    const protocol = req.headers.get("x-forwarded-proto") || "https";
+    const xForwardedHost = req.headers.get("x-forwarded-host");
+    const hostHeader = req.headers.get("host");
+    const host = xForwardedHost ? xForwardedHost.split(",")[0].trim() : hostHeader;
+    
+    const xForwardedProto = req.headers.get("x-forwarded-proto");
+    const protocol = xForwardedProto ? xForwardedProto.split(",")[0].trim() : "https";
+    
     if (host) {
       return `${protocol}://${host}`;
     }

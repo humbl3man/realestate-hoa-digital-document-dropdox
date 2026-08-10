@@ -131,7 +131,7 @@ export const PurchaseFlow = {
       }
 
       try {
-        await resend.emails.send({
+        const { error: resendError, data: resendData } = await resend.emails.send({
           from: emailFrom,
           to: email,
           subject: `Your document bundle ready: ${portal.name}`,
@@ -155,6 +155,12 @@ export const PurchaseFlow = {
             </div>
           `,
         });
+
+        if (resendError) {
+          console.error("Resend API rejected the email (possibly due to .vercel.app domain links or from address):", resendError);
+        } else {
+          console.log("Email successfully sent via Resend API. Data:", resendData);
+        }
       } catch (emailErr) {
         console.error(
           "Failed to send email (check your domain settings), but download session was created:",
