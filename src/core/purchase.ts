@@ -48,34 +48,36 @@ export const PurchaseFlow = {
         portal.priceInCents * (appConfig.platformFeePercentage / 100)
       );
 
-      const session = await stripe.checkout.sessions.create({
-        line_items: [
-          {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: `${portal.name} Documents`,
-                description:
-                  portal.description || "ZIP archive containing uploaded documents",
+      const session = await stripe.checkout.sessions.create(
+        {
+          line_items: [
+            {
+              price_data: {
+                currency: "usd",
+                product_data: {
+                  name: `${portal.name} Documents`,
+                  description:
+                    portal.description || "ZIP archive containing uploaded documents",
+                },
+                unit_amount: portal.priceInCents,
               },
-              unit_amount: portal.priceInCents,
+              quantity: 1,
             },
-            quantity: 1,
+          ],
+          mode: "payment",
+          payment_intent_data: {
+            application_fee_amount: platformFee,
           },
-        ],
-        mode: "payment",
-        payment_intent_data: {
-          application_fee_amount: platformFee,
-          transfer_data: {
-            destination: portalOwner.stripeAccountId,
+          metadata: {
+            portalId: portal.id,
           },
+          success_url: `${appUrl}/p/${portal.slug}?purchased=true`,
+          cancel_url: `${appUrl}/p/${portal.slug}`,
         },
-        metadata: {
-          portalId: portal.id,
-        },
-        success_url: `${appUrl}/p/${portal.slug}?purchased=true`,
-        cancel_url: `${appUrl}/p/${portal.slug}`,
-      });
+        {
+          stripeAccount: portalOwner.stripeAccountId,
+        }
+      );
 
       if (!session.url) {
         throw new Error("Failed to create Stripe Session URL");
