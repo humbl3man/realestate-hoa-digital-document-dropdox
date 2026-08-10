@@ -3,9 +3,12 @@ import { db } from "@/db";
 import { portals, user } from "@/db/schema";
 import { eq } from "drizzle-orm";
 import { stripe } from "@/lib/stripe";
+import { PurchaseFlow } from "@/core/purchase";
+import { getAppUrl } from "@/lib/utils";
 
 export async function POST(req: NextRequest) {
-  const body = await req.text();
+  const bodyBuffer = await req.arrayBuffer();
+  const body = Buffer.from(bodyBuffer);
   const signature = req.headers.get("stripe-signature") || "";
 
   let event;
@@ -18,7 +21,7 @@ export async function POST(req: NextRequest) {
       console.warn(
         "STRIPE_CONNECT_WEBHOOK_SECRET is not set. Webhook signature verification skipped."
       );
-      event = JSON.parse(body);
+      event = JSON.parse(body.toString("utf8"));
     }
   } catch (err: unknown) {
     const message = err instanceof Error ? err.message : "Unknown error";
@@ -68,6 +71,38 @@ export async function POST(req: NextRequest) {
       const message = err instanceof Error ? err.message : "Unknown error";
       console.error("Failed to handle deauthorization:", message);
       return new NextResponse(`Error: ${message}`, { status: 500 });
+    }
+  }
+
+  // Handle checkout.session.completed event for direct charges
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as any;
+
+    const portalId = session.metadata?.portalId;
+    const email = session.customer_details?.email;
+
+    if (!portalId || !email) {
+      console.error("Missing portalId or email in session metadata/customer_details");
+      return new NextResponse("Missing metadata", { status: 400 });
+    }
+
+    try {
+      const appUrl = getAppUrl(req);
+      const emailFrom = process.env.EMAIL_FROM?.trim() || "onboarding@resend.dev";
+      
+      const result = await PurchaseFlow.fulfillOrder(portalId, email, session.amount_total, appUrl, emailFrom);
+      
+      if (!result.success) {
+        if (result.reason === "not-found") {
+          return new NextResponse("Portal not found", { status: 404 });
+        }
+        return new NextResponse(`Database/Email Error`, { status: 500 });
+      }
+
+      console.log(`Successfully created download session and emailed buyer: ${email}`);
+    } catch (err: any) {
+      console.error("Webhook processing failed:", err);
+      return new NextResponse(`Database/Email Error: ${err.message}`, { status: 500 });
     }
   }
 

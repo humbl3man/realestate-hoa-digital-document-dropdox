@@ -48,34 +48,36 @@ export const PurchaseFlow = {
         portal.priceInCents * (appConfig.platformFeePercentage / 100)
       );
 
-      const session = await stripe.checkout.sessions.create({
-        line_items: [
-          {
-            price_data: {
-              currency: "usd",
-              product_data: {
-                name: `${portal.name} Documents`,
-                description:
-                  portal.description || "ZIP archive containing uploaded documents",
+      const session = await stripe.checkout.sessions.create(
+        {
+          line_items: [
+            {
+              price_data: {
+                currency: "usd",
+                product_data: {
+                  name: `${portal.name} Documents`,
+                  description:
+                    portal.description || "ZIP archive containing uploaded documents",
+                },
+                unit_amount: portal.priceInCents,
               },
-              unit_amount: portal.priceInCents,
+              quantity: 1,
             },
-            quantity: 1,
+          ],
+          mode: "payment",
+          payment_intent_data: {
+            application_fee_amount: platformFee,
           },
-        ],
-        mode: "payment",
-        payment_intent_data: {
-          application_fee_amount: platformFee,
-          transfer_data: {
-            destination: portalOwner.stripeAccountId,
+          metadata: {
+            portalId: portal.id,
           },
+          success_url: `${appUrl}/p/${portal.slug}?purchased=true`,
+          cancel_url: `${appUrl}/p/${portal.slug}`,
         },
-        metadata: {
-          portalId: portal.id,
-        },
-        success_url: `${appUrl}/p/${portal.slug}?purchased=true`,
-        cancel_url: `${appUrl}/p/${portal.slug}`,
-      });
+        {
+          stripeAccount: portalOwner.stripeAccountId,
+        }
+      );
 
       if (!session.url) {
         throw new Error("Failed to create Stripe Session URL");
@@ -129,7 +131,7 @@ export const PurchaseFlow = {
       }
 
       try {
-        await resend.emails.send({
+        const { error: resendError, data: resendData } = await resend.emails.send({
           from: emailFrom,
           to: email,
           subject: `Your document bundle ready: ${portal.name}`,
@@ -153,6 +155,12 @@ export const PurchaseFlow = {
             </div>
           `,
         });
+
+        if (resendError) {
+          console.error("Resend API rejected the email (possibly due to .vercel.app domain links or from address):", resendError);
+        } else {
+          console.log("Email successfully sent via Resend API. Data:", resendData);
+        }
       } catch (emailErr) {
         console.error(
           "Failed to send email (check your domain settings), but download session was created:",

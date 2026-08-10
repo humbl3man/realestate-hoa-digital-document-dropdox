@@ -1,9 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { PurchaseFlow } from "@/core/purchase";
+import { getAppUrl } from "@/lib/utils";
 
 export async function POST(req: NextRequest) {
   try {
-    const appUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000";
+    const appUrl = getAppUrl(req);
     const formData = await req.formData();
     const portalId = formData.get("portalId") as string | null;
 
