@@ -48,37 +48,37 @@ export const PurchaseFlow = {
         portal.priceInCents * (appConfig.platformFeePercentage / 100)
       );
 
-      const session = await stripe.checkout.sessions.create(
-        {
-          payment_method_types: ["card"],
-          line_items: [
-            {
-              price_data: {
-                currency: "usd",
-                product_data: {
-                  name: portal.name,
-                  description:
-                    portal.description || "ZIP archive containing uploaded documents",
-                },
-                unit_amount: portal.priceInCents,
+      const stripeFee = Math.round(portal.priceInCents * 0.029) + 30; // 2.9% + 30 cents
+      const applicationFeeAmount = platformFee + stripeFee;
+
+      const session = await stripe.checkout.sessions.create({
+        line_items: [
+          {
+            price_data: {
+              currency: "usd",
+              product_data: {
+                name: portal.name,
+                description:
+                  portal.description || "ZIP archive containing uploaded documents",
               },
-              quantity: 1,
+              unit_amount: portal.priceInCents,
             },
-          ],
-          mode: "payment",
-          payment_intent_data: {
-            application_fee_amount: platformFee,
+            quantity: 1,
           },
-          metadata: {
-            portalId: portal.id,
+        ],
+        mode: "payment",
+        payment_intent_data: {
+          application_fee_amount: applicationFeeAmount,
+          transfer_data: {
+            destination: portalOwner.stripeAccountId,
           },
-          success_url: `${appUrl}/p/${portal.slug}?purchased=true`,
-          cancel_url: `${appUrl}/p/${portal.slug}`,
         },
-        {
-          stripeAccount: portalOwner.stripeAccountId,
-        }
-      );
+        metadata: {
+          portalId: portal.id,
+        },
+        success_url: `${appUrl}/p/${portal.slug}?purchased=true`,
+        cancel_url: `${appUrl}/p/${portal.slug}`,
+      });
 
       if (!session.url) {
         throw new Error("Failed to create Stripe Session URL");
