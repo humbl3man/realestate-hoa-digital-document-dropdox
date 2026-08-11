@@ -545,7 +545,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                   </div>
                   <p className="text-[10px] text-muted-foreground leading-normal mt-1">
                     The platform retains a {appConfig.platformFeePercentage}%
-                    fee on each transaction.
+                    fee plus Stripe processing fees (~2.9% + 30¢) on each transaction.
                   </p>
                 </div>
 
