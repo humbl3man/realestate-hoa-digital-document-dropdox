@@ -40,7 +40,7 @@ export const auth = betterAuth({
               <body class="body-bg" style="margin: 0; padding: 0; background-color: #ffffff;">
                 <div class="text-primary" style="font-family: 'SF Pro Text', 'Inter', -apple-system, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; color: #111827;">
                   <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 24px;">
-                    <img src="https://tetherdocs.app/logo.png" alt="Tether Docs Logo" width="32" height="32" style="border-radius: 8px;" />
+                    <img src="https://tetherdocs.app/logo-256.png" alt="Tether Docs Logo" width="32" height="32" style="border-radius: 8px;" />
                     <span class="text-primary" style="font-weight: 600; font-size: 18px; color: #111827;">TetherDocs</span>
                   </div>
                   
