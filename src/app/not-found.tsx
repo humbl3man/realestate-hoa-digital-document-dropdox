@@ -17,7 +17,7 @@ export default function NotFound() {
           <MapPinOff size={40} />
         </div>
 
-        <h1 className="text-5xl md:text-6xl font-bold tracking-tight from-foreground mb-6">
+        <h1 className="text-5xl md:text-6xl font-semibold from-foreground mb-6">
           Page Not Found
         </h1>
 

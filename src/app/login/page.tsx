@@ -14,7 +14,7 @@ export default async function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-background text-foreground p-8 sm:p-12">
+    <div className="min-h-screen w-full bg-primary/5 flex items-center justify-center bg-background text-foreground p-8 sm:p-12">
       <div className="w-full max-w-sm">
         <Suspense>
           <LoginForm />

@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({
-  variable: "--font-inter",
+const sansFont = Poppins({
+  variable: "--app-font",
   subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"]
 });
 
 import { appConfig } from "@/config";
@@ -38,7 +39,7 @@ export default function RootLayout({
     <ViewTransitions>
       <html
         lang="en"
-        className={`${inter.variable} antialiased font-sans`}
+        className={`${sansFont.variable} antialiased font-sans`}
         suppressHydrationWarning
       >
         <body className="min-h-[100dvh] flex flex-col bg-background text-foreground">

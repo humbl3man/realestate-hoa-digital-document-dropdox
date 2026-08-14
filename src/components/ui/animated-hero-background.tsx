@@ -1,27 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { FileText, UploadCloud, FolderOpen, ArrowUpCircle, Shield } from "lucide-react";
 
 export function AnimatedHeroBackground({ alignCenter = false }: { alignCenter?: boolean }) {
-  const [scrollY, setScrollY] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const translateY = -(scrollY * 0.5);
-
   return (
     <div className={`absolute inset-0 z-0 pointer-events-none overflow-hidden flex justify-center ${alignCenter ? 'items-center' : 'pt-24'}`}>
       <div 
         className="relative w-full max-w-7xl h-[600px] transition-transform duration-75 ease-out"
-        style={{ transform: `translateY(${translateY}px)` }}
       >
         {/* Ambient Background Glow */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] transform-gpu will-change-transform" />

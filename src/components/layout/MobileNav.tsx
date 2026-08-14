@@ -36,7 +36,7 @@ export function MobileNav() {
         <div className="p-6 flex items-center justify-between border-b border-secondary/10">
           <div className="flex items-center gap-2">
             <Logo width={32} height={32} />
-            <span className="font-heading font-semibold text-lg tracking-tight">
+            <span className="font-heading font-semibold text-lg">
               {appConfig.name || "Untitled"}
             </span>
           </div>

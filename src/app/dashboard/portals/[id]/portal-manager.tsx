@@ -273,7 +273,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
       <div>
         <h1 
-          className="text-3xl font-extrabold tracking-tight w-fit inline-block"
+          className="text-3xl font-extrabold w-fit inline-block"
           style={{ viewTransitionName: `portal-name-${portal.id}` } as React.CSSProperties}
         >
           {portal.name}
@@ -599,7 +599,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                       <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-destructive/10">
                         <AlertTriangle className="h-5 w-5 text-destructive" />
                       </div>
-                      <div>
+                      <div className="flex flex-col gap-4">
                         <DialogTitle>Delete Portal</DialogTitle>
                         <DialogDescription>
                           Are you sure you want to delete this portal? This action
@@ -610,13 +610,14 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                     </div>
                   </DialogHeader>
                   <DialogFooter>
-                    <Button variant="ghost" onClick={() => setDeleteDialogOpen(false)} disabled={deletingPortal}>
+                    <Button variant="ghost" size="sm" onClick={() => setDeleteDialogOpen(false)} disabled={deletingPortal}>
                       Cancel
                     </Button>
                     <Button
                       variant="destructive"
                       onClick={handleDeletePortal}
                       disabled={deletingPortal}
+                      size="sm"
                     >
                       {deletingPortal ? (
                         <>

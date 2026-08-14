@@ -67,7 +67,7 @@ export default async function DashboardPage() {
     <div className="space-y-8 animate-in fade-in zoom-in-95 duration-300">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-heading font-extrabold tracking-tight">
+          <h1 className="text-3xl font-heading font-extrabold">
             Portal Manager
           </h1>
           <p className="text-muted-foreground mt-1 text-sm">
