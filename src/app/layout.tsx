@@ -12,7 +12,7 @@ import { appConfig } from "@/config";
 import { Toaster } from "@/components/ui/sonner";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import { ViewTransitions } from "next-view-transitions";
+import NextTopLoader from 'nextjs-toploader';
 
 export const metadata: Metadata = {
   title: appConfig.name,
@@ -36,19 +36,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ViewTransitions>
-      <html
-        lang="en"
-        className={`${sansFont.variable} antialiased font-sans`}
-        suppressHydrationWarning
-      >
-        <body className="min-h-[100dvh] flex flex-col bg-background text-foreground">
-          {children}
-          <Toaster />
-          <Analytics />
-          <SpeedInsights />
-        </body>
-      </html>
-    </ViewTransitions>
+    <html
+      lang="en"
+      className={`${sansFont.variable} antialiased font-sans`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-[100dvh] flex flex-col bg-background text-foreground">
+        <NextTopLoader color="#ffb703" height={5} showSpinner={false} />
+        {children}
+        <Toaster />
+        <Analytics />
+        <SpeedInsights />
+      </body>
+    </html>
   );
 }

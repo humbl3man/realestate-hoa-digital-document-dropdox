@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { usePathname } from "next/navigation";
-import { Menu, FileText, LogOut } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
 import { appConfig } from "@/config";
@@ -26,7 +26,7 @@ export function MobileNav() {
       <SheetTrigger
         render={<Button variant="ghost" size="icon" className="md:hidden" />}
       >
-        <Menu className="h-6 w-6" />
+        <Menu width={65} height={65} />
         <span className="sr-only">Toggle navigation menu</span>
       </SheetTrigger>
       <SheetContent

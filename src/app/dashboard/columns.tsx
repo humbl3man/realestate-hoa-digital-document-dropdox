@@ -3,7 +3,7 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { ArrowUpDown, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Link } from "next-view-transitions"
+import Link from "next/link"
 import { DeletePortalDialog } from "./delete-portal-dialog"
 import { cn } from "@/lib/utils"
 import React from "react"

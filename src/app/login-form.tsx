@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useSearchParams } from "next/navigation";
-import { useTransitionRouter as useRouter } from "next-view-transitions";;
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { z } from "zod";
 import { Button, buttonVariants } from "@/components/ui/button";
