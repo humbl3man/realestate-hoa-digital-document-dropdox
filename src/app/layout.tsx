@@ -38,10 +38,10 @@ export default function RootLayout({
     <ViewTransitions>
       <html
         lang="en"
-        className={`${inter.variable} h-full antialiased font-sans`}
+        className={`${inter.variable} antialiased font-sans`}
         suppressHydrationWarning
       >
-        <body className="min-h-full flex flex-col bg-background text-foreground">
+        <body className="min-h-[100dvh] flex flex-col bg-background text-foreground">
           {children}
           <Toaster />
           <Analytics />

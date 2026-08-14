@@ -5,10 +5,8 @@ import { Logo } from "@/components/ui/logo";
 import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
-  FileText,
   Settings,
-  CreditCard,
-  LogOut,
+  LogOut
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { appConfig } from "@/config";
@@ -30,7 +28,7 @@ export function Sidebar() {
     : user?.email?.charAt(0).toUpperCase() || "?";
 
   return (
-    <aside className="hidden md:flex w-[250px] border-r border-secondary/10 bg-secondary/1 h-full flex-col fixed left-0 top-0 text-sidebar-foreground">
+    <aside className="hidden md:flex w-[250px] border-r border-secondary/10 bg-secondary/1 h-full flex-col fixed left-0 top-0 text-sidebar-foreground overflow-y-auto">
       <div className="p-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Logo width={32} height={32} />
