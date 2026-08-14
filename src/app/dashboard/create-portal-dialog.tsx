@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useTransitionRouter as useRouter } from "next-view-transitions";;
+import { useRouter } from "next/navigation";
 import { createPortal } from "./actions";
 import { appConfig } from "@/config";
 import { Button } from "@/components/ui/button";
@@ -181,9 +181,10 @@ export function CreatePortalDialog() {
           <div className="space-y-2">
             <Label
               htmlFor="price"
-              className="text-sm font-medium text-foreground"
+              className="text-sm font-medium text-foreground flex items-center gap-1.5"
             >
               Price (USD)
+              <span className="text-muted-foreground font-normal">(Minimum $5.00)</span>
             </Label>
             <div className="flex">
               <span className="inline-flex h-10 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">
