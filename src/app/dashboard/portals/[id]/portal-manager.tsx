@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useTransition } from "react";
-import { useTransitionRouter as useRouter } from "next-view-transitions";
+import { useState, useTransition, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import {
   deleteDocumentAction,
   updatePortal,
@@ -48,8 +48,9 @@ import {
   AlertTriangle,
   ChevronRight,
   Save,
+  X,
 } from "lucide-react";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { FormError } from "@/components/ui/form-error";
 import { toast } from "sonner";
 
@@ -94,6 +95,22 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
   const [isDragOver, setIsDragOver] = useState(false);
   const [isPending, startTransition] = useTransition();
+  const [isAlertDismissed, setIsAlertDismissed] = useState(true);
+
+  useEffect(() => {
+    const checkDismissed = async () => {
+      const dismissed = sessionStorage.getItem("privacy-notice-dismissed");
+      if (!dismissed) {
+        setIsAlertDismissed(false);
+      }
+    };
+    checkDismissed();
+  }, []);
+
+  const handleDismissAlert = () => {
+    sessionStorage.setItem("privacy-notice-dismissed", "true");
+    setIsAlertDismissed(true);
+  };
 
   const router = useRouter();
 
@@ -273,30 +290,39 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
       <div>
         <h1 
-          className="text-3xl font-extrabold w-fit inline-block"
+          className="text-3xl font-semibold w-fit inline-block"
           style={{ viewTransitionName: `portal-name-${portal.id}` } as React.CSSProperties}
         >
           {portal.name}
         </h1>
-        <p className="text-muted-foreground mt-1">
-          Manage portal settings and upload documents.
-        </p>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Left/Middle: Document list & Uploader */}
         <div className="lg:col-span-2 space-y-8">
           {/* Disclaimer Banner */}
-          <Alert className="bg-accent/5 border-accent/50 text-foreground p-4 gap-x-3">
-            <AlertTriangle className="size-5" />
-            <AlertTitle className="font-semibold text-sm mb-1">Important Privacy Notice</AlertTitle>
-            <AlertDescription className="text-sm leading-normal">
-              Please ensure that you do not upload any documents containing
-              sensitive personal information, such as Social Security Numbers
-              (SSN), driver&apos;s license numbers, or full bank account
-              details.
-            </AlertDescription>
-          </Alert>
+          {!isAlertDismissed && (
+            <Alert className="bg-accent/5 border-accent/50 text-foreground p-4 gap-x-3 relative">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                className="absolute right-2 top-2 h-6 w-6 text-muted-foreground hover:bg-transparent hover:text-foreground"
+                onClick={handleDismissAlert}
+              >
+                <X className="h-4 w-4" />
+                <span className="sr-only">Dismiss</span>
+              </Button>
+              <AlertTriangle className="size-5" />
+              <AlertTitle className="font-semibold text-sm mb-1 pr-6">Important Privacy Notice</AlertTitle>
+              <AlertDescription className="text-sm leading-normal">
+                Please ensure that you do not upload any documents containing
+                sensitive personal information, such as Social Security Numbers
+                (SSN), driver&apos;s license numbers, or full bank account
+                details.
+              </AlertDescription>
+            </Alert>
+          )}
 
           {/* Uploader Card */}
           <Card className="bg-card border-border">
@@ -522,9 +548,10 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
                 <div className="space-y-1.5">
                   <Label
                     htmlFor="price"
-                    className="text-xs font-medium text-foreground"
+                    className="text-xs font-medium text-foreground flex items-center gap-1.5"
                   >
                     Price (USD)
+                    <span className="text-muted-foreground font-normal">(Minimum $5.00)</span>
                   </Label>
                   <div className="flex">
                     <span className="inline-flex h-10 items-center justify-center px-3 rounded-l-lg border border-r-0 border-secondary bg-muted text-muted-foreground text-sm shrink-0">

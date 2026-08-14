@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Shield, CircleDollarSign, FolderOpen, ArrowRight, ArrowDown, Users, LogIn } from "lucide-react";

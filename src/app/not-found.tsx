@@ -1,6 +1,6 @@
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { MapPinOff, Home, ArrowLeft } from "lucide-react";
+import { MapPinOff, ArrowLeft } from "lucide-react";
 import { appConfig } from "@/config";
 
 export default function NotFound() {

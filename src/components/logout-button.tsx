@@ -1,6 +1,6 @@
 "use client";
 
-import { useTransitionRouter as useRouter } from "next-view-transitions";;
+import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";

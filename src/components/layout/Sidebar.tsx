@@ -1,6 +1,6 @@
 "use client";
 
-import { Link } from "next-view-transitions";
+import Link from "next/link";
 import { Logo } from "@/components/ui/logo";
 import { usePathname } from "next/navigation";
 import {
