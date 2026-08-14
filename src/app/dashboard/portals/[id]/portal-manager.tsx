@@ -273,7 +273,7 @@ export function PortalManager({ portal, documents }: PortalManagerProps) {
 
       <div>
         <h1 
-          className="text-3xl font-extrabold tracking-tight w-fit inline-block"
+          className="text-3xl font-extrabold w-fit inline-block"
           style={{ viewTransitionName: `portal-name-${portal.id}` } as React.CSSProperties}
         >
           {portal.name}

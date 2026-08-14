@@ -18,7 +18,7 @@ export default function DashboardLayout({
           <MobileNav />
           <div className="flex items-center gap-2">
             <Logo width={28} height={28} />
-            <span className="font-heading font-semibold text-lg tracking-tight truncate max-w-[200px]">
+            <span className="font-heading font-semibold text-lg truncate max-w-[200px]">
               {appConfig.name || "Untitled"}
             </span>
           </div>

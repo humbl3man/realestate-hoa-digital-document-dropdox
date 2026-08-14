@@ -32,7 +32,7 @@ export function Sidebar() {
       <div className="p-6 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Logo width={32} height={32} />
-          <span className="font-heading font-semibold text-lg tracking-tight">
+          <span className="font-heading font-semibold text-lg">
             {appConfig.name || "Untitled Digital Dropbox"}
           </span>
         </div>
@@ -62,7 +62,7 @@ export function Sidebar() {
       <div className="p-4 border-t border-secondary/15">
         {user && (
           <div className="flex items-center gap-3 p-3 mb-2 bg-secondary/5 border border-secondary/15 rounded-md">
-            <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-primary text-foreground font-bold text-sm select-none">
+            <div className="shrink-0 flex items-center justify-center w-8 h-8 rounded-full bg-primary text-foreground font-semibold text-sm select-none">
               {initial}
             </div>
             <div className="flex flex-col min-w-0 flex-1">

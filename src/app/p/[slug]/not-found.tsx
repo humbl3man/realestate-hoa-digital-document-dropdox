@@ -18,7 +18,7 @@ export default function NotFound() {
             <div className="mx-auto inline-flex items-center justify-center w-16 h-16 bg-slate-50 text-slate-400 rounded-full mb-4 ring-8 ring-slate-50/50">
               <FileQuestion size={32} />
             </div>
-            <CardTitle className="text-3xl font-heading font-bold tracking-tight text-slate-900">
+            <CardTitle className="text-3xl font-heading font-semibold text-slate-900">
               Portal Not Found
             </CardTitle>
             <CardDescription className="text-slate-500 mt-3 text-base max-w-sm mx-auto leading-relaxed">

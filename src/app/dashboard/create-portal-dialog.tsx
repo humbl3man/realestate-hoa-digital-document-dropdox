@@ -107,7 +107,7 @@ export function CreatePortalDialog() {
       />
       <DialogContent className="sm:max-w-[425px] bg-background border-border text-foreground">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold">
+          <DialogTitle className="text-xl font-semibold">
             Create Document Portal
           </DialogTitle>
           <DialogDescription className="text-muted-foreground">

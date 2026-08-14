@@ -59,7 +59,7 @@ export default async function PublicPortalPage({
         {purchased === "true" && (
           <div className="w-full max-w-lg mb-6 p-5 bg-success text-success-foreground rounded-xl flex flex-col items-center text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
             <ShieldCheck className="w-10 h-10 text-success-foreground mb-2" />
-            <h3 className="font-bold font-heading text-lg">
+            <h3 className="font-semibold font-heading text-lg">
               Thank you for your purchase!
             </h3>
             <p className="text-sm text-success-foreground/90 leading-relaxed">
@@ -72,7 +72,7 @@ export default async function PublicPortalPage({
 
         {error && (
           <div className="w-full max-w-lg mb-6 p-5 bg-destructive/10 text-destructive rounded-xl flex flex-col items-center text-center space-y-2 animate-in fade-in zoom-in-95 duration-300">
-            <h3 className="font-bold font-heading text-lg">
+            <h3 className="font-semibold font-heading text-lg">
               Checkout Unavailable
             </h3>
             <p className="text-sm leading-relaxed">
@@ -90,7 +90,7 @@ export default async function PublicPortalPage({
               <ShieldCheck size={14} />
               Official Document Portal
             </div>
-            <CardTitle className="text-3xl font-heading font-bold tracking-tight text-slate-900">
+            <CardTitle className="text-3xl font-heading font-semibold text-slate-900">
               {portal.name}
             </CardTitle>
             <CardDescription className="text-slate-500 mt-3 text-base max-w-sm mx-auto leading-relaxed">
