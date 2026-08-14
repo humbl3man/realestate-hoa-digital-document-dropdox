@@ -67,7 +67,7 @@ export default async function LandingPage() {
       </header>
 
       {/* Main Content */}
-      {/* <AnimatedHeroBackground /> */}
+      <AnimatedHeroBackground />
       <main className="relative z-10 w-full max-w-7xl mx-auto px-6 pt-20 pb-32 flex flex-col items-center text-center">
         {/* Hero Typography */}
         <h1 className="text-5xl md:text-7xl font-bold tracking-tight text-transparent pb-1 bg-clip-text bg-linear-to-br from-foreground via-foreground to-muted-foreground max-w-4xl mb-8">
