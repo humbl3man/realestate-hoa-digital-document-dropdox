@@ -56,7 +56,7 @@ export function DeletePortalDialog({
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-destructive/10">
               <AlertTriangle className="h-5 w-5 text-destructive" />
             </div>
-            <div>
+            <div className="flex flex-col gap-4">
               <DialogTitle>Delete Portal</DialogTitle>
               <DialogDescription>
                 Are you sure you want to delete this portal? This action cannot
@@ -70,6 +70,7 @@ export function DeletePortalDialog({
             variant="ghost"
             onClick={() => setOpen(false)}
             disabled={isPending}
+            size="sm"
           >
             Cancel
           </Button>
@@ -77,6 +78,7 @@ export function DeletePortalDialog({
             variant="destructive"
             className="w-full sm:w-auto"
             onClick={handleDelete}
+            size="sm"
             disabled={isPending}
           >
             {isPending ? (
