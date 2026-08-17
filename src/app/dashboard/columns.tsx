@@ -156,14 +156,17 @@ export const columns: ColumnDef<PortalData>[] = [
     id: "publicUrl",
     header: "Public URL",
     cell: ({ row }) => {
+      const maxDisplayLength = 30
       const publicUrl = `/p/${row.original.slug}`
+      const displayUrl = publicUrl.length > maxDisplayLength ? publicUrl.slice(0, maxDisplayLength) + "..." : publicUrl
       return (
         <Link
           href={publicUrl}
           target="_blank"
           className="text-muted-foreground hover:text-accent flex items-center gap-1.5 transition-colors"
+          title={publicUrl.length > 40 ? publicUrl : undefined}
         >
-          {publicUrl}
+          {displayUrl}
           <ExternalLink className="w-3.5 h-3.5" />
         </Link>
       )
