@@ -8,6 +8,8 @@ import { appConfig } from "@/config";
 import { uploadDocument } from "@/lib/supabase";
 import { randomUUID } from "crypto";
 
+import { StorageUnknownError } from "@supabase/storage-js";
+
 export async function POST(req: NextRequest) {
   try {
     const session = await auth.api.getSession({
@@ -84,6 +86,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ success: true });
   } catch (err: any) {
     console.error("Upload error:", err);
-    return NextResponse.json({ error: err?.message || "Upload failed" }, { status: 500 });
+    const errorMessage = err instanceof StorageUnknownError ? "Upload Error - Please try again later" : err?.message;
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
