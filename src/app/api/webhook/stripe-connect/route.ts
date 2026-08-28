@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
       await Promise.all([
         db
           .update(user)
-          .set({ stripeAccountId: null })
+          .set({ stripeAccountId: null, stripeDetailsSubmitted: false })
           .where(eq(user.id, affectedUser.id)),
         db
           .update(portals)
@@ -71,6 +71,25 @@ export async function POST(req: NextRequest) {
       const message = err instanceof Error ? err.message : "Unknown error";
       console.error("Failed to handle deauthorization:", message);
       return new NextResponse(`Error: ${message}`, { status: 500 });
+    }
+  }
+
+  // When a connected account updates their onboarding or details
+  if (event.type === "account.updated") {
+    const account = event.data.object as { id?: string; details_submitted?: boolean };
+    const stripeAccountId = account.id;
+
+    if (stripeAccountId) {
+      try {
+        await db
+          .update(user)
+          .set({ stripeDetailsSubmitted: Boolean(account.details_submitted) })
+          .where(eq(user.stripeAccountId, stripeAccountId));
+        console.log(`Updated stripeDetailsSubmitted to ${account.details_submitted} for account ${stripeAccountId}`);
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : "Unknown error";
+        console.error("Failed to update user on account.updated:", message);
+      }
     }
   }
 

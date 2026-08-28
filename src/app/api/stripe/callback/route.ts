@@ -29,6 +29,12 @@ export async function GET(req: NextRequest) {
     // Verify the account is fully onboarded
     const account = await stripe.accounts.retrieve(stripeAccountId);
 
+    // Persist verified onboarding status to DB
+    await db
+      .update(user)
+      .set({ stripeDetailsSubmitted: account.details_submitted })
+      .where(eq(user.id, session.user.id));
+
     if (account.details_submitted) {
       // Fully connected — redirect to settings with success indicator
       return NextResponse.redirect(
