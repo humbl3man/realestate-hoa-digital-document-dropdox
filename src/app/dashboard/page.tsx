@@ -1,7 +1,7 @@
 import { auth } from "@/lib/auth";
 import { db } from "@/db";
 import { portals, documents, user } from "@/db/schema";
-import { eq, inArray } from "drizzle-orm";
+import { eq, count } from "drizzle-orm";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { stripe } from "@/lib/stripe";
@@ -27,40 +27,57 @@ export default async function DashboardPage() {
     redirect("/");
   }
 
-  const userPortals = await db
-    .select()
-    .from(portals)
-    .where(eq(portals.userId, session.user.id));
+  // Fetch portals with document counts and user Stripe status concurrently in a single roundtrip
+  const [userPortals, [dbUser]] = await Promise.all([
+    db
+      .select({
+        id: portals.id,
+        name: portals.name,
+        slug: portals.slug,
+        priceInCents: portals.priceInCents,
+        createdAt: portals.createdAt,
+        updatedAt: portals.updatedAt,
+        fileCount: count(documents.id),
+      })
+      .from(portals)
+      .leftJoin(documents, eq(portals.id, documents.portalId))
+      .where(eq(portals.userId, session.user.id))
+      .groupBy(portals.id),
+    db
+      .select({
+        stripeAccountId: user.stripeAccountId,
+        stripeDetailsSubmitted: user.stripeDetailsSubmitted,
+      })
+      .from(user)
+      .where(eq(user.id, session.user.id))
+      .limit(1),
+  ]);
 
-  // Check if user has FULLY connected their Stripe account (details submitted)
-  const [dbUser] = await db
-    .select()
-    .from(user)
-    .where(eq(user.id, session.user.id))
-    .limit(1);
-
+  // Check if user has connected their Stripe account without hitting external Stripe API on every hit
   let stripeConnected = false;
   if (dbUser?.stripeAccountId) {
-    try {
-      const account = await stripe.accounts.retrieve(dbUser.stripeAccountId);
-      stripeConnected = account.details_submitted;
-    } catch {
-      // Ignored
+    if (
+      dbUser.stripeDetailsSubmitted !== null &&
+      dbUser.stripeDetailsSubmitted !== undefined
+    ) {
+      stripeConnected = dbUser.stripeDetailsSubmitted;
+    } else {
+      // Lazy backfill: retrieve once from Stripe and persist to DB for future loads
+      try {
+        const account = await stripe.accounts.retrieve(dbUser.stripeAccountId);
+        stripeConnected = Boolean(account.details_submitted);
+        await db
+          .update(user)
+          .set({ stripeDetailsSubmitted: stripeConnected })
+          .where(eq(user.id, session.user.id));
+      } catch (err) {
+        console.warn(
+          "[Dashboard] Stripe lazy backfill failed for account",
+          dbUser.stripeAccountId,
+          err instanceof Error ? err.message : err
+        );
+      }
     }
-  }
-
-  // Get file counts for each portal
-  const docCounts: Record<string, number> = {};
-  if (userPortals.length > 0) {
-    const portalIds = userPortals.map((p) => p.id);
-    const docs = await db
-      .select({ id: documents.id, portalId: documents.portalId })
-      .from(documents)
-      .where(inArray(documents.portalId, portalIds));
-
-    docs.forEach((doc) => {
-      docCounts[doc.portalId] = (docCounts[doc.portalId] || 0) + 1;
-    });
   }
 
   return (
@@ -119,7 +136,7 @@ export default async function DashboardPage() {
             name: portal.name,
             slug: portal.slug,
             priceInCents: portal.priceInCents,
-            fileCount: docCounts[portal.id] || 0,
+            fileCount: Number(portal.fileCount) || 0,
             createdAt: portal.createdAt,
             updatedAt: portal.updatedAt || null,
           }))}

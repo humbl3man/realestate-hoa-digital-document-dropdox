@@ -17,6 +17,9 @@ export const user = sqliteTable("user", {
     .$onUpdate(() => /* @__PURE__ */ new Date())
     .notNull(),
   stripeAccountId: text("stripe_account_id"),
+  stripeDetailsSubmitted: integer("stripe_details_submitted", {
+    mode: "boolean",
+  }),
 });
 
 export const session = sqliteTable(

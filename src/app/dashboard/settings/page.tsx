@@ -29,7 +29,7 @@ export default async function SettingsPage() {
 
   // If connected, fetch the account email from Stripe
   let stripeAccountEmail: string | null = null;
-  let isFullyConnected = false;
+  let isFullyConnected = Boolean(dbUser?.stripeDetailsSubmitted);
   
   if (dbUser?.stripeAccountId) {
     try {
@@ -39,7 +39,7 @@ export default async function SettingsPage() {
         isFullyConnected = true;
       }
     } catch {
-      // Account may have been deleted on Stripe side — treat as not connected
+      // Account may not be accessible with the current environment's Stripe key
     }
   }
 
